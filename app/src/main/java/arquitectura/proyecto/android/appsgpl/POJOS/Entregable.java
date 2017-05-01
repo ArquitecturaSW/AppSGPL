@@ -4,7 +4,7 @@ package arquitectura.proyecto.android.appsgpl.POJOS;
  * Created by Jair Barzola on 21-Apr-17.
  */
 
-public class Documento {
+public class Entregable {
 
     private int id_documento;
     private int id_categoria;
@@ -14,8 +14,8 @@ public class Documento {
     private String url_documento;
     private String comentario_documento;
 
-    public Documento (String nombre_documento,
-                      String version_documento,String dateCreated,String url_documento){
+    public Entregable(String nombre_documento,
+                      String version_documento, String dateCreated, String url_documento){
 
         this.nombre_documento=nombre_documento;
         this.version_documento=version_documento;

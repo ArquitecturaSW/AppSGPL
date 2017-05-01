@@ -44,8 +44,8 @@ public class DetalleProyecto extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         DetalleProyecto.ViewPagerAdapter adapter = new DetalleProyecto.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ThreeFragment(), "PROYECTO");
-        adapter.addFragment(new TwoFragment(), "PERSONAL");
-        adapter.addFragment(new OneFragment(), "DOCUMENTOS");
+        adapter.addFragment(new TwoFragment(), "EQUIPO");
+        adapter.addFragment(new OneFragment(), "ENTREGABLES");
         viewPager.setAdapter(adapter);
     }
 

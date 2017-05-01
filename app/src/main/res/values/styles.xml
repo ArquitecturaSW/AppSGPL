@@ -21,5 +21,9 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorProgress</item>
+        <item name="android:progressBackgroundTint">@color/colorProgress</item>
+    </style>
 
 </resources>

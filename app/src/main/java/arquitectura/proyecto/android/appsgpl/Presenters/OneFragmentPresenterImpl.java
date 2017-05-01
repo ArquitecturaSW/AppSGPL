@@ -3,13 +3,11 @@ package arquitectura.proyecto.android.appsgpl.Presenters;
 import java.util.List;
 
 
-import arquitectura.proyecto.android.appsgpl.Interactors.MainActivityInteractorImpl;
 import arquitectura.proyecto.android.appsgpl.Interactors.OneFragmentInteractorImpl;
-import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityView;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentView;
-import arquitectura.proyecto.android.appsgpl.POJOS.Documento;
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 
 /**
  * Created by Jair Barzola on 21-Apr-17.
@@ -24,8 +22,8 @@ public class OneFragmentPresenterImpl implements OneFragmentPresenter {
         interactor = new OneFragmentInteractorImpl(this);
     }
     @Override
-    public void initRecycler(List<Documento> documentoList) {
-        view.initRecycler(documentoList);
+    public void initRecycler(List<Entregable> entregableList) {
+        view.initRecycler(entregableList);
     }
 
     @Override

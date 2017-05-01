@@ -3,62 +3,55 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
 
-            <TextView
-                android:id="@+id/codigo_personal"
-                android:text="01"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:textColor="@android:color/black"
-                android:textSize="16dp"
-                android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/codigo_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="01" />
 
-                />
-    <TextView
-        android:id="@+id/nombre_personal"
-        android:text="Jair Barzola Cuba"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:layout_toRightOf="@+id/codigo_personal"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:id="@+id/cargo_personal"
-        android:text="Jefe de Proyecto"
-        android:layout_toRightOf="@+id/nombre_personal"
-        />
+        <TextView
+            android:id="@+id/nombre_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/codigo_personal"
+            android:text="Jair Barzola Cuba"
+            android:textColor="@android:color/black"
+            android:textSize="16dp" />
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="30dp"
-        android:background="@drawable/informacion"
-        android:layout_alignParentRight="true"
-        android:id="@+id/image_personal"
-        android:fitsSystemWindows="false"
-        />
-</RelativeLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/cargo_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Jefe de Proyecto"
+            android:textStyle="italic"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="18dp"
+            android:layout_toStartOf="@+id/image_personal" />
+
+        <ImageView
+            android:id="@+id/image_personal"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/informacion" />
+    </RelativeLayout>
+
     <View style="@style/Divider"/>
-    </LinearLayout>
+</LinearLayout>

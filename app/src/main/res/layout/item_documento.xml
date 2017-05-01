@@ -6,54 +6,65 @@
     android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    >
 
-        <RelativeLayout
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/file" />
 
         <TextView
             android:id="@+id/nombre_documento"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:textColor="@android:color/black"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
-            android:text="Presentacion de equipo" />
+            android:layout_toRightOf="@+id/image"
+            android:text="Presentacion de equipo"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/version_documento"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/nombre_documento"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
-            android:text="v1" />
+            android:layout_toStartOf="@+id/date_documento"
+            android:text="v1"
+            android:textColor="@android:color/black"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/date_documento"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/version_documento"
-            android:textColor="@android:color/black"
-
-            android:text="10/11/17" />
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toStartOf="@+id/download"
+            android:text="10/11/17"
+            android:textColor="@android:color/black" />
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="20dp"
+            android:id="@+id/download"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="24dp"
-            android:layout_height="50dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/descargar" />
-        </RelativeLayout>
 
-    </LinearLayout>
-    <View style="@style/Divider"/>
+        <View
+            style="@style/Divider"
+            android:layout_below="@+id/image" />
+    </RelativeLayout>
+
 </LinearLayout>

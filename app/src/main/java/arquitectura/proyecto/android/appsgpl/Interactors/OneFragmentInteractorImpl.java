@@ -6,7 +6,7 @@ import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
-import arquitectura.proyecto.android.appsgpl.POJOS.Documento;
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 
 
 /**
@@ -20,15 +20,15 @@ public class OneFragmentInteractorImpl implements OneFragmentInteractor {
     }
     @Override
     public void initRecycler() {
-        List<Documento> documentoList = new ArrayList<>();
+        List<Entregable> entregableList = new ArrayList<>();
 
-        documentoList.add(new Documento("Presentacion de equipo","v 3.0","12/05/17","url"));
-        documentoList.add(new Documento("Introduccion","v 3.0","12/02/17","url"));
-        documentoList.add(new Documento("Presupuesto del proyecto","v 3.0","12/09/17","url"));
-        documentoList.add(new Documento("Equipo del proyecto","v 3.5","12/09/17","url"));
-        documentoList.add(new Documento("Presentacion de equipo","v 2","12/07/17","url"));
-        documentoList.add(new Documento("Presentacion de equipo","v 1.6","12/03/17","url"));
-        documentoList.add(new Documento("Presentacion de equipo","v 5","10/05/17","url"));
-        presenter.initRecycler(documentoList);
+        entregableList.add(new Entregable("Presentacion de equipo","v 3.0","12/05/17","url"));
+        entregableList.add(new Entregable("Introduccion","v 3.0","12/02/17","url"));
+        entregableList.add(new Entregable("Presupuesto del proyecto","v 3.0","12/09/17","url"));
+        entregableList.add(new Entregable("Equipo del proyecto","v 3.5","12/09/17","url"));
+        entregableList.add(new Entregable("Presentacion de equipo","v 2","12/07/17","url"));
+        entregableList.add(new Entregable("Presentacion de equipo","v 1.6","12/03/17","url"));
+        entregableList.add(new Entregable("Presentacion de equipo","v 5","10/05/17","url"));
+        presenter.initRecycler(entregableList);
     }
 }

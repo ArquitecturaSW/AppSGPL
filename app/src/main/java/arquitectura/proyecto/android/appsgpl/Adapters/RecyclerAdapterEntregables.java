@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.POJOS.Documento;
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.R;
 
 import static arquitectura.proyecto.android.appsgpl.R.layout.item_documento;
@@ -19,18 +21,18 @@ import static arquitectura.proyecto.android.appsgpl.R.layout.item_documento;
  * Created by Jair Barzola on 21-Apr-17.
  */
 
-public class RecyclerAdapterDocumentos extends RecyclerView.Adapter<RecyclerAdapterDocumentos.ViewHolder> {
+public class RecyclerAdapterEntregables extends RecyclerView.Adapter<RecyclerAdapterEntregables.ViewHolder> {
 
-    List<Documento> documentoList = new ArrayList<>();
+    List<Entregable> entregableList = new ArrayList<>();
     Context context;
     int itemLayout;
 
-    public RecyclerAdapterDocumentos(Context context, int itemLayout) {
+    public RecyclerAdapterEntregables(Context context, int itemLayout) {
         this.itemLayout = itemLayout;
         this.context=context;
     }
-    public void setListDocumentos( List<Documento> documentoList ) {
-        this.documentoList = documentoList;
+    public void setListDocumentos( List<Entregable> entregableList) {
+        this.entregableList = entregableList;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,9 +45,15 @@ public class RecyclerAdapterDocumentos extends RecyclerView.Adapter<RecyclerAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.nombre_documento.setText(documentoList.get(position).getNombre_documento());
-        holder.version_documento.setText(documentoList.get(position).getVersion_documento());
-        holder.date_documento.setText(documentoList.get(position).getDateCreated());
+        holder.nombre_documento.setText(entregableList.get(position).getNombre_documento());
+        holder.version_documento.setText(entregableList.get(position).getVersion_documento());
+        holder.date_documento.setText(entregableList.get(position).getDateCreated());
+        holder.download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"Descargando archivo...",Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
@@ -53,7 +61,7 @@ public class RecyclerAdapterDocumentos extends RecyclerView.Adapter<RecyclerAdap
 
     @Override
     public int getItemCount() {
-        return documentoList.size();
+        return entregableList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -61,12 +69,14 @@ public class RecyclerAdapterDocumentos extends RecyclerView.Adapter<RecyclerAdap
         TextView nombre_documento;
         TextView version_documento;
         TextView date_documento;
+        ImageView download;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nombre_documento = (TextView) itemView.findViewById(R.id.nombre_documento);
             version_documento = (TextView) itemView.findViewById(R.id.version_documento);
             date_documento = (TextView) itemView.findViewById(R.id.date_documento);
+            download = (ImageView) itemView.findViewById(R.id.download);
 
 
         }

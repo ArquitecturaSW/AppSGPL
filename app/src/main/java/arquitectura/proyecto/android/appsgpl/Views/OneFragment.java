@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterDocumentos;
+import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterEntregables;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentView;
-import arquitectura.proyecto.android.appsgpl.POJOS.Documento;
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.Presenters.OneFragmentPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
 
 public class OneFragment extends Fragment implements OneFragmentView {
     RecyclerView recyclerView;
-    RecyclerAdapterDocumentos adapter;
+    RecyclerAdapterEntregables adapter;
     private OneFragmentPresenter presenter;
     public OneFragment() {
         // Required empty public constructor
@@ -39,7 +39,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
-        adapter = new RecyclerAdapterDocumentos(getContext(),R.layout.cardview_proyectos);
+        adapter = new RecyclerAdapterEntregables(getContext(),R.layout.cardview_proyectos);
         recyclerView.setAdapter(adapter);
         presenter.loadListDocumento();
          /*Implementacion de RecyclerView con MVP*/
@@ -49,7 +49,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
     }
 
     @Override
-    public void initRecycler(List<Documento> documentoList) {
-        adapter.setListDocumentos(documentoList);
+    public void initRecycler(List<Entregable> entregableList) {
+        adapter.setListDocumentos(entregableList);
     }
 }
