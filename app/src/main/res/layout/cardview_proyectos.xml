@@ -55,16 +55,15 @@
                 android:textSize="16dp" />
 
                 <ProgressBar
-                    android:theme="@style/LinearProgress"
+                    android:id="@+id/progreso"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:padding="8dp"
-                    android:id="@+id/progreso"
-                    android:progress="50"
                     android:indeterminate="false"
                     android:max="100"
-                    />
+                    android:padding="8dp"
+                    android:progress="50"
+                    android:theme="@style/LinearProgress" />
 
             </LinearLayout>
 

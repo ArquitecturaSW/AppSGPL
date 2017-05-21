@@ -5,4 +5,5 @@ package arquitectura.proyecto.android.appsgpl.Interfaces;
  */
 
 public interface TwoFragmentInteractor {
+    void initRecycler();
 }

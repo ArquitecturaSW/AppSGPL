@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="50dp"
+        >
 
-
-        <TextView
+    <TextView
             android:id="@+id/codigo_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,10 +43,10 @@
             android:textSize="16dp"
             android:layout_centerInParent="true"
             android:layout_marginRight="18dp"
-            android:layout_toStartOf="@+id/image_personal" />
+            android:layout_toStartOf="@+id/info_personal" />
 
         <ImageView
-            android:id="@+id/image_personal"
+            android:id="@+id/info_personal"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerInParent="true"
