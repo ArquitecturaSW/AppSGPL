@@ -32,11 +32,31 @@
 
     </android.support.design.widget.TextInputLayout>
 
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/h"
+        android:layout_below="@+id/a"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/code_proyecto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Codigo del proyecto"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_marginLeft="20dp"
         android:id="@+id/b"
-        android:layout_below="@+id/a"
+        android:layout_below="@+id/h"
         android:layout_marginRight="20dp"
         android:layout_height="wrap_content">
 
@@ -51,7 +71,7 @@
 
     </android.support.design.widget.TextInputLayout>
     <ImageView
-        android:layout_below="@+id/a"
+        android:layout_below="@+id/h"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/seleccionar_fecha_i"
@@ -89,30 +109,12 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/c" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_below="@+id/seleccionar_fecha_f"
-        android:layout_width="match_parent"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="23dp"
-        android:textSize="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_height="wrap_content"
-        android:text="Asigna un jefe:" />
-    <Spinner
-        android:id="@+id/spinner_jefe"
-        android:layout_below="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_height="wrap_content" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:id="@+id/d"
-        android:layout_below="@+id/spinner_jefe"
+        android:layout_below="@+id/seleccionar_fecha_f"
         android:layout_marginRight="20dp"
         android:layout_height="wrap_content">
 
@@ -122,7 +124,7 @@
             android:layout_height="wrap_content"
             android:hint="Descripción"
             android:inputType="text"
-            android:maxLines="1"
+            android:maxLines="3"
             android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>

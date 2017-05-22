@@ -7,8 +7,8 @@
     <color name="colorEnCurso">#309b47</color>
     <color name="colorFinalizado">#c95850</color>
     <color name="colorPerdido">#393a9b</color>
-    <color name="colorFAB">#036c63</color>
+    <color name="colorFAB">#2a4364</color>
     <color name="colorProgress">#8fa8b7</color>
-    <color name="colorB">#943e8f7c</color>
-    <color name="colorA">#943c914f</color>
+    <color name="colorB">#bc3e758f</color>
+    <color name="colorA">#ea3c6191</color>
 </resources>

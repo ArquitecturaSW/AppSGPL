@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".Activities.Login">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -15,10 +16,10 @@
 
     <ImageView
         android:layout_marginTop="30dp"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="300dp"
+        android:layout_height="170dp"
         android:layout_gravity="center"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo3"
         />
 
     <android.support.design.widget.TextInputLayout
