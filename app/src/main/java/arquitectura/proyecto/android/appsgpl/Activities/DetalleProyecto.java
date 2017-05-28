@@ -13,19 +13,26 @@ import android.support.v4.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import arquitectura.proyecto.android.appsgpl.R;
-import arquitectura.proyecto.android.appsgpl.Fragments.ThreeFragment;
+import arquitectura.proyecto.android.appsgpl.Views.ThreeFragment;
 import arquitectura.proyecto.android.appsgpl.Views.TwoFragment;
 
 public class DetalleProyecto extends AppCompatActivity {
-
+    ArrayList<Proyecto> proyectoList;
+    Proyecto proyecto;
+    Fragment fr3;
+    Bundle args3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
-        setTitle(bundle.getString("label"));
+
+        proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
+        setTitle(proyecto.getNombreProyecto());
+
 
         setContentView(R.layout.activity_detalle_proyecto);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -42,8 +49,14 @@ public class DetalleProyecto extends AppCompatActivity {
 
     }
     private void setupViewPager(ViewPager viewPager) {
+
+        fr3 = new ThreeFragment();
+        args3 = new Bundle();
+        args3.putParcelable("pjt",proyecto);
+        fr3.setArguments(args3);
+
         DetalleProyecto.ViewPagerAdapter adapter = new DetalleProyecto.ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ThreeFragment(), "PROYECTO");
+        adapter.addFragment(fr3, "PROYECTO");
         adapter.addFragment(new TwoFragment(), "EQUIPO");
         adapter.addFragment(new OneFragment(), "ENTREGABLES");
         viewPager.setAdapter(adapter);

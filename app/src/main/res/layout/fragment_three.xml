@@ -3,23 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="arquitectura.proyecto.android.appsgpl.Fragments.ThreeFragment">
+    tools:context="arquitectura.proyecto.android.appsgpl.Views.ThreeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.CardView
-        android:layout_marginTop="8dp"
 
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        >
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -231,7 +222,6 @@
 
 
     </LinearLayout>
-    </android.support.v7.widget.CardView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -239,6 +229,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
+        android:elevation="6dp"
         app:backgroundTint="@color/colorFAB"
         app:srcCompat="@mipmap/ic_opctions" />
 

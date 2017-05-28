@@ -3,6 +3,7 @@ package arquitectura.proyecto.android.appsgpl.Adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -59,7 +60,7 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.codigo_proyecto.setText(proyectoList.get(position).getCodigoProyecto());
+        holder.id_proyecto.setText(Integer.toString(proyectoList.get(position).getIdProyecto()));
         holder.nombre_proyecto.setText(proyectoList.get(position).getNombreProyecto());
         if(proyectoList.get(position).getStatusProyecto()== "En curso"){
             color = ContextCompat.getColor(context,R.color.colorEnCurso);
@@ -75,7 +76,8 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,DetalleProyecto.class);
-                intent.putExtra("label",proyectoList.get(position).getNombreProyecto());
+                Proyecto proyecto = proyectoList.get(position);
+                intent.putExtra("proyecto", (Parcelable) proyecto);
                 if(proyectoList.get(position).getStatusProyecto()== "En curso"){
                     color = ContextCompat.getColor(context,R.color.colorEnCurso);
                 }else{
@@ -100,13 +102,13 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView codigo_proyecto;
+        TextView id_proyecto;
         TextView nombre_proyecto;
         ImageView status_proyecto;
         public CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
-            codigo_proyecto =(TextView) itemView.findViewById(R.id.codigo_proyecto);
+            id_proyecto =(TextView) itemView.findViewById(R.id.id_proyecto);
             nombre_proyecto =(TextView) itemView.findViewById(R.id.nombre_proyecto);
             status_proyecto =(ImageView) itemView.findViewById(R.id.color_status);
             cardView =(CardView) itemView.findViewById(R.id.cardView);

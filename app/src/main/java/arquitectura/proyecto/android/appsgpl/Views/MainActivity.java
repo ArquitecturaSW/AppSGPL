@@ -1,5 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.widget.Button;
 
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.Login;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterProyectos;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityView;
@@ -100,6 +102,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
             return true;
         }
 

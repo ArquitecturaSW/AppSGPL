@@ -140,7 +140,7 @@
         android:textColor="@android:color/white"
         android:text="Registrar Proyecto"
         android:layout_marginBottom="32dp"
-        android:background="@color/colorB"
+        android:background="@color/colorA"
         android:layout_centerInParent="true"
     />
 

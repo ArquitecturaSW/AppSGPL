@@ -3,12 +3,15 @@ package arquitectura.proyecto.android.appsgpl.Views;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -50,7 +53,15 @@ public class TwoFragment extends Fragment implements TwoFragmentView {
         recyclerView.setAdapter(adapter);
         presenter.loadListPersonal();
          /*Implementacion de RecyclerView con MVP*/
-
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registrarPersonal().show();
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+            }
+        });
         return rootView;
     }
 
@@ -58,5 +69,28 @@ public class TwoFragment extends Fragment implements TwoFragmentView {
     public void initRecycler(List<Personal> personalList) {
         adapter.setListPersonal(personalList);
 
+    }
+    public AlertDialog registrarPersonal() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View v = inflater.inflate(R.layout.registrar_proyecto, null);
+
+        builder.setView(v);
+
+        Button registar = (Button) v.findViewById(R.id.registrar_proyecto);
+
+        registar.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Crear Cuenta..
+
+                    }
+                }
+        );
+
+        return builder.create();
     }
 }

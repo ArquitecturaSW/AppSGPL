@@ -35,9 +35,9 @@ public class CrearCuenta extends AppCompatActivity {
         password= (TextInputEditText) findViewById(R.id.password);
         registrar_usuario= (Button) findViewById(R.id.crearcuenta);
 
-        nombre_empresa.setText("prueba1");
+        /*nombre_empresa.setText("prueba1");
         usuario_empresa.setText("prueba1");
-        password.setText("prueba1");
+        password.setText("prueba1");*/
 
         //Conexion con el webservice
         Retrofit retrofit = new Retrofit.Builder()
