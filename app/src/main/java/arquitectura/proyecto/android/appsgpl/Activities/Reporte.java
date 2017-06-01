@@ -37,12 +37,14 @@ public class Reporte extends AppCompatActivity {
 
         PieDataSet dataSet = new PieDataSet(pieEntries,"Reporte de  Proyectos");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setSliceSpace(3f);
         PieData data = new PieData(dataSet);
 
 
         //Get the Chart
         PieChart chart = (PieChart) findViewById(R.id.pieChart);
         chart.setData(data);
+        chart.setContentDescription("PieChart");
         chart.invalidate();
 
     }

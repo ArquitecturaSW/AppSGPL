@@ -9,6 +9,7 @@
     <string name="crearCuenta">Crear una cuenta</string>
     <string name="iniciar">Iniciar Sesión</string>
     <string name="registarcuenta">Registrar Cuenta</string>
+    <string name="registarJefe">Registrar Jefe</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_detalle_proyecto">DetalleProyecto</string>
 

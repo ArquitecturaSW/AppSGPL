@@ -28,7 +28,7 @@
             android:name=".Activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Activities.CrearCuenta"
             android:label="Crear Cuenta"
@@ -40,10 +40,17 @@
         <activity
             android:name=".Activities.DetalleProyecto"
             android:label="@string/title_activity_detalle_proyecto"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".Activities.Reporte"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Reporte"
             android:label="Reporte"
+            android:parentActivityName=".Views.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.MainActivity" />
+        </activity>
+        <activity android:name=".Activities.PersonalND"
+            android:label="Personal"
             android:parentActivityName=".Views.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
