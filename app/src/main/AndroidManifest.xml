@@ -41,7 +41,14 @@
             android:name=".Activities.DetalleProyecto"
             android:label="@string/title_activity_detalle_proyecto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Activities.Reporte"></activity>
+
+        <activity android:name=".Activities.Reporte"
+            android:label="Reporte"
+            android:parentActivityName=".Views.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@ import android.widget.Button;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Activities.Login;
+import arquitectura.proyecto.android.appsgpl.Activities.Reporte;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterProyectos;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityView;
@@ -122,6 +123,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nombre_personal) {
 
         } else if (id == R.id.nav_reportes) {
+
+            Intent intent = new Intent(getApplicationContext(), Reporte.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_send) {
 
