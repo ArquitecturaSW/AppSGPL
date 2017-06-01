@@ -8,5 +8,5 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 
 public interface ThreeFragmentInteractor {
 
-    void obtenerValores(Proyecto proyecto);
+    void initRecycler();
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_d"
+                android:layout_marginTop="16dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/creado"
+                />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/image_d"
+                android:id="@+id/descricion_actividad"
+                android:text="El proyecto ha sido creado"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif"
+                />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fecha_proyecto_d"
+                android:layout_marginRight="16dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:text="12-05-17"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                />
+    </RelativeLayout>
+    <View style="@style/Divider" />
+</LinearLayout>

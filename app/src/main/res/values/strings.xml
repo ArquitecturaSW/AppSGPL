@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nameApp">Sistema de Gestión de Proyectos en Licitación</string>
     <string name="action_settings">Cerrar Sesión</string>
+    <string name="action_show">Información</string>
     <string name="crearCuenta">Crear una cuenta</string>
     <string name="iniciar">Iniciar Sesión</string>
     <string name="registarcuenta">Registrar Cuenta</string>
