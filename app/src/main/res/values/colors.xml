@@ -11,4 +11,6 @@
     <color name="colorProgress">#8fa8b7</color>
     <color name="colorB">#bc3e758f</color>
     <color name="colorA">#ea3c6191</color>
+    <color name="green_flat">#2ecc71</color>
+    <color name="red_flat">#e74c3c</color>
 </resources>
