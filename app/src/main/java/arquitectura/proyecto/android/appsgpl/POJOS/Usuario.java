@@ -17,6 +17,10 @@ public class Usuario {
         this.usuario=usuario;
         this.password=password;
     }
+    public Usuario(String usuario,String password){
+        this.usuario=usuario;
+        this.password=password;
+    }
 
     public String getNombre() {
         return nombre;
