@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
             public void onClick(View v) {
                 validator.validate();
 
-               /* Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+               /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();*/
             }
