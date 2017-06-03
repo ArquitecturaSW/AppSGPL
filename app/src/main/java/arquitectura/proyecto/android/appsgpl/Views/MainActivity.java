@@ -22,6 +22,7 @@ import android.widget.Button;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Activities.Login;
+import arquitectura.proyecto.android.appsgpl.Activities.PersonalND;
 import arquitectura.proyecto.android.appsgpl.Activities.Reporte;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterProyectos;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
@@ -120,7 +121,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_proyectos) {
             // Handle the camera action
-        } else if (id == R.id.nombre_personal) {
+        } else if (id == R.id.nav_personal) {
+            Intent intent = new Intent(getApplicationContext(), PersonalND.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_reportes) {
 

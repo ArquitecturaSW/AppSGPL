@@ -18,6 +18,7 @@ public class Personal {
         this.cargo=cargo;
     }
 
+
     public String getCodigo() {
         return codigo;
     }
@@ -41,4 +42,6 @@ public class Personal {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
+
+
 }
