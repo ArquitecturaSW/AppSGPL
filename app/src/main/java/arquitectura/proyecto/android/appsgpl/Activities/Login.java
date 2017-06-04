@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     @Length(min=5,max=15)
     TextInputEditText usuario;
     @NotEmpty
-    @Password(min = 5, scheme = Password.Scheme.ALPHA)
+    @Password(min = 4, scheme = Password.Scheme.ALPHA)
     TextInputEditText password;
     APIService service;
     private Validator validator;
