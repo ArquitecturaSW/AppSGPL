@@ -34,11 +34,10 @@ import static arquitectura.proyecto.android.appsgpl.R.id.login;
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
     Button iniciarSesion;
     Button crearCuenta;
-    @NotEmpty(message = "Debe llenar este campo.")
-    @Length(min=5,max=15)
+    @NotEmpty(message = "No deje vacío este campo.")
     TextInputEditText usuario;
-    @NotEmpty
-    @Password(min = 4, scheme = Password.Scheme.ALPHA)
+    @NotEmpty(message = "No deje vacío este campo.")
+    @Password(min = 4, scheme = Password.Scheme.ALPHA,message = "Longitud mínima 4.")
     TextInputEditText password;
     APIService service;
     private Validator validator;
@@ -51,7 +50,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
         validator = new Validator(this);
         validator.setValidationListener(this);
         iniciarSesion = (Button) findViewById(R.id.iniciarsesion);
-        crearCuenta = (Button) findViewById(R.id.crearcuenta);
+        crearCuenta = (Button) findViewById(R.id.crearcuentaLogin);
         usuario = (TextInputEditText) findViewById(R.id.user);
         password = (TextInputEditText) findViewById(R.id.password);
 

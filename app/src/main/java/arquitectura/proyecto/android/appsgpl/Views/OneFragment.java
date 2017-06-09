@@ -1,15 +1,23 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.RegistrarEntregable;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterEntregables;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentView;
@@ -21,6 +29,8 @@ public class OneFragment extends Fragment implements OneFragmentView {
     RecyclerView recyclerView;
     RecyclerAdapterEntregables adapter;
     private OneFragmentPresenter presenter;
+
+    FloatingActionButton floatingActionButton;
     public OneFragment() {
         // Required empty public constructor
     }
@@ -37,6 +47,15 @@ public class OneFragment extends Fragment implements OneFragmentView {
         presenter = new OneFragmentPresenterImpl(this);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fabEntregable);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RegistrarEntregable.class);
+                startActivity(intent);
+            }
+        });
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterEntregables(getContext(),R.layout.cardview_proyectos);
@@ -52,4 +71,5 @@ public class OneFragment extends Fragment implements OneFragmentView {
     public void initRecycler(List<Entregable> entregableList) {
         adapter.setListDocumentos(entregableList);
     }
+
 }
