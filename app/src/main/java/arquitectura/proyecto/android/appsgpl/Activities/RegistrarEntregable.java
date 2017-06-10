@@ -238,8 +238,6 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         boolean result =registrarSoloEntregrable();
         if(result==true){
             Toast.makeText(this, "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, "Error al subir el documento.", Toast.LENGTH_SHORT).show();
         }
     }
 
