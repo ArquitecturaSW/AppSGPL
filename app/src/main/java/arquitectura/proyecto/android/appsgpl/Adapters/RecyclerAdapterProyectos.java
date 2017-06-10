@@ -92,7 +92,6 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
                 context.startActivity(intent);
             }
         });
-        setAnimation(holder.cardView,position);
     }
 
     @Override
