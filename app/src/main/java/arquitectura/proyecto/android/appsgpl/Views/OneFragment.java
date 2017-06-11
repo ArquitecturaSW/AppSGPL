@@ -3,21 +3,16 @@ package arquitectura.proyecto.android.appsgpl.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.Activities.RegistrarEntregable;
+import arquitectura.proyecto.android.appsgpl.Registros.RegistrarEntregable;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterEntregables;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentView;

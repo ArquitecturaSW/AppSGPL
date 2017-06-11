@@ -1,12 +1,18 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -29,6 +35,7 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
 
     RecyclerView recyclerView;
     RecyclerAdapterActividad adapter;
+    FloatingActionButton fb;
     ThreeFragmentPresenter presenter;
     public ThreeFragment() {
         // Required empty public constructor
@@ -43,6 +50,16 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_three, container, false);
+        fb = (FloatingActionButton) rootView.findViewById(R.id.fabThreeFragment);
+
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cambiarEstadoP().show();
+            }
+        });
+
 
         presenter = new ThreeFragmentPresenterImpl(this);
         // Inflate the layout for this fragment
@@ -62,5 +79,29 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
     @Override
     public void initRecycler(List<Actividad> actividadList) {
         adapter.setListActividad(actividadList);
+    }
+
+    public AlertDialog cambiarEstadoP() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage("Desea terminar este proyecto?")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Cambiar estado proyecto
+                                //cambiar color
+                                //perder opciones de los botones
+                                dialog.dismiss();
+                            }
+                        })
+                .setNegativeButton("CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+        return builder.create();
     }
 }

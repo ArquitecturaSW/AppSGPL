@@ -1,4 +1,4 @@
-package arquitectura.proyecto.android.appsgpl.Activities;
+package arquitectura.proyecto.android.appsgpl.Views;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

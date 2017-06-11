@@ -1,18 +1,16 @@
 package arquitectura.proyecto.android.appsgpl.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
@@ -22,14 +20,17 @@ import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.POJOS.PruebaLogin;
 import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
-import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
+import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static arquitectura.proyecto.android.appsgpl.R.id.login;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
     Button iniciarSesion;
@@ -43,6 +44,8 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     private Validator validator;
     String u;
     String p;
+    int s;
+    String m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +86,31 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
 
     private void inicioSesion(String u, String p) {
         Usuario usuario = new Usuario(u, p);
+       /* Observable<PruebaLogin> ob = service.signIn(usuario);
+        ob.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PruebaLogin>() {
+                    @Override
+                    public void onCompleted() {
+                        if (s == 1) {
+                            Toast.makeText(getApplicationContext(), m + " 1", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), m + " 2", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PruebaLogin pruebaLogin) {
+                        s= pruebaLogin.getEstado();
+                        m=pruebaLogin.getMensaje();
+
+                    }
+                });*/
         Call<PruebaLogin> usuarioCall = service.iniciosesion(usuario);
 
         usuarioCall.enqueue(new Callback<PruebaLogin>() {

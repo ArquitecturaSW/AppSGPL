@@ -1,4 +1,4 @@
-package arquitectura.proyecto.android.appsgpl.Activities;
+package arquitectura.proyecto.android.appsgpl.Registros;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;

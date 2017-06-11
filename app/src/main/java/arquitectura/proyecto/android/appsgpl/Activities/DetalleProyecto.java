@@ -46,6 +46,7 @@ public class DetalleProyecto extends AppCompatActivity {
     TextView fechaf;
     TextView monto;
     TextView descripcion;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

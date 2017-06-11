@@ -1,4 +1,4 @@
-package arquitectura.proyecto.android.appsgpl.Activities;
+package arquitectura.proyecto.android.appsgpl.Registros;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,16 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.R;
-import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static android.R.attr.button;
-import static android.R.id.list;
 
 public class RegistrarEntregable extends AppCompatActivity implements  Validator.ValidationListener{
     @NotEmpty(message = "No deje vacío este campo.")
@@ -147,18 +141,6 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                      file_path = f.getAbsolutePath();
             setEditText(file_path.substring(file_path.lastIndexOf("/")+1));
         }
-    }
-
-    void registrarSoloEntregrable() {
-
-        t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-
-            }
-        });
-        t.start();
     }
 
     private void setEditText(String substring) {
@@ -280,6 +262,8 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
             progress.dismiss();
             if(result==true){
                 Toast.makeText(getApplicationContext(), "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
+                //registrarEntregable
+                //AsyncTask
             }
             else {
                 Toast.makeText(getApplicationContext(), "Error al subir el documento.", Toast.LENGTH_SHORT).show();

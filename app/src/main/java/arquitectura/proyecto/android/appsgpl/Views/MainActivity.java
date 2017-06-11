@@ -3,7 +3,6 @@ package arquitectura.proyecto.android.appsgpl.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,6 @@ import android.widget.Button;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Activities.Login;
-import arquitectura.proyecto.android.appsgpl.Activities.PersonalND;
 import arquitectura.proyecto.android.appsgpl.Activities.Reporte;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterProyectos;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
@@ -30,8 +28,7 @@ import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityView;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.Presenters.MainActivityPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
-
-import static java.security.AccessController.getContext;
+import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,MainActivityView {
@@ -62,7 +59,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registrarProyecto().show();
+                Intent intent = new Intent(MainActivity.this, RegistrarProyecto.class);
+                startActivity(intent);
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
             }
@@ -145,27 +143,5 @@ public class MainActivity extends AppCompatActivity
     public void initRecycler(List<Proyecto> proyectoList) {
         adapter.setListProyecto(proyectoList);
     }
-    public AlertDialog registrarProyecto() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        View v = inflater.inflate(R.layout.registrar_proyecto, null);
-
-        builder.setView(v);
-
-        Button registar = (Button) v.findViewById(R.id.registrar_proyecto);
-
-        registar.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Crear Cuenta..
-
-                    }
-                }
-        );
-
-        return builder.create();
-    }
 }

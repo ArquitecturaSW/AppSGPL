@@ -18,8 +18,8 @@ android {
         }
     }
 }
-repositories{
-    maven{
+repositories {
+    maven {
         url "http://dl.bintray.com/lukaville/maven"
     }
 }
@@ -46,5 +46,6 @@ dependencies {
     compile 'net.gotev:uploadservice:3.2.4'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.nbsp:library:1.09'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     testCompile 'junit:junit:4.12'
 }

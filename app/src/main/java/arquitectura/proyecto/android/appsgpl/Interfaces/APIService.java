@@ -5,6 +5,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * Created by Jair Barzola on 01-May-17.
@@ -17,4 +18,7 @@ public interface APIService {
 
     @POST("loginJson.php")
     Call<PruebaLogin> iniciosesion(@Body Usuario usuario);
+
+    @POST("loginJson.php")
+    Observable<PruebaLogin> signIn(@Body Usuario usuario);
 }
