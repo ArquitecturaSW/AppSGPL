@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -55,9 +56,13 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     TextInputEditText descripcion;
     Button registar;
     Spinner sp;
+    Thread t;
     ImageView image;
     String content_type;
     File f;
+
+    ProgressDialog progress;
+
     String file_path;
     private Validator validator;
     @Override
@@ -130,7 +135,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         }
     }
 
-    ProgressDialog progress;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -144,54 +149,16 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         }
     }
 
-    boolean registrarSoloEntregrable() {
-        final boolean[] i = {false};
-        progress = new ProgressDialog(RegistrarEntregable.this);
-        progress.setTitle("Subiendo");
-        progress.setMessage("Espere ...");
-        progress.show();
+    void registrarSoloEntregrable() {
 
-        Thread t = new Thread(new Runnable() {
+        t = new Thread(new Runnable() {
             @Override
             public void run() {
-
-                OkHttpClient client = new OkHttpClient();
-                RequestBody file_body = RequestBody.create(MediaType.parse(content_type), f);
-
-                RequestBody request_body = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("type", content_type)
-                        .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
-                        .build();
-
-                Request request = new Request.Builder()
-                        .url("http://sw14200042.esy.es/sesiones/subidaAndroid.php")
-                        .post(request_body)
-                        .build();
-
-                try {
-                    Response response = client.newCall(request).execute();
-
-                    if (!response.isSuccessful()) {
-                        progress.dismiss();
-                        i[0] =false;
-                    } else {
-                        progress.dismiss();
-                        i[0] =true;
-                    }
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    i[0] =false;
-                }
 
 
             }
         });
-
         t.start();
-        return i[0];
     }
 
     private void setEditText(String substring) {
@@ -235,10 +202,8 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     }
 
     private void registrarEntregable() {
-        boolean result =registrarSoloEntregrable();
-        if(result==true){
-            Toast.makeText(this, "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
-        }
+        UploadFile upload = new UploadFile();
+        upload.execute();
     }
 
     @Override
@@ -254,5 +219,72 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private class UploadFile extends AsyncTask<Void,Boolean,Boolean>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(RegistrarEntregable.this);
+            progress.setTitle("Subiendo");
+            progress.setMessage("Espere ...");
+            progress.show();
+            progress.setCanceledOnTouchOutside(false);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean state;
+            OkHttpClient client = new OkHttpClient();
+            RequestBody file_body = RequestBody.create(MediaType.parse(content_type), f);
+
+            RequestBody request_body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("type", content_type)
+                    .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("http://sw14200042.esy.es/sesiones/subidaAndroid.php")
+                    .post(request_body)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+
+                if(!response.isSuccessful()){
+                    Log.i("TAG","fail "+response);
+                    state=false;
+                    progress.dismiss();
+                }else{
+                    Log.i("TAG","OK "+response);
+                    state =true;
+                    Log.i("TAG ", String.valueOf(state));
+                    progress.dismiss();
+                }
+                Log.i("TAG 2 ", String.valueOf(state));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                state =false;
+            }
+            Log.i("TAG 3 ", String.valueOf(state));
+            return state;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            progress.dismiss();
+            if(result==true){
+                Toast.makeText(getApplicationContext(), "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Error al subir el documento.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }
