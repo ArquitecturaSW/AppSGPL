@@ -25,12 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
+
 
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
     Button iniciarSesion;
@@ -86,31 +82,6 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
 
     private void inicioSesion(String u, String p) {
         Usuario usuario = new Usuario(u, p);
-       /* Observable<PruebaLogin> ob = service.signIn(usuario);
-        ob.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PruebaLogin>() {
-                    @Override
-                    public void onCompleted() {
-                        if (s == 1) {
-                            Toast.makeText(getApplicationContext(), m + " 1", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), m + " 2", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(PruebaLogin pruebaLogin) {
-                        s= pruebaLogin.getEstado();
-                        m=pruebaLogin.getMensaje();
-
-                    }
-                });*/
         Call<PruebaLogin> usuarioCall = service.iniciosesion(usuario);
 
         usuarioCall.enqueue(new Callback<PruebaLogin>() {

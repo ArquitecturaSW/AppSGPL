@@ -32,7 +32,7 @@ import arquitectura.proyecto.android.appsgpl.Presenters.TwoFragmentPresenterImpl
 import arquitectura.proyecto.android.appsgpl.R;
 
 
-public class TwoFragment extends Fragment implements TwoFragmentView ,Validator.ValidationListener{
+public class TwoFragment extends Fragment implements TwoFragmentView{
 
     //Dialogo
     @NotEmpty(message = "No deje vacío este campo.")
@@ -48,7 +48,6 @@ public class TwoFragment extends Fragment implements TwoFragmentView ,Validator.
     @NotEmpty(message = "No deje vacío este campo.")
     TextInputEditText descripcion;
 
-    Validator validator;
     RecyclerAdapterPersonal adapter;
     RecyclerView recyclerView;
     TwoFragmentPresenter presenter;
@@ -64,8 +63,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView ,Validator.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        validator = new Validator(this);
-        validator.setValidationListener(this);
+
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_two, container, false);
             /*Implementacion de RecyclerView con MVP*/
@@ -129,23 +127,4 @@ public class TwoFragment extends Fragment implements TwoFragmentView ,Validator.
         return builder.create();
     }*/
 
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(List<ValidationError> errors) {
-        for (ValidationError error : errors) {
-            View view = error.getView();
-            String message = error.getCollatedErrorMessage(getActivity());
-
-            // Display error messages ;)
-            if (view instanceof TextInputEditText ) {
-                ((TextInputEditText) view).setError(message);
-            } else {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 }

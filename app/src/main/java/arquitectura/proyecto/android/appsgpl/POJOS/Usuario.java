@@ -16,7 +16,7 @@ public class Usuario {
     private String usuario;
     private String password;
 
-    public Usuario(String nombre,int tipo_empresa,String correo,String ruc,String direccion,String usuario,String password){
+    public Usuario(int tipo_empresa,String nombre,String correo,String direccion,String ruc,String usuario,String password){
         this.nombre=nombre;
         this.tipo_empresa=tipo_empresa;
         this.correo=correo;

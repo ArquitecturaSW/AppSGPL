@@ -1,5 +1,7 @@
 package arquitectura.proyecto.android.appsgpl.Registros;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
+import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import retrofit2.Call;
@@ -58,6 +61,9 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
     Spinner spinner1;
     Button registrar_usuario;
     APIService service;
+    ProgressDialog progress;
+    boolean st;
+    ArrayAdapter<String> dataAdapter;
 
     private Validator validator;
     @Override
@@ -82,23 +88,22 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
         list.add("S.A.C");
         list.add("S.R.L");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(dataAdapter);
-
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://proyectos2017.esy.es/HOME-CONTENT/servicios/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(APIService.class);
 
         /*nombre_empresa.setText("prueba1");
         usuario_empresa.setText("prueba1");
         password.setText("prueba1");*/
         validator = new Validator(this);
         validator.setValidationListener(this);
-        //Conexion con el webservice
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://sw14200042.esy.es/sesiones/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(APIService.class);
+
         registrar_usuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,27 +112,6 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
         });
 
     }
-
-    private void registrarUsuario(final String nombre, final int id_tipo_e, final String ruc, final String correo, final String direccion,final String user, final String contra) {
-
-                Usuario usuario = new Usuario(nombre,id_tipo_e,correo,ruc,direccion,user,contra);
-
-                Call<Usuario> usuarioCall = service.insertarEmpresa(usuario);
-                usuarioCall.enqueue(new Callback<Usuario>() {
-                    @Override
-                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                        Toast.makeText(getApplicationContext(),"Se registro exitosamente",Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"No se logro registrar.Intente nuevamente",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-    }
-
     @Override
     public void onValidationSucceeded() {
         String tipo = spinner1.getSelectedItem().toString();
@@ -138,16 +122,78 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
         if(tipo=="E.I.R.L"){id=1;t=true;}else{if(tipo=="S.A"){id=2;t=true;}else {
             if(tipo=="S.A.A"){id=3;t=true;}else {if(tipo=="S.A.C"){id=4;t=true;}else{id=5;t=true;}}
         }}}
-
+        //Toast.makeText(this,String.valueOf(id),Toast.LENGTH_SHORT).show();
         if (t==true) {
-            registrarUsuario(nombre_empresa.getText().toString(),id,ruc.getText().toString()
-                    ,correo.getText().toString(),direccion.getText().toString(),usuario_empresa.getText().toString(),password.getText().toString());
+            registrarEmpresa(id,nombre_empresa.getText().toString(),correo.getText().toString(),
+                    direccion.getText().toString(),ruc.getText().toString(),
+                    usuario_empresa.getText().toString(),password.getText().toString());
         }else{
             Toast.makeText(this,"Seleccione el tipo de empresa.",Toast.LENGTH_SHORT).show();
         }
 
 
 
+    }
+
+    private void registrarEmpresa(int id, String s, String s1, String s2, String s3, String s4, String s5) {
+        progress = new ProgressDialog(CrearCuenta.this);
+        progress.setTitle("Registrando");
+        progress.setMessage("Espere ...");
+        progress.show();
+        progress.setCanceledOnTouchOutside(false);
+        Usuario usuario = new Usuario(id,s,s1,s2,s3,s4,s5);
+        registrar_usuario.setEnabled(false);
+        Call<PostResponse> postResponse = service.registerEmpresa(usuario);
+        postResponse.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                PostResponse result = response.body();
+                if(result.getEstado()==1){
+                    Toast.makeText(getApplicationContext(),"Se registro exitosamente",Toast.LENGTH_SHORT).show();
+                    limpiarEditext();
+                    progress.dismiss();
+                    registrar_usuario.setEnabled(true);
+                }else{
+                    if(result.getEstado()==3){
+                    Toast.makeText(getApplicationContext(),"El nombre de usuario ya existe.",Toast.LENGTH_SHORT).show();
+                    usuario_empresa.setError("Cambie el nombre de usuario.");progress.dismiss();
+                    registrar_usuario.setEnabled(true);
+                }else{
+                    Toast.makeText(getApplicationContext(),"No se pudo registrar.",Toast.LENGTH_SHORT).show();
+                    usuario_empresa.setError("Eliga otro usuario.");
+                        progress.dismiss();
+                    registrar_usuario.setEnabled(true);
+                }}
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Problemas con el servidor.",Toast.LENGTH_SHORT).show();
+                registrar_usuario.setEnabled(true);
+            }
+        });
+        /*Call<Usuario> usuarioCall = service.insertarEmpresa(usuario);
+        usuarioCall.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+
+            }
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"No se logro registrar.Intente nuevamente. "+t.getMessage(),Toast.LENGTH_SHORT).show();
+                registrar_usuario.setEnabled(true);
+            }
+        });*/
+    }
+
+    private void limpiarEditext() {
+        nombre_empresa.setText("");
+        correo.setText("");
+        direccion.setText("");
+        ruc.setText("");
+        password.setText("");
+        usuario_empresa.setText("");
+        spinner1.setAdapter(dataAdapter);
     }
 
     @Override
@@ -164,6 +210,7 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
             }
         }
     }
+
 }
 
 

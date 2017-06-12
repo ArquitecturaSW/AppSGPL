@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.R;
+import arquitectura.proyecto.android.appsgpl.Registros.*;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
