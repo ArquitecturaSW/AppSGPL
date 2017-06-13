@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface APIService {
 
-    @POST("loginJson.php")
+    @POST("login.php")
     Call<PruebaLogin> iniciosesion(@Body Usuario usuario);
 
     @POST("registrarEmpresa.php")

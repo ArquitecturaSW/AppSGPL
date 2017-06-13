@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
 
         //Conexion con el webservice
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://sw14200042.esy.es/sesiones/")
+                .baseUrl("http://proyectos2017.esy.es/HOME-CONTENT/servicios/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(APIService.class);
@@ -92,7 +92,11 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                 if (pruebaLogin.getEstado() == 1) {
                     Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 1", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 2", Toast.LENGTH_SHORT).show();
+                    if(pruebaLogin.getEstado() == 2) {
+                        Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 2", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 3", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

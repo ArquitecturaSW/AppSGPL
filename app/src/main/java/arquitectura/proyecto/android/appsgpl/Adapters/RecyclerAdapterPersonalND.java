@@ -63,12 +63,6 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
                 Toast.makeText(context,"More info",Toast.LENGTH_SHORT).show();
             }
         });
-        holder.ly_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
     }
@@ -80,8 +74,6 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-
-        LinearLayout ly_item;
         TextView codigo_personal;
         TextView nombre_personal;
         TextView cargo_personal;
@@ -89,7 +81,6 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ly_item = (LinearLayout) itemView.findViewById(R.id.ly);
             codigo_personal = (TextView) itemView.findViewById(R.id.codigo_personal);
             nombre_personal = (TextView) itemView.findViewById(R.id.nombre_personal);
             cargo_personal = (TextView) itemView.findViewById(R.id.cargo_personal);
@@ -98,52 +89,7 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
 
         }
     }
-    public AlertDialog preguntar() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle("¿Desea asignarlo jefe?");
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                asignarJefe().show();
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        return builder.create();
-    }
-    private Dialog asignarJefe(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-
-        View v = inflater.inflate(R.layout.asignar_jefe_dialogo, null);
-        builder.setCancelable(false);
-        builder.setView(v);
-        TextInputLayout usuario = (TextInputLayout) v.findViewById(R.id.usuario_jefe);
-        TextInputLayout password =(TextInputLayout) v.findViewById(R.id.password);
-        TextInputLayout conpassword =(TextInputLayout) v.findViewById(R.id.confirmar_contrasena);
-        Button registar = (Button) v.findViewById(R.id.registarjefe);
-
-        registar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //personalList.get(i).setCargo("Jefe Proyecto");
-                Toast.makeText(context,"Se completo satisfactoriamente.",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-
-        return builder.create();
-    }
 
 }
 

@@ -103,12 +103,16 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
 
     private void updateDate2(int dayOfMonth, int monthOfYear, int year) {
         diaf=dayOfMonth;mesf=monthOfYear;anof=year;
-        dateEnd.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+        int mes=monthOfYear+1;
+        dateEnd.setText(dayOfMonth+"/"+mes+"/"+year);
+        dateEnd.setEnabled(false);
     }
 
     private void updateDate1(int dayOfMonth, int monthOfYear, int year) {
         diai=dayOfMonth;mesi=monthOfYear;anoi=year;
-        dateStart.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+        int mes1=monthOfYear+1;
+        dateStart.setText(dayOfMonth+"/"+mes1+"/"+year);
+        dateStart.setEnabled(false);
     }
 
     @Override
@@ -121,10 +125,14 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                     Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(this,"Seleccione el mes correctamente.", Toast.LENGTH_LONG).show();
+                    dateStart.setEnabled(true);
+                    dateEnd.setEnabled(true);
                 }
             }
             else{
                 Toast.makeText(this,"Seleccione el año correctamente.", Toast.LENGTH_LONG).show();
+                dateStart.setEnabled(true);
+                dateEnd.setEnabled(true);
             }
         }
 
