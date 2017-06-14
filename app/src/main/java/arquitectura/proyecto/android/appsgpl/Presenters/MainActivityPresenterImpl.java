@@ -16,10 +16,11 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
     private MainActivityInteractor interactor;
     private MainActivityView view;
+    private int id;
 
-    public MainActivityPresenterImpl(MainActivityView view){
+    public MainActivityPresenterImpl(MainActivityView view, int id){
         this.view=view;
-        interactor = new MainActivityInteractorImpl(this);
+        interactor = new MainActivityInteractorImpl(this, this.id);
     }
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {
@@ -29,5 +30,20 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     @Override
     public void loadListProyecto() {
         interactor.initRecycler();
+    }
+
+    @Override
+    public void showEmpty() {
+        view.showEmpty();
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
+    }
+
+    @Override
+    public void showProgress() {
+        view.showProgress();
     }
 }

@@ -265,6 +265,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                 Toast.makeText(getApplicationContext(), "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
                 //registrarEntregable
                 //AsyncTask
+                //limpiar editext
             }
             else {
                 Toast.makeText(getApplicationContext(), "Error al subir el documento.", Toast.LENGTH_SHORT).show();

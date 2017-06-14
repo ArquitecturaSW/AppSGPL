@@ -18,6 +18,7 @@ import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.POJOS.PruebaLogin;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
 import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
@@ -82,26 +83,27 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
 
     private void inicioSesion(String u, String p) {
         Usuario usuario = new Usuario(u, p);
-        Call<PruebaLogin> usuarioCall = service.iniciosesion(usuario);
+        Call<ResponseLogin> usuarioCall = service.iniciosesion(usuario);
 
-        usuarioCall.enqueue(new Callback<PruebaLogin>() {
+        usuarioCall.enqueue(new Callback<ResponseLogin>() {
             @Override
-            public void onResponse(Call<PruebaLogin> call, Response<PruebaLogin> response) {
-                PruebaLogin pruebaLogin = response.body();
+            public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
+                ResponseLogin responseLogin = response.body();
 
-                if (pruebaLogin.getEstado() == 1) {
-                    Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 1", Toast.LENGTH_SHORT).show();
+                if (responseLogin.getEstado() == 1) {
+                    Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje :"+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
+
                 } else {
-                    if(pruebaLogin.getEstado() == 2) {
-                        Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 2", Toast.LENGTH_SHORT).show();
+                    if(responseLogin.getEstado() == 2) {
+                        Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje : "+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(getApplicationContext(), pruebaLogin.getMensaje().toString() + " 3", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje : "+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<PruebaLogin> call, Throwable t) {
+            public void onFailure(Call<ResponseLogin> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

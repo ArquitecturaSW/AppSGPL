@@ -10,4 +10,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 
 public interface MainActivityView {
     void initRecycler(List<Proyecto> proyectoList);
+    void showEmpty();
+    void showProgress();
+    void hideProgress();
 }

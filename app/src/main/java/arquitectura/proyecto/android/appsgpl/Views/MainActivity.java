@@ -17,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -34,17 +36,20 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,MainActivityView {
     RecyclerView recyclerView;
     RecyclerAdapterProyectos adapter;
+    TextView empty;
+    ProgressBar progressBar;
     private MainActivityPresenter presenter;
+    int id=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+        empty = (TextView) findViewById(R.id.empty);
         /*Implementacion de RecyclerView con MVP*/
-        presenter = new MainActivityPresenterImpl(this);
+        presenter = new MainActivityPresenterImpl(this,id);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -142,6 +147,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {
         adapter.setListProyecto(proyectoList);
+    }
+
+    @Override
+    public void showEmpty() {
+        recyclerView.setVisibility(View.GONE);
+        empty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+
     }
 
 }

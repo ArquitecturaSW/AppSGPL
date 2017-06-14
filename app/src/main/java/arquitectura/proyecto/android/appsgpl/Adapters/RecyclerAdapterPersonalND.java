@@ -22,6 +22,7 @@ import java.util.List;
 import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.R;
 
+import static arquitectura.proyecto.android.appsgpl.R.id.c;
 import static arquitectura.proyecto.android.appsgpl.R.layout.item_personal;
 
 /**
@@ -55,6 +56,7 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 //holder.nombre_documento.setText(entregableList.get(position).getNombre_documento());
         holder.codigo_personal.setText(personalList1.get(position).getCodigo());
+        holder.codigo_ws.setText(personalList1.get(position).getCodigo());
         holder.nombre_personal.setText(personalList1.get(position).getNombre());
         holder.cargo_personal.setText(personalList1.get(position).getCargo());
         holder.info_personal.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +80,7 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
         TextView nombre_personal;
         TextView cargo_personal;
         ImageView info_personal;
+        TextView codigo_ws;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +88,8 @@ public class RecyclerAdapterPersonalND extends RecyclerView.Adapter<RecyclerAdap
             nombre_personal = (TextView) itemView.findViewById(R.id.nombre_personal);
             cargo_personal = (TextView) itemView.findViewById(R.id.cargo_personal);
             info_personal = (ImageView) itemView.findViewById(R.id.info_personal);
+            codigo_ws = (TextView) itemView.findViewById(R.id.codigows);
+
 
 
         }

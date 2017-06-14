@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterPersonalND;
@@ -25,9 +29,10 @@ import arquitectura.proyecto.android.appsgpl.Presenters.PersonalNDPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.RecyclerItemClickListener;
 
-public class PersonalND extends AppCompatActivity implements PersonalNDView {
+public class PersonalND extends AppCompatActivity  implements PersonalNDView {
     RecyclerView recyclerView;
     Context context;
+    TextView codigowsND;
     Activity activity = new Activity();
 
     PersonalNDPresenter presenter;
@@ -59,7 +64,25 @@ public class PersonalND extends AppCompatActivity implements PersonalNDView {
 
         @Override
         public void onItemClick(View childView, int position) {
-            Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
+            codigowsND = (TextView) childView.findViewById(R.id.codigows);
+            Toast.makeText(getApplicationContext(),codigowsND.getText().toString(),Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getApplication());
+            dialog.setTitle("Eliminar Lista");
+            dialog.setMessage("¿Seguro deseas eliminar esta lista?");
+            dialog.setNegativeButton("Cancelar", null);
+            dialog.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
+
+
+                }
+            });
+
+            dialog.show();
+
         }
 
         @Override

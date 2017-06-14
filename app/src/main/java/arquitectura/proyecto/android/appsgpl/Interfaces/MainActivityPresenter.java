@@ -11,4 +11,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 public interface MainActivityPresenter {
     void initRecycler(List<Proyecto> proyectoList);
     void loadListProyecto();
+    void showEmpty();
+    void hideProgress();
+    void showProgress();
 }
