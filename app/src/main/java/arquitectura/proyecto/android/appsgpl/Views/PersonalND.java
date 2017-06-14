@@ -1,13 +1,12 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.sql.SQLException;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterPersonalND;
@@ -48,7 +45,7 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterPersonalND(context,R.layout.item_personal);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplication().getApplicationContext(),new OnItemClickListener()));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
         presenter.loadListPersonal();
          /*Implementacion de RecyclerView con MVP*/
     }
@@ -64,10 +61,15 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
 
         @Override
         public void onItemClick(View childView, int position) {
+            Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onItemLongPress(View childView, int position) {
             //Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
             codigowsND = (TextView) childView.findViewById(R.id.codigows);
             Toast.makeText(getApplicationContext(),codigowsND.getText().toString(),Toast.LENGTH_SHORT).show();
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getApplication());
+            AlertDialog.Builder dialog = new AlertDialog.Builder(PersonalND.this);
             dialog.setTitle("Eliminar Lista");
             dialog.setMessage("¿Seguro deseas eliminar esta lista?");
             dialog.setNegativeButton("Cancelar", null);
@@ -75,7 +77,7 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
+                    // recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
 
 
                 }
@@ -83,11 +85,6 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
 
             dialog.show();
 
-        }
-
-        @Override
-        public void onItemLongPress(View childView, int position) {
-            Toast.makeText(getApplicationContext(),"2",Toast.LENGTH_SHORT).show();
         }
     }
 
