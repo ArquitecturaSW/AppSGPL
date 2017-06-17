@@ -67,11 +67,8 @@ public class MainActivity extends AppCompatActivity
         /*SharedPreferences*/
         SharedPreferences prefs = getSharedPreferences("estado_intro",Context.MODE_PRIVATE);
         String idE = prefs.getString("idEmpresa","XD");
-        Toast.makeText(this, idE, Toast.LENGTH_SHORT).show();
         idEmpresaMain=idE;
-
         /*Implementacion de RecyclerView con MVP*/
-
         presenter = new MainActivityPresenterImpl(this);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -89,6 +86,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RegistrarProyecto.class);
                 startActivity(intent);
+
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
             }
@@ -108,12 +106,13 @@ public class MainActivity extends AppCompatActivity
         usuario_empresa= (TextView) hView.findViewById(R.id.usuario_empresa_menu);
         ruc_empresa= (TextView)hView.findViewById(R.id.ruc_empresa_menu);
         correo_empresa= (TextView)hView.findViewById(R.id.correo_empresa_menu);
-        /*nombre_empresa.setText(Login.nombreEmpresa);
-        usuario_empresa.setText("Usuario: "+Login.usuarioEmpresa);
-        correo_empresa.setText("Correo: "+Login.correoEmpresa);
-        ruc_empresa.setText("RUC: "+Login.rucEmpresa);*/
-        /**/
+        nombre_empresa.setText(prefs.getString("nombre","XD"));
+        usuario_empresa.setText("Usuario: "+prefs.getString("usuario","XD"));
+        correo_empresa.setText("Correo: "+prefs.getString("correo","XD"));
+        ruc_empresa.setText("RUC: "+prefs.getString("ruc","XD"));
+
     }
+
 
     @Override
     public void onBackPressed() {

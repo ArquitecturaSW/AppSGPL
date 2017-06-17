@@ -34,11 +34,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
     /*variables globales*/
-    public static String nombreEmpresa;
-    public static String usuarioEmpresa;
-    public static String correoEmpresa;
-    public static String rucEmpresa;
-    public static String id;
     /*variables globales*/
     Button iniciarSesion;
     Button crearCuenta;
@@ -106,12 +101,12 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
             public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
                 ResponseLogin responseLogin = response.body();
                 if (responseLogin.getEstado() == 1) {
-                    id=Integer.toString(responseLogin.getEmpresa().getIdEmpresa());
                     prefManager.saveIdEmpresa(Integer.toString(responseLogin.getEmpresa().getIdEmpresa()));
-                    /*nombreEmpresa=responseLogin.getEmpresa().getNombreEmpresa();
-                    usuarioEmpresa=responseLogin.getEmpresa().getUsuario();
-                    correoEmpresa=responseLogin.getEmpresa().getCorreoEmpresa();
-                    rucEmpresa=responseLogin.getEmpresa().getRucEmpresa();*/
+                    prefManager.saveDataEmpresa(responseLogin.getEmpresa().getNombreEmpresa(),
+                            responseLogin.getEmpresa().getUsuario(),
+                            responseLogin.getEmpresa().getCorreoEmpresa()
+                            ,responseLogin.getEmpresa().getRucEmpresa());
+
                     progress.dismiss();
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);

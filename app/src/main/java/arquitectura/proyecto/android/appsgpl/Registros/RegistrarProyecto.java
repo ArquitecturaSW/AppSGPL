@@ -35,6 +35,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.id.message;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static arquitectura.proyecto.android.appsgpl.R.id.c;
 import static arquitectura.proyecto.android.appsgpl.R.id.codigo_personal;
 import static arquitectura.proyecto.android.appsgpl.R.id.descripcion_proyecto;
@@ -162,9 +163,16 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
 
         if(t==true) {
             if (anof > anoi) {
-                registrarProyecto(Integer.parseInt(MainActivity.idEmpresaMain),id,nombre.getText().toString(),
-                        code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
-                ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
+                Toast.makeText(this,Integer.parseInt(MainActivity.idEmpresaMain)+""+id+" "+code.getText().toString(),Toast.LENGTH_SHORT).show();
+                registrarProyecto(
+                        Integer.parseInt(MainActivity.idEmpresaMain),
+                        id,
+                        nombre.getText().toString(),
+                        code.getText().toString(),
+                        descripcion.getText().toString(),
+                        dateStart.getText().toString(),
+                        dateEnd.getText().toString(),
+                        Integer.parseInt(monto.getText().toString()));
             } else {
                 if (anof == anoi) {
                     if (mesf > mesi) {
@@ -172,7 +180,6 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                                 code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
                                 ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
                     } else {
-                        Toast.makeText(this, "Seleccione el mes correctamente.", Toast.LENGTH_LONG).show();
                         dateStart.setEnabled(true);
                         dateEnd.setEnabled(true);
                     }
@@ -231,6 +238,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
         spinnerRP.setAdapter(dataAdapter);
         dateEnd.setText("");
         dateStart.setText("");
+        monto.setText("");
     }
 
     @Override
