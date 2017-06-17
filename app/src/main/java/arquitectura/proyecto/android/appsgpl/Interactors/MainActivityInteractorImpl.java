@@ -1,5 +1,7 @@
 package arquitectura.proyecto.android.appsgpl.Interactors;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
+import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +36,6 @@ public class MainActivityInteractorImpl implements MainActivityInteractor {
     }
     @Override
     public void initRecycler() {
-
         presenter.showProgress();
         //Conexion con el webservice
         Retrofit retrofit = new Retrofit.Builder()
@@ -41,7 +43,7 @@ public class MainActivityInteractorImpl implements MainActivityInteractor {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIService service = retrofit.create(APIService.class);
-        Call<ResponseProyecto> responseProyectoCall = service.getProyectos(Login.id);
+        Call<ResponseProyecto> responseProyectoCall = service.getProyectos(MainActivity.idEmpresaMain);
         responseProyectoCall.enqueue(new Callback<ResponseProyecto>() {
             @Override
             public void onResponse(Call<ResponseProyecto> call, Response<ResponseProyecto> response) {

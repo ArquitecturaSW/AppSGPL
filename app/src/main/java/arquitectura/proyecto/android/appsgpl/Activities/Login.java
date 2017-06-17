@@ -24,6 +24,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
+import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +54,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     int s;
     String m;
     ProgressDialog progress;
+    private PreferencesManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
         crearCuenta = (Button) findViewById(R.id.crearcuentaLogin);
         usuario = (TextInputEditText) findViewById(R.id.user);
         password = (TextInputEditText) findViewById(R.id.password);
+        prefManager = new PreferencesManager(this);
 
         //Conexion con el webservice
         Retrofit retrofit = new Retrofit.Builder()
@@ -104,10 +107,11 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                 ResponseLogin responseLogin = response.body();
                 if (responseLogin.getEstado() == 1) {
                     id=Integer.toString(responseLogin.getEmpresa().getIdEmpresa());
-                    nombreEmpresa=responseLogin.getEmpresa().getNombreEmpresa();
+                    prefManager.saveIdEmpresa(Integer.toString(responseLogin.getEmpresa().getIdEmpresa()));
+                    /*nombreEmpresa=responseLogin.getEmpresa().getNombreEmpresa();
                     usuarioEmpresa=responseLogin.getEmpresa().getUsuario();
                     correoEmpresa=responseLogin.getEmpresa().getCorreoEmpresa();
-                    rucEmpresa=responseLogin.getEmpresa().getRucEmpresa();
+                    rucEmpresa=responseLogin.getEmpresa().getRucEmpresa();*/
                     progress.dismiss();
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);

@@ -29,6 +29,7 @@ import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Views.ThreeFragment;
 import arquitectura.proyecto.android.appsgpl.Views.TwoFragment;
+import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
 import static android.R.attr.button;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
@@ -103,6 +104,9 @@ public class DetalleProyecto extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            PreferencesManager prefManager = new PreferencesManager(this);
+            prefManager.setPrimeraEjecucion(true);
+            prefManager.setIdEmpresaSP();
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();

@@ -1,6 +1,8 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,6 +35,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.Presenters.MainActivityPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
+import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
 import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.user;
@@ -46,8 +50,10 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBar;
     TextView usuario_empresa;
     TextView ruc_empresa;
+    public static String idEmpresaMain;
     TextView correo_empresa;
     private MainActivityPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,14 @@ public class MainActivity extends AppCompatActivity
         progressBar = (ProgressBar) findViewById(R.id.progress);
         empty = (TextView) findViewById(R.id.empty);
 
+        /*SharedPreferences*/
+        SharedPreferences prefs = getSharedPreferences("estado_intro",Context.MODE_PRIVATE);
+        String idE = prefs.getString("idEmpresa","XD");
+        Toast.makeText(this, idE, Toast.LENGTH_SHORT).show();
+        idEmpresaMain=idE;
+
         /*Implementacion de RecyclerView con MVP*/
+
         presenter = new MainActivityPresenterImpl(this);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -95,10 +108,10 @@ public class MainActivity extends AppCompatActivity
         usuario_empresa= (TextView) hView.findViewById(R.id.usuario_empresa_menu);
         ruc_empresa= (TextView)hView.findViewById(R.id.ruc_empresa_menu);
         correo_empresa= (TextView)hView.findViewById(R.id.correo_empresa_menu);
-        nombre_empresa.setText(Login.nombreEmpresa);
+        /*nombre_empresa.setText(Login.nombreEmpresa);
         usuario_empresa.setText("Usuario: "+Login.usuarioEmpresa);
         correo_empresa.setText("Correo: "+Login.correoEmpresa);
-        ruc_empresa.setText("RUC: "+Login.rucEmpresa);
+        ruc_empresa.setText("RUC: "+Login.rucEmpresa);*/
         /**/
     }
 
@@ -128,9 +141,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            PreferencesManager prefManager = new PreferencesManager(this);
+            prefManager.setPrimeraEjecucion(true);
+            prefManager.setIdEmpresaSP();
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
+
             return true;
         }
 
