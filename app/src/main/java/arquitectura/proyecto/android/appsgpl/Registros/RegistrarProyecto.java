@@ -5,9 +5,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -15,6 +17,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,7 +38,10 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
     TextInputEditText dateEnd;
     @NotEmpty(message = "No deje vacío este campo.")
     TextInputEditText descripcion;
+    @NotEmpty(message = "No deje vacío este campo.")
+    TextInputEditText monto;
     Validator validator;
+    Spinner spinnerRP;
     int diai,mesi,anoi;
     int diaf,mesf,anof;
     Calendar dateTime;
@@ -43,7 +49,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_proyecto);
-
+        spinnerRP=(Spinner) findViewById(R.id.spinnerproyecto);
         dateTime = Calendar.getInstance();
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -73,6 +79,17 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                 validator.validate();
             }
         });
+                        /* Llenado del spinner*/
+        List<String> list = new ArrayList<String>();
+        list.add("Seleccione el tipo de proyecto:");
+        list.add("BIENES");
+        list.add("SERVICIOS");
+        list.add("OBRAS");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRP.setAdapter(dataAdapter);
     }
 
     private void selectDateFin() {

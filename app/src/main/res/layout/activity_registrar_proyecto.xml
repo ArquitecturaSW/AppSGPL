@@ -16,7 +16,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:id="@+id/a"
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content">
@@ -32,12 +32,23 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/a"
+            android:id="@+id/spinnerproyecto"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            >
+        </Spinner>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:id="@+id/h"
-            android:layout_below="@+id/a"
+            android:layout_below="@+id/spinnerentregable"
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content">
 
@@ -53,10 +64,29 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/z"
+            android:layout_below="@+id/h"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/monto_proyecto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Monto del proyecto"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_marginLeft="20dp"
             android:id="@+id/b"
-            android:layout_below="@+id/h"
+            android:layout_below="@+id/z"
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content">
 
@@ -70,8 +100,9 @@
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
+
         <ImageView
-            android:layout_below="@+id/h"
+            android:layout_below="@+id/z"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/seleccionar_fecha_i"
@@ -114,9 +145,10 @@
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:id="@+id/d"
-            android:layout_below="@+id/seleccionar_fecha_f"
             android:layout_marginRight="20dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seleccionar_fecha_f"
+            >
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/descripcion_proyecto"

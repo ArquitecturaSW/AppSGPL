@@ -1,10 +1,10 @@
 package arquitectura.proyecto.android.appsgpl.POJOS;
 
 /**
- * Created by Jair Barzola on 02-Jun-17.
+ * Created by Jair Barzola on 16-Jun-17.
  */
 
-public class PruebaLogin {
+public class ResponseRegistrarProyecto {
     private int estado;
     private String mensaje;
 

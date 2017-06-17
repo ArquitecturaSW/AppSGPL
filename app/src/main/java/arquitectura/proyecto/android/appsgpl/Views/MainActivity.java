@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,14 +33,22 @@ import arquitectura.proyecto.android.appsgpl.Presenters.MainActivityPresenterImp
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
 
+import static android.R.attr.id;
+import static arquitectura.proyecto.android.appsgpl.R.id.user;
+import static arquitectura.proyecto.android.appsgpl.R.id.usuario_empresa;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,MainActivityView {
     RecyclerView recyclerView;
     RecyclerAdapterProyectos adapter;
     TextView empty;
+    TextView nombre_empresa;
     ProgressBar progressBar;
+    TextView usuario_empresa;
+    TextView ruc_empresa;
+    TextView correo_empresa;
     private MainActivityPresenter presenter;
-    int id=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +57,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         empty = (TextView) findViewById(R.id.empty);
+
         /*Implementacion de RecyclerView con MVP*/
-        presenter = new MainActivityPresenterImpl(this,id);
+        presenter = new MainActivityPresenterImpl(this);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -79,6 +89,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        /*setear los valor del nav_header*/
+        View hView =  navigationView.getHeaderView(0);
+        nombre_empresa = (TextView) hView.findViewById(R.id.nombre_empresa_menu);
+        usuario_empresa= (TextView) hView.findViewById(R.id.usuario_empresa_menu);
+        ruc_empresa= (TextView)hView.findViewById(R.id.ruc_empresa_menu);
+        correo_empresa= (TextView)hView.findViewById(R.id.correo_empresa_menu);
+        nombre_empresa.setText(Login.nombreEmpresa);
+        usuario_empresa.setText("Usuario: "+Login.usuarioEmpresa);
+        correo_empresa.setText("Correo: "+Login.correoEmpresa);
+        ruc_empresa.setText("RUC: "+Login.rucEmpresa);
+        /**/
     }
 
     @Override
@@ -146,6 +167,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {
+
         adapter.setListProyecto(proyectoList);
     }
 

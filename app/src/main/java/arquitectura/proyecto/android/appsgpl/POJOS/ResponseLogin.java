@@ -5,25 +5,19 @@ package arquitectura.proyecto.android.appsgpl.POJOS;
  */
 
 public class ResponseLogin {
-    private int estado;
-    private int usuario;
+    private Integer estado;
+    private Empresa empresa;
     private String mensaje;
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
     }
 
-    public int getUsuario() {
-        return usuario;
-    }
 
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
-    }
 
     public String getMensaje() {
         return mensaje;
@@ -31,5 +25,13 @@ public class ResponseLogin {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

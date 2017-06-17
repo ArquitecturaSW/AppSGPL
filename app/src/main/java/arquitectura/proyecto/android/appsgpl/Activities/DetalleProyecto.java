@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,6 @@ import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
 
 public class DetalleProyecto extends AppCompatActivity {
-    ArrayList<Proyecto> proyectoList;
     Proyecto proyecto;
     Fragment fr3;
     Bundle args3;
@@ -46,6 +46,7 @@ public class DetalleProyecto extends AppCompatActivity {
     TextView fechaf;
     TextView monto;
     TextView descripcion;
+    TextView tipoProyecto;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,7 @@ public class DetalleProyecto extends AppCompatActivity {
             return true;
         }else {
             if (id == R.id.action_show) {
-                showInformation().show();
+               showInformation().show();
                 return true;
             }
         }
@@ -120,7 +121,7 @@ public class DetalleProyecto extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
-
+        String st;
         View v = inflater.inflate(R.layout.decripcion_proyecto, null);
         nombre = (TextView) v.findViewById(R.id.nombre_proyecto_fr3);
         codigo = (TextView) v.findViewById(R.id.codigo_proyecto_fr3);
@@ -130,16 +131,50 @@ public class DetalleProyecto extends AppCompatActivity {
         fechaf=(TextView)v.findViewById(R.id.fechaf_proyecto_fr3);
         fechai=(TextView)v.findViewById(R.id.fechai_proyecto_fr3);
         monto = (TextView) v.findViewById(R.id.monto_proyecto_fr3);
-
+        tipoProyecto= (TextView) v.findViewById(R.id.tipo_proyecto_fr3);
+        builder.setTitle("Descripción del Proyecto");
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         nombre.setText(proyecto.getNombreProyecto());
         codigo.setText(proyecto.getCodigoProyecto());
-        jefe.setText(proyecto.getJefeProyecto());
+
+        if(proyecto.getIdCategoriaP()==1){
+            tipoProyecto.setText("BIENES");
+        }else{
+            if(proyecto.getIdCategoriaP()==2){
+                tipoProyecto.setText("SERVICIOS");
+            }else{
+                tipoProyecto.setText("OBRAS");
+            }
+        }
+
+
         descripcion.setText(proyecto.getDescripcionProyecto());
-        estado.setText(proyecto.getStatusProyecto());
+        if(proyecto.getIdEstado()==1){
+            st="En espera";
+            jefe.setText("Sin jefe");
+        }else{
+            if(proyecto.getIdEstado()==2){
+                st="Ganado";
+                jefe.setText("Jair Barzola Cuba");
+            }else{
+                if(proyecto.getIdEstado()==3){
+                    st="Perdido";
+                    jefe.setText("Jair Barzola Cuba");
+                }else{
+                    if(proyecto.getIdEstado()==4){
+                        st="Inconcluso";
+                        jefe.setText("Jair Barzola Cuba");
+                    }else{
+                        st="Finalizado";
+                        jefe.setText("Jair Barzola Cuba");
+                    }
+                }
+            }
+        }
+        estado.setText(st);
         fechaf.setText(proyecto.getDateEnd());
         fechai.setText(proyecto.getDateStart());
-        monto.setText(nf.format(proyecto.getMontoProyecto()));
+        monto.setText(nf.format(proyecto.getMonto()));
         builder.setView(v);
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override

@@ -70,8 +70,8 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
             codigowsND = (TextView) childView.findViewById(R.id.codigows);
             Toast.makeText(getApplicationContext(),codigowsND.getText().toString(),Toast.LENGTH_SHORT).show();
             AlertDialog.Builder dialog = new AlertDialog.Builder(PersonalND.this);
-            dialog.setTitle("Eliminar Lista");
-            dialog.setMessage("¿Seguro deseas eliminar esta lista?");
+            dialog.setTitle("Asignar Jefe");
+            dialog.setMessage("¿Seguro deseas asignarle un proyecto");
             dialog.setNegativeButton("Cancelar", null);
             dialog.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                 @Override

@@ -1,5 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,12 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
-import arquitectura.proyecto.android.appsgpl.POJOS.PruebaLogin;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
 import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
+import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
+    /*variables globales*/
+    public static String nombreEmpresa;
+    public static String usuarioEmpresa;
+    public static String correoEmpresa;
+    public static String rucEmpresa;
+    public static String id;
+    /*variables globales*/
     Button iniciarSesion;
     Button crearCuenta;
     @NotEmpty(message = "No deje vacío este campo.")
@@ -43,6 +52,8 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     String p;
     int s;
     String m;
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +77,6 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
             public void onClick(View v) {
                 validator.validate();
 
-               /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();*/
             }
         });
         crearCuenta.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +90,11 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     }
 
     private void inicioSesion(String u, String p) {
+        progress = new ProgressDialog(Login.this);
+        progress.setTitle("Ingresando");
+        progress.setMessage("Espere ...");
+        progress.show();
+        progress.setCanceledOnTouchOutside(false);
         Usuario usuario = new Usuario(u, p);
         Call<ResponseLogin> usuarioCall = service.iniciosesion(usuario);
 
@@ -89,22 +102,31 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
             @Override
             public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
                 ResponseLogin responseLogin = response.body();
-
                 if (responseLogin.getEstado() == 1) {
-                    Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje :"+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
-
+                    id=Integer.toString(responseLogin.getEmpresa().getIdEmpresa());
+                    nombreEmpresa=responseLogin.getEmpresa().getNombreEmpresa();
+                    usuarioEmpresa=responseLogin.getEmpresa().getUsuario();
+                    correoEmpresa=responseLogin.getEmpresa().getCorreoEmpresa();
+                    rucEmpresa=responseLogin.getEmpresa().getRucEmpresa();
+                    progress.dismiss();
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     if(responseLogin.getEstado() == 2) {
-                        Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje : "+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(),"Usuario y/o Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
+
                     }else{
-                        Toast.makeText(getApplicationContext(),"usuario : "+responseLogin.getUsuario()+" mensaje : "+responseLogin.getMensaje(), Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(),"Ingrese datos correctos", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseLogin> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+                Toast.makeText(getApplicationContext(),"Tenemos problemas con el servidor\n Intentelo mas tarde", Toast.LENGTH_SHORT).show();
             }
         });
     }

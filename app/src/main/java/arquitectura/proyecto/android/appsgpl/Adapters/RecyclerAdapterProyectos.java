@@ -60,15 +60,23 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.id_proyecto.setText(Integer.toString(proyectoList.get(position).getIdProyecto()));
+        holder.id_proyecto.setText(proyectoList.get(position).getCodigoProyecto());
         holder.nombre_proyecto.setText(proyectoList.get(position).getNombreProyecto());
-        if(proyectoList.get(position).getStatusProyecto()== "En curso"){
-            color = ContextCompat.getColor(context,R.color.colorEnCurso);
+        if(proyectoList.get(position).getIdEstado()==1){
+            color = ContextCompat.getColor(context,R.color.colorEnEspera);
         }else{
-            if(proyectoList.get(position).getStatusProyecto()== "Perdido"){
-             color = ContextCompat.getColor(context,R.color.colorPerdido);
+            if(proyectoList.get(position).getIdEstado()==2){
+             color = ContextCompat.getColor(context,R.color.colorGanado);
             }else{
-             color = ContextCompat.getColor(context,R.color.colorFinalizado);
+                if(proyectoList.get(position).getIdEstado()==3){
+                    color = ContextCompat.getColor(context,R.color.colorPerdido);
+                }else{
+                    if(proyectoList.get(position).getIdEstado()==4){
+                        color = ContextCompat.getColor(context,R.color.colorInconcluso);
+                    }else{
+                        color = ContextCompat.getColor(context,R.color.colorFinalizado);
+                    }
+                }
             }
         }
         holder.status_proyecto.setBackgroundColor(color);
@@ -78,13 +86,21 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
                 Intent intent = new Intent(context,DetalleProyecto.class);
                 Proyecto proyecto = proyectoList.get(position);
                 intent.putExtra("proyecto", (Parcelable) proyecto);
-                if(proyectoList.get(position).getStatusProyecto()== "En curso"){
-                    color = ContextCompat.getColor(context,R.color.colorEnCurso);
+                if(proyectoList.get(position).getIdEstado()==1){
+                    color = ContextCompat.getColor(context,R.color.colorEnEspera);
                 }else{
-                    if(proyectoList.get(position).getStatusProyecto()== "Perdido"){
-                        color = ContextCompat.getColor(context,R.color.colorPerdido);
+                    if(proyectoList.get(position).getIdEstado()==2){
+                        color = ContextCompat.getColor(context,R.color.colorGanado);
                     }else{
-                        color = ContextCompat.getColor(context,R.color.colorFinalizado);
+                        if(proyectoList.get(position).getIdEstado()==3){
+                            color = ContextCompat.getColor(context,R.color.colorPerdido);
+                        }else{
+                            if(proyectoList.get(position).getIdEstado()==4){
+                                color = ContextCompat.getColor(context,R.color.colorInconcluso);
+                            }else{
+                                color = ContextCompat.getColor(context,R.color.colorFinalizado);
+                            }
+                        }
                     }
                 }
                 intent.putExtra("color",color);
@@ -107,9 +123,9 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
         public CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
-            id_proyecto =(TextView) itemView.findViewById(R.id.id_proyecto);
-            nombre_proyecto =(TextView) itemView.findViewById(R.id.nombre_proyecto);
-            status_proyecto =(ImageView) itemView.findViewById(R.id.color_status);
+            id_proyecto =(TextView) itemView.findViewById(R.id.id_proyecto_m);
+            nombre_proyecto =(TextView) itemView.findViewById(R.id.nombre_proyecto_m);
+            status_proyecto =(ImageView) itemView.findViewById(R.id.color_status_m);
             cardView =(CardView) itemView.findViewById(R.id.cardView);
 
         }

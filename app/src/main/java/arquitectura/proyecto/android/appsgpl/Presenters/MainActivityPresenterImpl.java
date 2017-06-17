@@ -16,11 +16,9 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
     private MainActivityInteractor interactor;
     private MainActivityView view;
-    private int id;
-
-    public MainActivityPresenterImpl(MainActivityView view, int id){
+    public MainActivityPresenterImpl(MainActivityView view){
         this.view=view;
-        interactor = new MainActivityInteractorImpl(this, this.id);
+        interactor = new MainActivityInteractorImpl(this);
     }
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {

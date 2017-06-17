@@ -46,6 +46,33 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/tipo"
+                />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tipo_proyecto_fr3"
+                android:text="BIENES"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                />
+        </LinearLayout>
+        <View
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            style="@style/Divider"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <ImageView
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_width="30dp"
@@ -147,7 +174,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" - "
+                android:text=" -- "
                 android:textSize="16sp"
                 android:fontFamily="sans-serif"
                 />

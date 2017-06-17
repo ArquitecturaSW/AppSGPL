@@ -4,36 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
+
+import static android.icu.text.RelativeDateTimeFormatter.Direction.THIS;
 
 /**
  * Created by Jair Barzola on 21-Apr-17.
  */
 
 public class Proyecto implements Parcelable, Serializable {
-    String monto;
+
     private int idProyecto;
+    private int idEstado;
+    private int idEmpresa;
+    private int idCategoriaP;
     private String nombreProyecto;
     private String codigoProyecto;
-    private String jefeProyecto;
+    private String descripcionProyecto;
     private String dateStart;
     private String dateEnd;
-    private int montoProyecto;
-    private String descripcionProyecto;
-    private String statusProyecto;
-
-    public Proyecto (int idProyecto,String nombreProyecto,String codigoProyecto,String jefeProyecto,int montoProyecto,String dateStart,String dateEnd,String statusProyecto,String descripcionProyecto){
-        this.idProyecto=idProyecto;
-        this.codigoProyecto=codigoProyecto;
-        this.montoProyecto=montoProyecto;
-        this.dateEnd=dateEnd;
-        this.dateStart=dateStart;
-        this.jefeProyecto=jefeProyecto;
-        this.nombreProyecto=nombreProyecto;
-        this.statusProyecto=statusProyecto;
-        this.descripcionProyecto=descripcionProyecto;
-    }
-
+    private String dateEndFake;
+    private int monto;
 
 
     public int getIdProyecto() {
@@ -42,6 +32,30 @@ public class Proyecto implements Parcelable, Serializable {
 
     public void setIdProyecto(int idProyecto) {
         this.idProyecto = idProyecto;
+    }
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public int getIdCategoriaP() {
+        return idCategoriaP;
+    }
+
+    public void setIdCategoriaP(int idCategoriaP) {
+        this.idCategoriaP = idCategoriaP;
     }
 
     public String getNombreProyecto() {
@@ -68,30 +82,6 @@ public class Proyecto implements Parcelable, Serializable {
         this.descripcionProyecto = descripcionProyecto;
     }
 
-    public String getStatusProyecto() {
-        return statusProyecto;
-    }
-
-    public void setStatusProyecto(String statusProyecto) {
-        this.statusProyecto = statusProyecto;
-    }
-
-    public String getJefeProyecto() {
-        return jefeProyecto;
-    }
-
-    public void setJefeProyecto(String jefeProyecto) {
-        this.jefeProyecto = jefeProyecto;
-    }
-
-    public int getMontoProyecto() {
-        return montoProyecto;
-    }
-
-    public void setMontoProyecto(int montoProyecto) {
-        this.montoProyecto = montoProyecto;
-    }
-
     public String getDateStart() {
         return dateStart;
     }
@@ -108,6 +98,22 @@ public class Proyecto implements Parcelable, Serializable {
         this.dateEnd = dateEnd;
     }
 
+    public String getDateEndFake() {
+        return dateEndFake;
+    }
+
+    public void setDateEndFake(String dateEndFake) {
+        this.dateEndFake = dateEndFake;
+    }
+
+    public int getMonto() {
+        return monto;
+    }
+
+    public void setMonto(int monto) {
+        this.monto = monto;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -115,31 +121,33 @@ public class Proyecto implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(monto);
-        dest.writeInt(idProyecto);
-        dest.writeString(nombreProyecto);
-        dest.writeString(codigoProyecto);
-        dest.writeString(jefeProyecto);
-        dest.writeString(dateStart);
-        dest.writeString(dateEnd);
-        dest.writeInt(montoProyecto);
-        dest.writeString(descripcionProyecto);
-        dest.writeString(statusProyecto);
+        dest.writeInt(getIdProyecto());
+        dest.writeInt(getIdEstado());
+        dest.writeInt(getIdEmpresa());
+        dest.writeInt(getIdCategoriaP());
+        dest.writeString(getNombreProyecto());
+        dest.writeString(getCodigoProyecto());
+        dest.writeString(getDescripcionProyecto());
+        dest.writeString(getDateStart());
+        dest.writeString(getDateEnd());
+        dest.writeString(getDateEndFake());
+        dest.writeInt(getMonto());
+
     }
 
     protected Proyecto(Parcel in) {
-        monto = in.readString();
-        idProyecto = in.readInt();
-        nombreProyecto = in.readString();
-        codigoProyecto = in.readString();
-        jefeProyecto = in.readString();
-        dateStart = in.readString();
-        dateEnd = in.readString();
-        montoProyecto = in.readInt();
-        descripcionProyecto = in.readString();
-        statusProyecto = in.readString();
+        setIdProyecto(in.readInt());
+        setIdEstado(in.readInt());
+        setIdCategoriaP(in.readInt());
+        setIdEmpresa(in.readInt());
+        setNombreProyecto(in.readString());
+        setCodigoProyecto(in.readString());
+        setDescripcionProyecto(in.readString());
+        setDateStart(in.readString());
+        setDateEnd(in.readString());
+        setDateEndFake(in.readString());
+        setMonto(in.readInt());
     }
-
     public static final Creator<Proyecto> CREATOR = new Creator<Proyecto>() {
         @Override
         public Proyecto createFromParcel(Parcel in) {
