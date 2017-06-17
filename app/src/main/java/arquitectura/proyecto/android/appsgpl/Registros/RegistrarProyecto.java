@@ -1,6 +1,7 @@
 package arquitectura.proyecto.android.appsgpl.Registros;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,13 +22,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
+import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
+import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.R;
+import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.id.message;
+import static arquitectura.proyecto.android.appsgpl.R.id.c;
+import static arquitectura.proyecto.android.appsgpl.R.id.codigo_personal;
+import static arquitectura.proyecto.android.appsgpl.R.id.descripcion_proyecto;
 
 public class RegistrarProyecto extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty(message = "No deje vacío este campo.")
-    @Length(min=4,max=15,message = "Mínimo 4 caracteres")
+    @Length(min=4,message = "Mínimo 4 caracteres")
     TextInputEditText nombre;
     @NotEmpty(message = "No deje vacío este campo.")
     @Length(min=4,message = "Mínimo 4 caracteres")
@@ -45,6 +59,9 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
     int diai,mesi,anoi;
     int diaf,mesf,anof;
     Calendar dateTime;
+    ProgressDialog progress;
+    APIService service;
+    ArrayAdapter<String> dataAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +78,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
         descripcion= (TextInputEditText) findViewById(R.id.descripcion_proyecto);
         dateEnd= (TextInputEditText) findViewById(R.id.fecha_fin);
         dateStart= (TextInputEditText) findViewById(R.id.fecha_inicio);
+        monto=(TextInputEditText)findViewById(R.id.monto_proyecto);
         s1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +104,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
         list.add("SERVICIOS");
         list.add("OBRAS");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRP.setAdapter(dataAdapter);
@@ -121,38 +139,98 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
     private void updateDate2(int dayOfMonth, int monthOfYear, int year) {
         diaf=dayOfMonth;mesf=monthOfYear;anof=year;
         int mes=monthOfYear+1;
-        dateEnd.setText(dayOfMonth+"/"+mes+"/"+year);
+        dateEnd.setText(year+"-"+mes+"-"+dayOfMonth);
         dateEnd.setEnabled(false);
     }
 
     private void updateDate1(int dayOfMonth, int monthOfYear, int year) {
         diai=dayOfMonth;mesi=monthOfYear;anoi=year;
         int mes1=monthOfYear+1;
-        dateStart.setText(dayOfMonth+"/"+mes1+"/"+year);
+        dateStart.setText(year+"-"+mes1+"-"+dayOfMonth);
         dateStart.setEnabled(false);
     }
 
     @Override
     public void onValidationSucceeded() {
-        if(anof>anoi){
-            Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
+        String tipo = spinnerRP.getSelectedItem().toString();
+        int id = 0;
+        boolean t= false;
+        if(tipo=="Seleccione el tipo de empresa:"){t=false;
         }else{
-            if(anof==anoi){
-                if(mesf>mesi){
-                    Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(this,"Seleccione el mes correctamente.", Toast.LENGTH_LONG).show();
+            if(tipo=="BIENES"){id=1;t=true;}else{if(tipo=="SERVICIOS"){id=2;t=true;}else{id=3;t=true;}}
+            }
+
+        if(t==true) {
+            if (anof > anoi) {
+                registrarProyecto(Integer.parseInt(MainActivity.idEmpresaMain),id,nombre.getText().toString(),
+                        code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
+                ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
+            } else {
+                if (anof == anoi) {
+                    if (mesf > mesi) {
+                        registrarProyecto(Integer.parseInt(MainActivity.idEmpresaMain),id,nombre.getText().toString(),
+                                code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
+                                ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
+                    } else {
+                        Toast.makeText(this, "Seleccione el mes correctamente.", Toast.LENGTH_LONG).show();
+                        dateStart.setEnabled(true);
+                        dateEnd.setEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(this, "Seleccione el año correctamente.", Toast.LENGTH_LONG).show();
                     dateStart.setEnabled(true);
                     dateEnd.setEnabled(true);
                 }
             }
-            else{
-                Toast.makeText(this,"Seleccione el año correctamente.", Toast.LENGTH_LONG).show();
-                dateStart.setEnabled(true);
-                dateEnd.setEnabled(true);
-            }
+        }else{
+            Toast.makeText(this,"Seleccione el tipo de empresa.",Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void registrarProyecto(int idEmpresaMain, int id, String s, String s1, String s2, String s3, String s4,int monto) {
+        progress = new ProgressDialog(RegistrarProyecto.this);
+        progress.setTitle("Registrando");
+        progress.setMessage("Espere ...");
+        progress.show();
+        progress.setCanceledOnTouchOutside(false);
+        final Proyecto proyecto = new Proyecto(idEmpresaMain,id,s,s1,s2,s3,s4,monto);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://proyectos2017.esy.es/HOME-CONTENT/servicios/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(APIService.class);
+        Call<ResponseRegistrarProyecto> callRegistrar = service.registerProyecto(proyecto);
+        callRegistrar.enqueue(new Callback<ResponseRegistrarProyecto>() {
+            @Override
+            public void onResponse(Call<ResponseRegistrarProyecto> call, Response<ResponseRegistrarProyecto> response) {
+                ResponseRegistrarProyecto responseRP= response.body();
+                if(responseRP.getEstado()==1){
+                    progress.dismiss();
+                    limpiar();
+                    Toast.makeText(getApplicationContext(),"Proyecto registrado correctamente",Toast.LENGTH_SHORT).show();
+                }else{
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(),"No se pudo registrar",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseRegistrarProyecto> call, Throwable t) {
+                progress.dismiss();
+                Toast.makeText(getApplicationContext(),"Tenemos problemas con el servidos \n Intentelo mas tarde",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void limpiar() {
+        nombre.setText("");
+        code.setText("");
+        descripcion.setText("");
+        spinnerRP.setAdapter(dataAdapter);
+        dateEnd.setText("");
+        dateStart.setText("");
     }
 
     @Override

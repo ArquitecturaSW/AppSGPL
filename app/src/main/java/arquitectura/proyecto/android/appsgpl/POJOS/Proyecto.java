@@ -25,6 +25,17 @@ public class Proyecto implements Parcelable, Serializable {
     private String dateEndFake;
     private int monto;
 
+    public Proyecto(int idProyecto,int idCategoriaP,String nombreProyecto,String codigoProyecto,String descripcionProyecto
+    ,String dateStart,String dateEnd,int monto){
+        this.idProyecto=idProyecto;
+        this.idCategoriaP=idCategoriaP;
+        this.nombreProyecto=nombreProyecto;
+        this.codigoProyecto=codigoProyecto;
+        this.descripcionProyecto=descripcionProyecto;
+        this.dateStart=dateStart;
+        this.dateEnd=dateEnd;
+        this.monto=monto;
+    }
 
     public int getIdProyecto() {
         return idProyecto;

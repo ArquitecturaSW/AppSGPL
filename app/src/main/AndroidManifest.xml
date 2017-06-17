@@ -64,9 +64,12 @@
             android:name=".Registros.RegistrarEntregable"
             android:label="Subir Entregable"></activity>
         <activity android:name=".Registros.RegistrarProyecto"
-            android:label="Registrar Proyecto">
+            android:label="Registrar Proyecto"
+            android:parentActivityName=".Views.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.MainActivity" />
         </activity>
-
 
     </application>
 
