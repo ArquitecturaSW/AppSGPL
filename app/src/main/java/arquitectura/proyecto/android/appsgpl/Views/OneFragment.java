@@ -53,7 +53,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
-        adapter = new RecyclerAdapterEntregables(getContext(),R.layout.cardview_proyectos);
+        adapter = new RecyclerAdapterEntregables(getContext(),R.layout.item_documento);
         recyclerView.setAdapter(adapter);
         presenter.loadListDocumento();
          /*Implementacion de RecyclerView con MVP*/

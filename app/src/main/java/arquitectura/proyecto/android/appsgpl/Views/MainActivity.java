@@ -3,6 +3,8 @@ package arquitectura.proyecto.android.appsgpl.Views;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -38,6 +40,7 @@ import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
 import static android.R.attr.id;
+import static arquitectura.proyecto.android.appsgpl.R.id.fab;
 import static arquitectura.proyecto.android.appsgpl.R.id.user;
 import static arquitectura.proyecto.android.appsgpl.R.id.usuario_empresa;
 
@@ -78,7 +81,6 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
         presenter.loadListProyecto();
          /*Implementacion de RecyclerView con MVP*/
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setBackgroundColor(getResources().getColor(R.color.colorFAB));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +88,6 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RegistrarProyecto.class);
                 startActivity(intent);
-
-               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             }
         });
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         ruc_empresa= (TextView)hView.findViewById(R.id.ruc_empresa_menu);
         correo_empresa= (TextView)hView.findViewById(R.id.correo_empresa_menu);
         nombre_empresa.setText(prefs.getString("nombre","XD"));
-        usuario_empresa.setText("Usuario: "+prefs.getString("usuario","XD"));
+        usuario_empresa.setText("Cuenta: "+prefs.getString("usuario","XD"));
         correo_empresa.setText("Correo: "+prefs.getString("correo","XD"));
         ruc_empresa.setText("RUC: "+prefs.getString("ruc","XD"));
 
@@ -116,12 +115,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        presenter.loadListProyecto();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+    }
+    public static boolean isConnectedWifi(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    public static boolean isConnectedMobile(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
     }
 
     @Override

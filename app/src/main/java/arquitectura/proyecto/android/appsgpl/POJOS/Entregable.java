@@ -6,6 +6,13 @@ package arquitectura.proyecto.android.appsgpl.POJOS;
 
 public class Entregable {
 
+    private int idProyecto;
+    private int categoriaDoc;
+    private String nombreDoc;
+    private String versionDoc;
+    private String comentarioDoc;
+    private String urlDoc;
+
     private int id_documento;
     private int id_categoria;
     private String nombre_documento;
@@ -13,6 +20,17 @@ public class Entregable {
     private String dateCreated;
     private String url_documento;
     private String comentario_documento;
+
+
+
+    public Entregable(int categoriaDoc,int idProyecto, String nombreDoc,String versionDoc, String comentarioDoc,String urlDoc){
+        this.categoriaDoc=categoriaDoc;
+        this.idProyecto=idProyecto;
+        this.nombreDoc=nombreDoc;
+        this.versionDoc=versionDoc;
+        this.comentarioDoc=comentarioDoc;
+        this.urlDoc=urlDoc;
+    }
 
     public Entregable(String nombre_documento,
                       String version_documento, String dateCreated, String url_documento){
@@ -77,5 +95,53 @@ public class Entregable {
 
     public void setComentario_documento(String comentario_documento) {
         this.comentario_documento = comentario_documento;
+    }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
+    public int getCategoriaDoc() {
+        return categoriaDoc;
+    }
+
+    public void setCategoriaDoc(int categoriaDoc) {
+        this.categoriaDoc = categoriaDoc;
+    }
+
+    public String getNombreDoc() {
+        return nombreDoc;
+    }
+
+    public void setNombreDoc(String nombreDoc) {
+        this.nombreDoc = nombreDoc;
+    }
+
+    public String getVersionDoc() {
+        return versionDoc;
+    }
+
+    public void setVersionDoc(String versionDoc) {
+        this.versionDoc = versionDoc;
+    }
+
+    public String getComentarioDoc() {
+        return comentarioDoc;
+    }
+
+    public void setComentarioDoc(String comentarioDoc) {
+        this.comentarioDoc = comentarioDoc;
+    }
+
+    public String getUrlDoc() {
+        return urlDoc;
+    }
+
+    public void setUrlDoc(String urlDoc) {
+        this.urlDoc = urlDoc;
     }
 }

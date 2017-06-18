@@ -31,14 +31,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
+import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.*;
+import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistrarEntregable extends AppCompatActivity implements  Validator.ValidationListener{
     @NotEmpty(message = "No deje vacío este campo.")
@@ -55,10 +64,11 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     ImageView image;
     String content_type;
     File f;
-
+    APIService service;
     ProgressDialog progress;
-
+    String uri;
     String file_path;
+    int id;
     private Validator validator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,15 +150,16 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                     f = new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
                      content_type = getMimeType(f.getPath());
                      file_path = f.getAbsolutePath();
-            setEditText(file_path.substring(file_path.lastIndexOf("/")+1));
+            setEditText(MainActivity.idEmpresaMain+file_path.substring(file_path.lastIndexOf("/")+1));
+
         }
     }
 
     private void setEditText(String substring) {
-        url.setText("sesiones/archivos/"+substring);
+        url.setText("servicios/archivos/"+substring);
+        uri="http://proyectos2017.esy.es/HOME-CONTENT/servicios/archivos/"+MainActivity.idEmpresaMain+substring;
         url.setEnabled(false);
     }
-
     private String getMimeType(String path) {
 
         String extension = MimeTypeMap.getFileExtensionFromUrl(path);
@@ -159,9 +170,8 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     @Override
     public void onValidationSucceeded() {
         String cad = url.getText().toString();
-        int result= cad.indexOf("sesiones/archivos/");
+        int result= cad.indexOf("servicios/archivos/");
         String tipo = sp.getSelectedItem().toString();
-        int id = 0;
         boolean t= false;
         if(tipo=="Seleccione el tipo de entregable:"){t=false;
         }else{
@@ -211,7 +221,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         protected void onPreExecute() {
             super.onPreExecute();
             progress = new ProgressDialog(RegistrarEntregable.this);
-            progress.setTitle("Subiendo");
+            progress.setTitle("Registrando");
             progress.setMessage("Espere ...");
             progress.show();
             progress.setCanceledOnTouchOutside(false);
@@ -226,11 +236,10 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
             RequestBody request_body = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("type", content_type)
-                    .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
+                    .addFormDataPart("uploaded_file",MainActivity.idEmpresaMain+file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
                     .build();
-
             Request request = new Request.Builder()
-                    .url("http://sw14200042.esy.es/sesiones/subidaAndroid.php")
+                    .url("http://proyectos2017.esy.es/HOME-CONTENT/servicios/subidaAndroid.php")
                     .post(request_body)
                     .build();
 
@@ -260,14 +269,39 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            progress.dismiss();
             if(result==true){
-                Toast.makeText(getApplicationContext(), "Se subio con exito el documento.", Toast.LENGTH_SHORT).show();
-                //registrarEntregable
-                //AsyncTask
-                //limpiar editext
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://proyectos2017.esy.es/HOME-CONTENT/servicios/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                service = retrofit.create(APIService.class);
+                Entregable entregable = new Entregable(id, DetalleProyecto.idEmpresa,nombre.getText().toString(),version.getText().toString()
+                ,descripcion.getText().toString(),uri);
+
+                Call<ResponseEntregable> entregableCall = service.registerEntregable(entregable);
+                entregableCall.enqueue(new Callback<ResponseEntregable>() {
+                    @Override
+                    public void onResponse(Call<ResponseEntregable> call, retrofit2.Response<ResponseEntregable> response) {
+                        ResponseEntregable resEntregable = response.body();
+                        if(resEntregable.getEstado()==1){
+                            progress.dismiss();
+                            Toast.makeText(getApplicationContext(), "Entregable registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                        }else{
+                            progress.dismiss();
+                            Toast.makeText(getApplicationContext(), "Anda algo mal \n Vuelva a intentarlo", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseEntregable> call, Throwable t) {
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(), "Problemas con el servidor", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
             else {
+                progress.dismiss();
                 Toast.makeText(getApplicationContext(), "Error al subir el documento.", Toast.LENGTH_SHORT).show();
             }
         }

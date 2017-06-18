@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,9 +17,8 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
-import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
+import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
-import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
@@ -93,8 +91,8 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
         progress.setMessage("Espere ...");
         progress.show();
         progress.setCanceledOnTouchOutside(false);
-        Usuario usuario = new Usuario(u, p);
-        Call<ResponseLogin> usuarioCall = service.iniciosesion(usuario);
+        Cuenta cuenta = new Cuenta(u, p);
+        Call<ResponseLogin> usuarioCall = service.iniciosesion(cuenta);
 
         usuarioCall.enqueue(new Callback<ResponseLogin>() {
             @Override
@@ -114,7 +112,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                 } else {
                     if(responseLogin.getEstado() == 2) {
                         progress.dismiss();
-                        Toast.makeText(getApplicationContext(),"Usuario y/o Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Cuenta y/o Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
 
                     }else{
                         progress.dismiss();

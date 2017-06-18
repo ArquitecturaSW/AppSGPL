@@ -1,12 +1,14 @@
 package arquitectura.proyecto.android.appsgpl.Interfaces;
 
+import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
-import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
+import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -20,10 +22,10 @@ import retrofit2.http.Query;
 public interface APIService {
 
     @POST("login.php")
-    Call<ResponseLogin> iniciosesion(@Body Usuario usuario);
+    Call<ResponseLogin> iniciosesion(@Body Cuenta cuenta);
 
     @POST("registrarEmpresa.php")
-    Call<PostResponse> registerEmpresa(@Body Usuario usuario);
+    Call<PostResponse> registerEmpresa(@Body Cuenta cuenta);
 
     @GET("mostrarProyecto.php")
     Call<ResponseProyecto> getProyectos(@Query("id_empresa") String id);
@@ -33,5 +35,8 @@ public interface APIService {
 
     @POST("registrarProyecto.php")
     Call<ResponseRegistrarProyecto> registerProyecto(@Body Proyecto proyecto);
+
+    @POST("registrarDocumento.php")
+    Call<ResponseEntregable> registerEntregable(@Body Entregable entregable);
 
 }

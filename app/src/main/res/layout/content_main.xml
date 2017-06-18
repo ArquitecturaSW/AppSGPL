@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/empty"
-        android:text="No hay proyectos para mostrar\n Registre un proyecto."
+        android:text="No hay proyectos para mostrar."
         android:gravity="center"
         />
     <ProgressBar
@@ -30,7 +30,7 @@
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:listitem="@layout/cardview_proyectos"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 

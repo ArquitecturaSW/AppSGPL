@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Jair Barzola on 01-May-17.
  */
 
-public class Usuario {
+public class Cuenta {
 
     private String nombre;
     private int tipo_empresa;
@@ -16,7 +16,7 @@ public class Usuario {
     private String usuario;
     private String password;
 
-    public Usuario(int tipo_empresa,String nombre,String correo,String direccion,String ruc,String usuario,String password){
+    public Cuenta(int tipo_empresa, String nombre, String correo, String direccion, String ruc, String usuario, String password){
         this.nombre=nombre;
         this.tipo_empresa=tipo_empresa;
         this.correo=correo;
@@ -26,12 +26,7 @@ public class Usuario {
         this.password=password;
     }
 
-    public Usuario(String nombre,String usuario,String password){
-        this.nombre=nombre;
-        this.usuario=usuario;
-        this.password=password;
-    }
-    public Usuario(String usuario,String password){
+    public Cuenta(String usuario, String password){
         this.usuario=usuario;
         this.password=password;
     }

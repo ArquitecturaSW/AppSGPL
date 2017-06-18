@@ -45,7 +45,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
     @Length(min=4,message = "Mínimo 4 caracteres")
     TextInputEditText nombre;
     @NotEmpty(message = "No deje vacío este campo.")
-    @Length(min=4,message = "Mínimo 4 caracteres")
+    @Length(min=4,max =5 ,message = "Mínimo 4 caracteres")
     TextInputEditText code;
     @NotEmpty(message = "Debe elegir un fecha i.")
     TextInputEditText dateStart;
@@ -180,8 +180,16 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                                 code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
                                 ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
                     } else {
-                        dateStart.setEnabled(true);
-                        dateEnd.setEnabled(true);
+                        if(mesf==mesi) {
+                            Toast.makeText(this, "Los meses son iguales.", Toast.LENGTH_LONG).show();
+                            dateStart.setEnabled(true);
+                            dateEnd.setEnabled(true);
+                        }else{
+                            Toast.makeText(this, "Fecha de inicio y final son incorrectos", Toast.LENGTH_LONG).show();
+                            dateStart.setEnabled(true);
+                            dateEnd.setEnabled(true);
+                        }
+
                     }
                 } else {
                     Toast.makeText(this, "Seleccione el año correctamente.", Toast.LENGTH_LONG).show();

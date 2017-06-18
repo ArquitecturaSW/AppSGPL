@@ -32,6 +32,7 @@ import arquitectura.proyecto.android.appsgpl.Views.TwoFragment;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
 import static android.R.attr.button;
+import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
 
@@ -49,6 +50,7 @@ public class DetalleProyecto extends AppCompatActivity {
     TextView descripcion;
     TextView tipoProyecto;
     Toolbar toolbar;
+    public static  int idEmpresa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,7 @@ public class DetalleProyecto extends AppCompatActivity {
 
         proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
         setTitle(proyecto.getNombreProyecto());
-
+        idEmpresa=proyecto.getIdProyecto();
 
 
         setContentView(R.layout.activity_detalle_proyecto);

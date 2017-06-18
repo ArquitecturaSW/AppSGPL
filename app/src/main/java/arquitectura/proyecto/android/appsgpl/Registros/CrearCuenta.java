@@ -1,7 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Registros;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -23,16 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
+import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
-import arquitectura.proyecto.android.appsgpl.POJOS.Usuario;
 import arquitectura.proyecto.android.appsgpl.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static arquitectura.proyecto.android.appsgpl.R.id.d;
 
 public class CrearCuenta extends AppCompatActivity implements  Validator.ValidationListener {
 
@@ -141,9 +137,9 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
         progress.setMessage("Espere ...");
         progress.show();
         progress.setCanceledOnTouchOutside(false);
-        Usuario usuario = new Usuario(id,s,s1,s2,s3,s4,s5);
+        Cuenta cuenta = new Cuenta(id,s,s1,s2,s3,s4,s5);
         registrar_usuario.setEnabled(false);
-        Call<PostResponse> postResponse = service.registerEmpresa(usuario);
+        Call<PostResponse> postResponse = service.registerEmpresa(cuenta);
         postResponse.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
@@ -155,12 +151,12 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
                     registrar_usuario.setEnabled(true);
                 }else{
                     if(result.getEstado()==3){
-                    Toast.makeText(getApplicationContext(),"El nombre de usuario ya existe.",Toast.LENGTH_SHORT).show();
-                    usuario_empresa.setError("Cambie el nombre de usuario.");progress.dismiss();
+                    Toast.makeText(getApplicationContext(),"El nombre de cuenta ya existe.",Toast.LENGTH_SHORT).show();
+                    usuario_empresa.setError("Cuenta existente");progress.dismiss();
                     registrar_usuario.setEnabled(true);
                 }else{
                     Toast.makeText(getApplicationContext(),"No se pudo registrar.",Toast.LENGTH_SHORT).show();
-                    usuario_empresa.setError("Eliga otro usuario.");
+                    usuario_empresa.setError("Eliga otro cuenta.");
                         progress.dismiss();
                     registrar_usuario.setEnabled(true);
                 }}
@@ -172,14 +168,14 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
                 registrar_usuario.setEnabled(true);
             }
         });
-        /*Call<Usuario> usuarioCall = service.insertarEmpresa(usuario);
-        usuarioCall.enqueue(new Callback<Usuario>() {
+        /*Call<Cuenta> usuarioCall = service.insertarEmpresa(cuenta);
+        usuarioCall.enqueue(new Callback<Cuenta>() {
             @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+            public void onResponse(Call<Cuenta> call, Response<Cuenta> response) {
 
             }
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<Cuenta> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"No se logro registrar.Intente nuevamente. "+t.getMessage(),Toast.LENGTH_SHORT).show();
                 registrar_usuario.setEnabled(true);
             }
