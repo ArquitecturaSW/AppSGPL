@@ -203,6 +203,21 @@ public class DetalleProyecto extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
+
+            /*switch (position) {
+                case 0:
+                    OneFragment fr1 = new OneFragment();
+                    return fr1;
+                case 1:
+                    TwoFragment fr2 = new TwoFragment();
+                    return fr2;
+                case 2:
+                    ThreeFragment fr3 = new ThreeFragment();
+                    return fr3;
+
+                default:
+                    return null;
+            }*/
         }
 
         @Override

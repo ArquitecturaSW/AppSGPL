@@ -1,6 +1,7 @@
 package arquitectura.proyecto.android.appsgpl.Registros;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,7 +38,6 @@ import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
-import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -215,6 +215,8 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         }
     }
 
+
+
     private class UploadFile extends AsyncTask<Void,Boolean,Boolean>{
 
 
@@ -286,8 +288,10 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                         ResponseEntregable resEntregable = response.body();
                         if(resEntregable.getEstado()==1){
                             progress.dismiss();
-                            limpiar();
-                            Toast.makeText(getApplicationContext(), "EntregableP registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                            //limpiar();
+                            setResult(Activity.RESULT_OK);
+                            finish();
+
                         }else{
                             progress.dismiss();
                             Toast.makeText(getApplicationContext(), "Anda algo mal \n Vuelva a intentarlo", Toast.LENGTH_SHORT).show();

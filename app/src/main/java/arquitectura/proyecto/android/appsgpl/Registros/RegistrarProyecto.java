@@ -1,5 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Registros;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.support.design.widget.TextInputEditText;
@@ -222,8 +223,9 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                 ResponseRegistrarProyecto responseRP= response.body();
                 if(responseRP.getEstado()==1){
                     progress.dismiss();
-                    limpiar();
-                    Toast.makeText(getApplicationContext(),"Proyecto registrado correctamente",Toast.LENGTH_SHORT).show();
+                    //limpiar();
+                    setResult(Activity.RESULT_OK);
+                    finish();
                 }else{
                     progress.dismiss();
                     Toast.makeText(getApplicationContext(),"No se pudo registrar",Toast.LENGTH_SHORT).show();

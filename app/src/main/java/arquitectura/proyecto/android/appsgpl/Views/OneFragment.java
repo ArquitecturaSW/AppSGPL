@@ -1,5 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -59,7 +61,8 @@ public class OneFragment extends Fragment implements OneFragmentView {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RegistrarEntregable.class);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
+
             }
         });
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewOne);
@@ -90,5 +93,17 @@ public class OneFragment extends Fragment implements OneFragmentView {
     @Override
     public void hideProgress() {
         progressBarO.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1000){
+            if(resultCode== Activity.RESULT_OK){
+                presenter.loadListDocumento();
+                Toast.makeText(getContext(), "Entregable registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

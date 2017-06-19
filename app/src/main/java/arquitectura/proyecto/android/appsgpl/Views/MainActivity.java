@@ -1,5 +1,6 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +44,7 @@ import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.fab;
 import static arquitectura.proyecto.android.appsgpl.R.id.user;
 import static arquitectura.proyecto.android.appsgpl.R.id.usuario_empresa;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,MainActivityView {
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RegistrarProyecto.class);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
             }
         });
 
@@ -123,17 +125,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-    public static boolean isConnectedWifi(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
-    }
 
-    public static boolean isConnectedMobile(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -213,6 +205,17 @@ public class MainActivity extends AppCompatActivity
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1000){
+            if(resultCode== Activity.RESULT_OK){
+                presenter.loadListProyecto();
+                Toast.makeText(this, "Proyecto registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }
