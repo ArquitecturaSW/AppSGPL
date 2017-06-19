@@ -1,13 +1,10 @@
 package arquitectura.proyecto.android.appsgpl.Interactors;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.Activities.Login;
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityPresenter;
@@ -19,8 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.R.attr.id;
 
 /**
  * Created by Jair Barzola on 21-Apr-17.
@@ -48,7 +43,6 @@ public class MainActivityInteractorImpl implements MainActivityInteractor {
             @Override
             public void onResponse(Call<ResponseProyecto> call, Response<ResponseProyecto> response) {
                 ResponseProyecto result = response.body();
-
                 if(result.getEstado()==1){
                     List<Proyecto> proyectoList = new ArrayList<>();
                     proyectoList = result.getProyectoList();

@@ -1,11 +1,12 @@
 package arquitectura.proyecto.android.appsgpl.Interfaces;
 
-import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseMostrarEntregable;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
@@ -37,6 +38,9 @@ public interface APIService {
     Call<ResponseRegistrarProyecto> registerProyecto(@Body Proyecto proyecto);
 
     @POST("registrarDocumento.php")
-    Call<ResponseEntregable> registerEntregable(@Body Entregable entregable);
+    Call<ResponseEntregable> registerEntregable(@Body EntregableP entregableP);
+
+    @GET("mostrarDoc.php")
+    Call<ResponseMostrarEntregable> getEntregables(@Query("id_proyecto") int id);
 
 }

@@ -4,9 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
+import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.OneFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseMostrarEntregable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -20,15 +28,34 @@ public class OneFragmentInteractorImpl implements OneFragmentInteractor {
     }
     @Override
     public void initRecycler() {
-        List<Entregable> entregableList = new ArrayList<>();
+        presenter.showProgress();
+        //Conexion con el webservice
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://proyectos2017.esy.es/HOME-CONTENT/servicios/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        APIService service = retrofit.create(APIService.class);
+        Call<ResponseMostrarEntregable> callEntregable = service.getEntregables(DetalleProyecto.idProyecto);
+        callEntregable.enqueue(new Callback<ResponseMostrarEntregable>() {
+            @Override
+            public void onResponse(Call<ResponseMostrarEntregable> call, Response<ResponseMostrarEntregable> response) {
+                ResponseMostrarEntregable responseMostrar = response.body();
+                if(responseMostrar.getEstado()==1){
+                    List<Entregable> entregableList = new ArrayList<>();
+                    entregableList = responseMostrar.getEntregableList();
+                    presenter.hideProgress();
+                    presenter.initRecycler(entregableList);
+                }else{
+                    presenter.hideProgress();
+                    presenter.showEmpty();
+                }
+            }
 
-        entregableList.add(new Entregable("Presentacion de equipo","v 3.0","12/05/17","url"));
-        entregableList.add(new Entregable("Introduccion","v 3.0","12/02/17","url"));
-        entregableList.add(new Entregable("Presupuesto del proyecto","v 3.0","12/09/17","url"));
-        entregableList.add(new Entregable("Equipo del proyecto","v 3.5","12/09/17","url"));
-        entregableList.add(new Entregable("Presentacion de equipo","v 2","12/07/17","url"));
-        entregableList.add(new Entregable("Presentacion de equipo","v 1.6","12/03/17","url"));
-        entregableList.add(new Entregable("Presentacion de equipo","v 5","10/05/17","url"));
-        presenter.initRecycler(entregableList);
+            @Override
+            public void onFailure(Call<ResponseMostrarEntregable> call, Throwable t) {
+                presenter.hideProgress();
+                presenter.showEmpty();
+            }
+        });
     }
 }

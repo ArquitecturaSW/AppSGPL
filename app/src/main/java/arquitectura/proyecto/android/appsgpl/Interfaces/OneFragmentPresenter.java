@@ -11,4 +11,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 public interface OneFragmentPresenter {
     void initRecycler(List<Entregable> entregableList);
     void loadListDocumento();
+    void showEmpty();
+    void hideProgress();
+    void showProgress();
 }

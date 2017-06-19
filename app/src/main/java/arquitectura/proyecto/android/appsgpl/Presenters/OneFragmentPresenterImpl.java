@@ -30,4 +30,19 @@ public class OneFragmentPresenterImpl implements OneFragmentPresenter {
     public void loadListDocumento() {
         interactor.initRecycler();
     }
+
+    @Override
+    public void showEmpty() {
+        view.showEmpty();
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
+    }
+
+    @Override
+    public void showProgress() {
+        view.showProgress();
+    }
 }

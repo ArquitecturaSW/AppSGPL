@@ -1,32 +1,41 @@
 package arquitectura.proyecto.android.appsgpl.POJOS;
 
 /**
- * Created by Jair Barzola on 18-Jun-17.
+ * Created by Jair Barzola on 21-Apr-17.
  */
 
-public class Entregable {
-    private String idDocumento;
-    private String idCategoria;
+public class EntregableP {
+
+    private int idProyecto;
+    private int categoriaDoc;
     private String nombreDoc;
     private String versionDoc;
-    private String dateCreated;
     private String comentarioDoc;
     private String urlDoc;
 
-    public String getIdDocumento() {
-        return idDocumento;
+    public EntregableP(int categoriaDoc, int idProyecto, String nombreDoc, String versionDoc, String comentarioDoc, String urlDoc){
+        this.categoriaDoc=categoriaDoc;
+        this.idProyecto=idProyecto;
+        this.nombreDoc=nombreDoc;
+        this.versionDoc=versionDoc;
+        this.comentarioDoc=comentarioDoc;
+        this.urlDoc=urlDoc;
     }
 
-    public void setIdDocumento(String idDocumento) {
-        this.idDocumento = idDocumento;
+    public int getIdProyecto() {
+        return idProyecto;
     }
 
-    public String getIdCategoria() {
-        return idCategoria;
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
-    public void setIdCategoria(String idCategoria) {
-        this.idCategoria = idCategoria;
+    public int getCategoriaDoc() {
+        return categoriaDoc;
+    }
+
+    public void setCategoriaDoc(int categoriaDoc) {
+        this.categoriaDoc = categoriaDoc;
     }
 
     public String getNombreDoc() {
@@ -43,14 +52,6 @@ public class Entregable {
 
     public void setVersionDoc(String versionDoc) {
         this.versionDoc = versionDoc;
-    }
-
-    public String getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
     public String getComentarioDoc() {

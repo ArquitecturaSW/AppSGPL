@@ -49,8 +49,7 @@ public class DetalleProyecto extends AppCompatActivity {
     TextView monto;
     TextView descripcion;
     TextView tipoProyecto;
-    Toolbar toolbar;
-    public static  int idEmpresa;
+    public static  int idProyecto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,7 @@ public class DetalleProyecto extends AppCompatActivity {
 
         proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
         setTitle(proyecto.getNombreProyecto());
-        idEmpresa=proyecto.getIdProyecto();
+        idProyecto=proyecto.getIdProyecto();
 
 
         setContentView(R.layout.activity_detalle_proyecto);

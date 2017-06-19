@@ -33,11 +33,11 @@ import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
-import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.R;
-import arquitectura.proyecto.android.appsgpl.Registros.*;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
+import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -69,6 +69,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     String uri;
     String file_path;
     int id;
+    ArrayAdapter<String> dataAdapter;
     private Validator validator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         list.add("S.A.C");
         list.add("S.R.L");
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
@@ -157,7 +158,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
 
     private void setEditText(String substring) {
         url.setText("servicios/archivos/"+substring);
-        uri="http://proyectos2017.esy.es/HOME-CONTENT/servicios/archivos/"+MainActivity.idEmpresaMain+substring;
+        uri="http://proyectos2017.esy.es/HOME-CONTENT/servicios/archivos/"+DetalleProyecto.idProyecto+substring;
         url.setEnabled(false);
     }
     private String getMimeType(String path) {
@@ -236,7 +237,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
             RequestBody request_body = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("type", content_type)
-                    .addFormDataPart("uploaded_file",MainActivity.idEmpresaMain+file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
+                    .addFormDataPart("uploaded_file",DetalleProyecto.idProyecto+file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
                     .build();
             Request request = new Request.Builder()
                     .url("http://proyectos2017.esy.es/HOME-CONTENT/servicios/subidaAndroid.php")
@@ -275,17 +276,18 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 service = retrofit.create(APIService.class);
-                Entregable entregable = new Entregable(id, DetalleProyecto.idEmpresa,nombre.getText().toString(),version.getText().toString()
+                EntregableP entregableP = new EntregableP(id, DetalleProyecto.idProyecto,nombre.getText().toString(),version.getText().toString()
                 ,descripcion.getText().toString(),uri);
 
-                Call<ResponseEntregable> entregableCall = service.registerEntregable(entregable);
+                Call<ResponseEntregable> entregableCall = service.registerEntregable(entregableP);
                 entregableCall.enqueue(new Callback<ResponseEntregable>() {
                     @Override
                     public void onResponse(Call<ResponseEntregable> call, retrofit2.Response<ResponseEntregable> response) {
                         ResponseEntregable resEntregable = response.body();
                         if(resEntregable.getEstado()==1){
                             progress.dismiss();
-                            Toast.makeText(getApplicationContext(), "Entregable registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                            limpiar();
+                            Toast.makeText(getApplicationContext(), "EntregableP registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
                         }else{
                             progress.dismiss();
                             Toast.makeText(getApplicationContext(), "Anda algo mal \n Vuelva a intentarlo", Toast.LENGTH_SHORT).show();
@@ -306,5 +308,13 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
             }
         }
 
+    }
+
+    private void limpiar() {
+        nombre.setText("");
+        version.setText("");
+        descripcion.setText("");
+        url.setText("");
+        sp.setAdapter(dataAdapter);
     }
 }

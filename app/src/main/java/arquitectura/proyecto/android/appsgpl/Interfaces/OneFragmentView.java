@@ -10,4 +10,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 
 public interface OneFragmentView {
     void initRecycler(List<Entregable> entregableList);
+    void showEmpty();
+    void showProgress();
+    void hideProgress();
 }

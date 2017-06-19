@@ -45,8 +45,8 @@ public class RecyclerAdapterEntregables extends RecyclerView.Adapter<RecyclerAda
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.nombre_documento.setText(entregableList.get(position).getNombre_documento());
-        holder.version_documento.setText(entregableList.get(position).getVersion_documento());
+        holder.nombre_documento.setText(entregableList.get(position).getNombreDoc());
+        holder.version_documento.setText(entregableList.get(position).getVersionDoc());
         holder.date_documento.setText(entregableList.get(position).getDateCreated());
         holder.download.setOnClickListener(new View.OnClickListener() {
             @Override

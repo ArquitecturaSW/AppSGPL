@@ -62,7 +62,8 @@
         </activity>
         <activity
             android:name=".Registros.RegistrarEntregable"
-            android:label="Subir Entregable"></activity>
+            android:label="Subir Entregable">
+        </activity>
         <activity android:name=".Registros.RegistrarProyecto"
             android:label="Registrar Proyecto"
             android:parentActivityName=".Views.MainActivity">

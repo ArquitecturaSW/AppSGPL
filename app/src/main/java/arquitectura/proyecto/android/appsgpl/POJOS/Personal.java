@@ -10,15 +10,12 @@ public class Personal {
     private String nombre;
     private String cargo;
 
-
     public Personal (String codigo,String nombre,String cargo){
 
         this.codigo=codigo;
         this.nombre=nombre;
         this.cargo=cargo;
     }
-
-
     public String getCodigo() {
         return codigo;
     }
