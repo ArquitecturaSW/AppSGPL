@@ -23,4 +23,5 @@ public class PostResponse {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+
 }

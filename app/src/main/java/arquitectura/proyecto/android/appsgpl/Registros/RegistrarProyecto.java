@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
+import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
@@ -43,7 +46,6 @@ import static arquitectura.proyecto.android.appsgpl.R.id.descripcion_proyecto;
 
 public class RegistrarProyecto extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty(message = "No deje vacío este campo.")
-    @Length(min=4,message = "Mínimo 4 caracteres")
     TextInputEditText nombre;
     @NotEmpty(message = "No deje vacío este campo.")
     @Length(min=4,max =5 ,message = "Mínimo 4 caracteres")
@@ -216,6 +218,20 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(APIService.class);
+        Historial historial = new Historial(DetalleProyecto.idProyecto,"El proyecto ha sido creado");
+        Call<PostResponse> responseCall = service.registerHistorial(historial);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
+                Log.i("HISTORIAL ","PROYECTO OK");
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Log.i("HISTORIAL ","PROYECTO FAIL");
+            }
+        });
+
         Call<ResponseRegistrarProyecto> callRegistrar = service.registerProyecto(proyecto);
         callRegistrar.enqueue(new Callback<ResponseRegistrarProyecto>() {
             @Override

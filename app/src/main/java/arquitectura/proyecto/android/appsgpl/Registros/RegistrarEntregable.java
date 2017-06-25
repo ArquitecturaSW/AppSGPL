@@ -35,6 +35,8 @@ import java.util.List;
 import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
+import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
+import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
@@ -90,11 +92,9 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                 /* Llenado del spinner*/
         List<String> list = new ArrayList<String>();
         list.add("Seleccione el tipo de entregable:");
-        list.add("E.I.R.L");
-        list.add("S.A");
-        list.add("S.A.A");
-        list.add("S.A.C");
-        list.add("S.R.L");
+        list.add("DOCUMENTOS");
+        list.add("PLANOS");
+        list.add("PDF");
 
         dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
@@ -176,8 +176,8 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         boolean t= false;
         if(tipo=="Seleccione el tipo de entregable:"){t=false;
         }else{
-            if(tipo=="E.I.R.L"){id=1;t=true;}else{if(tipo=="S.A"){id=2;t=true;}else {
-                if(tipo=="S.A.A"){id=3;t=true;}else {if(tipo=="S.A.C"){id=4;t=true;}else{id=5;t=true;}}
+            if(tipo=="DOCUMENTOS"){id=1;t=true;}else{if(tipo=="PLANOS"){id=2;t=true;}else {
+                if(tipo=="PDF"){id=3;t=true;}else {if(tipo=="S.A.C"){id=4;t=true;}else{id=5;t=true;}}
             }}}
 
         if(t==false) {
@@ -278,6 +278,21 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 service = retrofit.create(APIService.class);
+                Historial historial = new Historial(DetalleProyecto.idProyecto,"Nuevo Entregable");
+                Call<PostResponse> responseCall = service.registerHistorial(historial);
+                responseCall.enqueue(new Callback<PostResponse>() {
+                    @Override
+                    public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
+                        Log.i("HISTORIAL ","ENTREGABlE OK");
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostResponse> call, Throwable t) {
+                        Log.i("HISTORIAL ","ENTREGABlE FAIL");
+                    }
+                });
+
+
                 EntregableP entregableP = new EntregableP(id, DetalleProyecto.idProyecto,nombre.getText().toString(),version.getText().toString()
                 ,descripcion.getText().toString(),uri);
 

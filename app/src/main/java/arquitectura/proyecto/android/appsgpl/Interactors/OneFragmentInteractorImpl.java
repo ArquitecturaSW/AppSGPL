@@ -44,7 +44,9 @@ public class OneFragmentInteractorImpl implements OneFragmentInteractor {
                     List<Entregable> entregableList = new ArrayList<>();
                     entregableList = responseMostrar.getEntregableList();
                     presenter.hideProgress();
+                    presenter.hideEmpty();
                     presenter.initRecycler(entregableList);
+
                 }else{
                     presenter.hideProgress();
                     presenter.showEmpty();

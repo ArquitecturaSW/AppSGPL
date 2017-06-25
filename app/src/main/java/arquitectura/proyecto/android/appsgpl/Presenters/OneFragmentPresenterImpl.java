@@ -37,6 +37,11 @@ public class OneFragmentPresenterImpl implements OneFragmentPresenter {
     }
 
     @Override
+    public void hideEmpty() {
+        view.hideEmpty();
+    }
+
+    @Override
     public void hideProgress() {
         view.hideProgress();
     }

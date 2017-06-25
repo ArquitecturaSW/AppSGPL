@@ -30,4 +30,24 @@ public class PersonalNDPresenterImpl implements PersonalNDPresenter {
     public void loadListPersonal() {
         interactor.initRecycler();
     }
+
+    @Override
+    public void showEmpty() {
+        view.showEmpty();
+    }
+
+    @Override
+    public void hideEmpty() {
+        view.hideEmpty();
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
+    }
+
+    @Override
+    public void showProgress() {
+        view.showProgress();
+    }
 }

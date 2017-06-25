@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Interfaces.FragmentToFragment;
 import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarEntregable;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterEntregables;
@@ -27,6 +28,7 @@ import arquitectura.proyecto.android.appsgpl.Presenters.OneFragmentPresenterImpl
 import arquitectura.proyecto.android.appsgpl.R;
 
 public class OneFragment extends Fragment implements OneFragmentView {
+    FragmentToFragment mCallback;
     RecyclerView recyclerView;
     RecyclerAdapterEntregables adapter;
     TextView emptyO;
@@ -86,6 +88,12 @@ public class OneFragment extends Fragment implements OneFragmentView {
     }
 
     @Override
+    public void hideEmpty() {
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyO.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showProgress() {
         progressBarO.setVisibility(View.VISIBLE);
     }
@@ -94,6 +102,22 @@ public class OneFragment extends Fragment implements OneFragmentView {
     public void hideProgress() {
         progressBarO.setVisibility(View.GONE);
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (FragmentToFragment) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement IFragmentToActivity");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mCallback = null;
+        super.onDetach();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -101,9 +125,12 @@ public class OneFragment extends Fragment implements OneFragmentView {
 
         if(requestCode==1000){
             if(resultCode== Activity.RESULT_OK){
-                presenter.loadListDocumento();
                 Toast.makeText(getContext(), "Entregable registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                presenter.loadListDocumento();
+                mCallback.communicateToFragment1();
             }
         }
     }
+
+
 }

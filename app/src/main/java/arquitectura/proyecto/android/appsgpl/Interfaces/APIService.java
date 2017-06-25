@@ -1,17 +1,25 @@
 package arquitectura.proyecto.android.appsgpl.Interfaces;
 
 import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
+import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
+import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
+import arquitectura.proyecto.android.appsgpl.POJOS.RegisterEquipo;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseHistorial;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseMostrarEntregable;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseMostrarEquipo;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonal;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonalFree;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -42,5 +50,27 @@ public interface APIService {
 
     @GET("mostrarDoc.php")
     Call<ResponseMostrarEntregable> getEntregables(@Query("id_proyecto") int id);
+
+    @POST("registrarPersonal.php")
+    Call<PostResponse> registerPersonal(@Body Personal personal);
+
+    @GET("mostrarPersonal.php")
+    Call<ResponsePersonal> getPersonal(@Query("id_empresa") String id);
+
+    @POST("registrarHistorial.php")
+    Call<PostResponse> registerHistorial(@Body Historial historial);
+
+    @GET("mostrarHistorial.php")
+    Call<ResponseHistorial> getHistorial(@Query("id_proyecto") int id);
+
+    @GET("mostrarPerLibres.php")
+    Call<ResponsePersonalFree> getPersonalFree(@Query("id_empresa") String id);
+
+    @POST("registrarEquipoP.php")
+    Call<PostResponse> registerEquipo(@Body RegisterEquipo equipo);
+
+    @GET("mostrarEquipoP.php")
+    Call<ResponseMostrarEquipo> getEquipo(@Query("id_proyecto") int id);
+
 
 }

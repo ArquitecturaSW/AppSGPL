@@ -48,7 +48,7 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
     TextInputEditText correo;
 
     @NotEmpty(message = "No deje vacío este campo.")
-    @Length(min=11,message = "Longitud mínima 11")
+    @Length(max=11,message = "Longitud mínima 11")
     TextInputEditText ruc;
 
     @NotEmpty(message = "No deje vacío este campo.")
@@ -138,7 +138,6 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
         progress.show();
         progress.setCanceledOnTouchOutside(false);
         Cuenta cuenta = new Cuenta(id,s,s1,s2,s3,s4,s5);
-        registrar_usuario.setEnabled(false);
         Call<PostResponse> postResponse = service.registerEmpresa(cuenta);
         postResponse.enqueue(new Callback<PostResponse>() {
             @Override
@@ -146,19 +145,16 @@ public class CrearCuenta extends AppCompatActivity implements  Validator.Validat
                 PostResponse result = response.body();
                 if(result.getEstado()==1){
                     Toast.makeText(getApplicationContext(),"Se registro exitosamente",Toast.LENGTH_SHORT).show();
-                    limpiarEditext();
                     progress.dismiss();
-                    registrar_usuario.setEnabled(true);
+                    finish();
                 }else{
                     if(result.getEstado()==3){
                     Toast.makeText(getApplicationContext(),"El nombre de cuenta ya existe.",Toast.LENGTH_SHORT).show();
                     usuario_empresa.setError("Cuenta existente");progress.dismiss();
-                    registrar_usuario.setEnabled(true);
                 }else{
                     Toast.makeText(getApplicationContext(),"No se pudo registrar.",Toast.LENGTH_SHORT).show();
                     usuario_empresa.setError("Eliga otro cuenta.");
                         progress.dismiss();
-                    registrar_usuario.setEnabled(true);
                 }}
             }
 

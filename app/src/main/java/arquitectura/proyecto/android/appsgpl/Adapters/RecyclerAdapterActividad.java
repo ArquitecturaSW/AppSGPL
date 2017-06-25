@@ -11,11 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.POJOS.Actividad;
+import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
 import arquitectura.proyecto.android.appsgpl.R;
 
-import static arquitectura.proyecto.android.appsgpl.R.id.a;
-import static arquitectura.proyecto.android.appsgpl.R.layout.cardview_proyectos;
 import static arquitectura.proyecto.android.appsgpl.R.layout.list_item_actividad;
 
 /**
@@ -24,17 +22,17 @@ import static arquitectura.proyecto.android.appsgpl.R.layout.list_item_actividad
 
 public class RecyclerAdapterActividad  extends  RecyclerView.Adapter<RecyclerAdapterActividad.ViewHolder>{
 
-    List<Actividad> actividadList = new ArrayList<>();
+    List<Historial> historialList = new ArrayList<>();
     Context context;
-     int itemLayout;
+    int itemLayout;
     int color;
 
     public RecyclerAdapterActividad(Context context, int itemLayout) {
         this.itemLayout = itemLayout;
         this.context=context;
     }
-    public void setListActividad( List<Actividad> actividadList ) {
-        this.actividadList = actividadList;
+    public void setListActividad( List<Historial> historialList ) {
+        this.historialList = historialList;
     }
 
     @Override
@@ -47,17 +45,32 @@ public class RecyclerAdapterActividad  extends  RecyclerView.Adapter<RecyclerAda
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Actividad actividad = actividadList.get(position);
-
-        holder.imageView.setImageResource(actividad.getImageResource());
-        holder.descripcion.setText(actividad.getDescripcion());
-        holder.date.setText(actividad.getDate());
+        Historial historial = historialList.get(position);
+        if(historial.getDescripcion().equals("El proyecto ha sido creado")){
+            holder.imageView.setImageResource(R.drawable.creado);
+        }else{
+            if(historial.getDescripcion().equals("Nuevo Entregable")){
+                holder.imageView.setImageResource(R.drawable.documento);
+            }else{
+                if(historial.getDescripcion().contains("Se agrego")){
+                    holder.imageView.setImageResource(R.drawable.equipo);
+                }else{
+                    if(historial.getDescripcion().equals("El proyecto ha finalizado")){
+                        holder.imageView.setImageResource(R.drawable.findefault);
+                    }else{
+                        holder.imageView.setImageResource(R.drawable.jefe);
+                    }
+                }
+            }
+        }
+        holder.descripcion.setText(historial.getDescripcion());
+        holder.date.setText(historial.getDate());
 
     }
 
     @Override
     public int getItemCount() {
-        return actividadList.size();
+        return historialList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

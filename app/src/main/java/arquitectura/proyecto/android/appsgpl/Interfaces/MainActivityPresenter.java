@@ -12,6 +12,7 @@ public interface MainActivityPresenter {
     void initRecycler(List<Proyecto> proyectoList);
     void loadListProyecto();
     void showEmpty();
+    void hideEmpty();
     void hideProgress();
     void showProgress();
 }

@@ -11,4 +11,8 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 public interface PersonalNDPresenter {
     void initRecycler(List<Personal> personalList);
     void loadListPersonal();
+    void showEmpty();
+    void hideEmpty();
+    void hideProgress();
+    void showProgress();
 }

@@ -36,6 +36,11 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     }
 
     @Override
+    public void hideEmpty() {
+        view.hideEmpty();
+    }
+
+    @Override
     public void hideProgress() {
         view.hideProgress();
     }

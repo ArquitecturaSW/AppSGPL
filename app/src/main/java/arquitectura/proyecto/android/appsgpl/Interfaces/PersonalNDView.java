@@ -10,4 +10,8 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 
 public interface PersonalNDView {
     void initRecycler(List<Personal> personalList);
+    void showEmpty();
+    void hideEmpty();
+    void showProgress();
+    void hideProgress();
 }

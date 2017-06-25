@@ -6,6 +6,7 @@ import arquitectura.proyecto.android.appsgpl.Interactors.TwoFragmentInteractorIm
 import arquitectura.proyecto.android.appsgpl.Interfaces.TwoFragmentInteractor;
 import arquitectura.proyecto.android.appsgpl.Interfaces.TwoFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.TwoFragmentView;
+import arquitectura.proyecto.android.appsgpl.POJOS.Equipo;
 import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 
 /**
@@ -21,12 +22,32 @@ public class TwoFragmentPresenterImpl implements TwoFragmentPresenter {
         interactor = new TwoFragmentInteractorImpl(this);
     }
     @Override
-    public void initRecycler(List<Personal> personalList) {
-        view.initRecycler(personalList);
+    public void initRecycler(List<Equipo> equipoList) {
+        view.initRecycler(equipoList);
     }
 
     @Override
     public void loadListPersonal() {
         interactor.initRecycler();
+    }
+
+    @Override
+    public void showEmpty() {
+        view.showEmpty();
+    }
+
+    @Override
+    public void hideEmpty() {
+        view.hideEmpty();
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
+    }
+
+    @Override
+    public void showProgress() {
+        view.showProgress();
     }
 }

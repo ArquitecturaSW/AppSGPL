@@ -4,6 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="arquitectura.proyecto.android.appsgpl.Views.OneFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/emptyThree"
+        android:text="No hay historial para mostrar."
+        android:gravity="center"
+        />
+    <ProgressBar
+        android:id="@+id/progressThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"

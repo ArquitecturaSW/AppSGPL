@@ -2,7 +2,7 @@ package arquitectura.proyecto.android.appsgpl.Interfaces;
 
 import java.util.List;
 
-import arquitectura.proyecto.android.appsgpl.POJOS.Actividad;
+import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
 
 
 /**
@@ -10,7 +10,11 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Actividad;
  */
 
 public interface ThreeFragmentPresenter {
-     void initRecycler(List<Actividad> actividadList);
+     void initRecycler(List<Historial> historialList);
      void loadListActividad();
+     void showEmpty();
+     void hideEmpty();
+     void showProgress();
+     void hideProgress();
 
 }

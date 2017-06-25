@@ -14,8 +14,6 @@
         />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_height="50dp"
         >
 
@@ -23,6 +21,7 @@
             android:id="@+id/codigo_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+         android:layout_marginLeft="16dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:text="01" />
@@ -42,22 +41,15 @@
             android:id="@+id/cargo_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Jefe de Proyecto"
+            android:text="Normal"
             android:textStyle="italic"
             android:textColor="@android:color/black"
             android:textSize="16dp"
             android:layout_centerInParent="true"
-            android:layout_marginRight="18dp"
-            android:layout_toStartOf="@+id/info_personal" />
-
-        <ImageView
-            android:id="@+id/info_personal"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerInParent="true"
+            android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/informacion" />
+             />
+
     </RelativeLayout>
 
     <View style="@style/Divider"/>

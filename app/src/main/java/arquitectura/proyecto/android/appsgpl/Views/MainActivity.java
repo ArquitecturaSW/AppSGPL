@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RegistrarProyecto.class);
-                startActivityForResult(intent,1000);
+                startActivityForResult(intent,2000);
             }
         });
 
@@ -186,14 +186,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {
-
         adapter.setListProyecto(proyectoList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void showEmpty() {
         recyclerView.setVisibility(View.GONE);
         empty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty() {
+        empty.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -210,10 +216,10 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==1000){
+        if(requestCode==2000){
             if(resultCode== Activity.RESULT_OK){
-                presenter.loadListProyecto();
                 Toast.makeText(this, "Proyecto registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                presenter.loadListProyecto();
             }
         }
     }

@@ -12,6 +12,7 @@ public interface OneFragmentPresenter {
     void initRecycler(List<Entregable> entregableList);
     void loadListDocumento();
     void showEmpty();
+    void hideEmpty();
     void hideProgress();
     void showProgress();
 }

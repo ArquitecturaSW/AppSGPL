@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Interfaces.FragmentToFragment;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import arquitectura.proyecto.android.appsgpl.R;
@@ -35,8 +37,10 @@ import static android.R.attr.button;
 import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
+import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
-public class DetalleProyecto extends AppCompatActivity {
+public class DetalleProyecto extends AppCompatActivity implements FragmentToFragment{
+    DetalleProyecto.ViewPagerAdapter adapter;
     Proyecto proyecto;
     Fragment fr3;
     Bundle args3;
@@ -82,7 +86,7 @@ public class DetalleProyecto extends AppCompatActivity {
         args3.putParcelable("pjt",proyecto);
         fr3.setArguments(args3);
 
-        DetalleProyecto.ViewPagerAdapter adapter = new DetalleProyecto.ViewPagerAdapter(getSupportFragmentManager());
+        adapter= new DetalleProyecto.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(fr3, "ACTIVIDAD");
         adapter.addFragment(new TwoFragment(), "EQUIPO");
         adapter.addFragment(new OneFragment(), "ENTREGABLES");
@@ -192,6 +196,9 @@ public class DetalleProyecto extends AppCompatActivity {
 
         return builder.create();
     }
+
+
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -203,21 +210,6 @@ public class DetalleProyecto extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
-
-            /*switch (position) {
-                case 0:
-                    OneFragment fr1 = new OneFragment();
-                    return fr1;
-                case 1:
-                    TwoFragment fr2 = new TwoFragment();
-                    return fr2;
-                case 2:
-                    ThreeFragment fr3 = new ThreeFragment();
-                    return fr3;
-
-                default:
-                    return null;
-            }*/
         }
 
         @Override
@@ -237,7 +229,15 @@ public class DetalleProyecto extends AppCompatActivity {
 
 
     }
-
+    @Override
+    public void communicateToFragment1() {
+        ThreeFragment fragment = (ThreeFragment) adapter.getItem(0);
+        if (fragment != null) {
+            fragment.refresh();
+        } else {
+            Log.i(LOG_TAG, "Fragment 1 is not initialized");
+        }
+    }
 
 
 

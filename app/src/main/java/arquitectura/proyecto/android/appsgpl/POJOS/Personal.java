@@ -1,44 +1,157 @@
 package arquitectura.proyecto.android.appsgpl.POJOS;
 
+import static arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto.idProyecto;
+
 /**
  * Created by Jair Barzola on 21-Apr-17.
  */
 
 public class Personal {
 
-    private String codigo;
-    private String nombre;
-    private String cargo;
+    private int idPersonal;
+    private int idEmpresa;
+    private int idTipo;
+    private String nombrePersonal;
+    private String apellidoPersonal;
+    private String dniPersonal;
+    private int edadPersonal;
+    private String correoPersonal;
+    private int telefonoPersonal;
+    private String direccionPersonal;
+    private String ocupacionPersonal;
+    private String usuarioPersonal;
+    private String passwordPersonal;
+    private boolean estadoPersonal;
 
-    public Personal (String codigo,String nombre,String cargo){
 
-        this.codigo=codigo;
-        this.nombre=nombre;
-        this.cargo=cargo;
-    }
-    public String getCodigo() {
-        return codigo;
-    }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public Personal (int idEmpresa,String nombrePersonal,String apellidoPersonal,String dniPersonal,
+                     int edadPersonal,String correoPersonal,int telefonoPersonal,String direccionPersonal,String ocupacionPersonal){
+        this.idEmpresa=idEmpresa;
+        this.nombrePersonal=nombrePersonal;
+        this.apellidoPersonal=apellidoPersonal;
+        this.direccionPersonal=direccionPersonal;
+        this.telefonoPersonal=telefonoPersonal;
+        this.dniPersonal=dniPersonal;
+        this.edadPersonal=edadPersonal;
+        this.correoPersonal=correoPersonal;
+        this.ocupacionPersonal=ocupacionPersonal;
     }
 
 
+    public int getIdPersonal() {
+        return idPersonal;
+    }
+
+    public void setIdPersonal(int idPersonal) {
+        this.idPersonal = idPersonal;
+    }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public int getIdTipo() {
+        return idTipo;
+    }
+
+    public void setIdTipo(int idTipo) {
+        this.idTipo = idTipo;
+    }
+
+    public String getNombrePersonal() {
+        return nombrePersonal;
+    }
+
+    public void setNombrePersonal(String nombrePersonal) {
+        this.nombrePersonal = nombrePersonal;
+    }
+
+    public String getApellidoPersonal() {
+        return apellidoPersonal;
+    }
+
+    public void setApellidoPersonal(String apellidoPersonal) {
+        this.apellidoPersonal = apellidoPersonal;
+    }
+
+    public String getDniPersonal() {
+        return dniPersonal;
+    }
+
+    public void setDniPersonal(String dniPersonal) {
+        this.dniPersonal = dniPersonal;
+    }
+
+    public int getEdadPersonal() {
+        return edadPersonal;
+    }
+
+    public void setEdadPersonal(int edadPersonal) {
+        this.edadPersonal = edadPersonal;
+    }
+
+    public String getCorreoPersonal() {
+        return correoPersonal;
+    }
+
+    public void setCorreoPersonal(String correoPersonal) {
+        this.correoPersonal = correoPersonal;
+    }
+
+    public String getDireccionPersonal() {
+        return direccionPersonal;
+    }
+
+    public void setDireccionPersonal(String direccionPersonal) {
+        this.direccionPersonal = direccionPersonal;
+    }
+
+    public String getOcupacionPersonal() {
+        return ocupacionPersonal;
+    }
+
+    public void setOcupacionPersonal(String ocupacionPersonal) {
+        this.ocupacionPersonal = ocupacionPersonal;
+    }
+
+    public String getUsuarioPersonal() {
+        return usuarioPersonal;
+    }
+
+    public void setUsuarioPersonal(String usuarioPersonal) {
+        this.usuarioPersonal = usuarioPersonal;
+    }
+
+    public String getPasswordPersonal() {
+        return passwordPersonal;
+    }
+
+    public void setPasswordPersonal(String passwordPersonal) {
+        this.passwordPersonal = passwordPersonal;
+    }
+
+    public int getTelefonoPersonal() {
+        return telefonoPersonal;
+    }
+
+    public void setTelefonoPersonal(int telefonoPersonal) {
+        this.telefonoPersonal = telefonoPersonal;
+    }
+
+    public boolean isEstadoPersonal() {
+        return estadoPersonal;
+    }
+
+    public void setEstadoPersonal(boolean estadoPersonal) {
+        this.estadoPersonal = estadoPersonal;
+    }
 }
