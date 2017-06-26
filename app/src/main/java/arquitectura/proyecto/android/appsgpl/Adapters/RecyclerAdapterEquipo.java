@@ -46,9 +46,9 @@ public class RecyclerAdapterEquipo extends RecyclerView.Adapter<RecyclerAdapterE
 
         holder.codigo_personal.setText(String.valueOf(position+1));
         holder.nombre_personal.setText(equipoList.get(position).getNombrePersonal()+" "+equipoList.get(position).getApellidoPersonal());
-        if(equipoList.get(position).getIdTipoPersonal()==1){
-            holder.cargo_personal.setText("Jefe del Proyecto");}else{
-            holder.cargo_personal.setText("Normal");
+        if(equipoList.get(position).getIdTipo()==2){
+            holder.cargo_personal.setText("Normal");}else{
+            holder.cargo_personal.setText("Jefe del Proyecto");
         }
     }
 

@@ -73,6 +73,9 @@
         <activity android:name=".Registros.RegistrarPersonal"
             android:label="Registrar Personal">
         </activity>
+        <activity android:name=".DownloadService" />
+
+        <service android:name=".DownloadService" />
     </application>
 
 </manifest>

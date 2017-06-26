@@ -1,6 +1,11 @@
 package arquitectura.proyecto.android.appsgpl.Adapters;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.DownloadService;
 import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.R;
 
@@ -43,7 +49,7 @@ public class RecyclerAdapterEntregables extends RecyclerView.Adapter<RecyclerAda
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.nombre_documento.setText(entregableList.get(position).getNombreDoc());
         holder.version_documento.setText(entregableList.get(position).getVersionDoc());
@@ -51,12 +57,12 @@ public class RecyclerAdapterEntregables extends RecyclerView.Adapter<RecyclerAda
         holder.download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Descargando archivo...",Toast.LENGTH_SHORT).show();
+                String sUri= entregableList.get(position).getUrlDoc().substring(60);
+                Intent intent = new Intent(context,DownloadService.class);
+                intent.putExtra("archivo",sUri);
+                context.startService(intent);
             }
         });
-
-
-
     }
 
     @Override
@@ -77,8 +83,9 @@ public class RecyclerAdapterEntregables extends RecyclerView.Adapter<RecyclerAda
             version_documento = (TextView) itemView.findViewById(R.id.version_documento);
             date_documento = (TextView) itemView.findViewById(R.id.date_documento);
             download = (ImageView) itemView.findViewById(R.id.download);
-
-
         }
     }
+
+
+
 }

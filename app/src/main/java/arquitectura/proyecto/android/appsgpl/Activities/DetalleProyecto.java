@@ -1,9 +1,14 @@
 package arquitectura.proyecto.android.appsgpl.Activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -41,6 +46,7 @@ import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 public class DetalleProyecto extends AppCompatActivity implements FragmentToFragment{
     DetalleProyecto.ViewPagerAdapter adapter;
+    private static final int PERMISSION_REQUEST_CODE = 1;
     Proyecto proyecto;
     Fragment fr3;
     Bundle args3;
@@ -63,7 +69,14 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
         setTitle(proyecto.getNombreProyecto());
         idProyecto=proyecto.getIdProyecto();
-
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+            }
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            }
+        }
 
         setContentView(R.layout.activity_detalle_proyecto);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
@@ -78,6 +91,23 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         toolbar.setBackgroundColor(bundle.getInt("color"));
         tabLayout.setBackgroundColor(bundle.getInt("color"));
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+            Log.i("PERMISSIONS","OK");
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+            }
+        }
+        if(requestCode == 1 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+            Log.i("PERMISSIONS","OK");
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            }
+        }
     }
     private void setupViewPager(ViewPager viewPager) {
 
@@ -237,6 +267,11 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         } else {
             Log.i(LOG_TAG, "Fragment 1 is not initialized");
         }
+    }
+    private void requestPermission(){
+
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
+
     }
 
 

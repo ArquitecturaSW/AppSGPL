@@ -1,12 +1,17 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +33,7 @@ import arquitectura.proyecto.android.appsgpl.Presenters.OneFragmentPresenterImpl
 import arquitectura.proyecto.android.appsgpl.R;
 
 public class OneFragment extends Fragment implements OneFragmentView {
+    private static final int PERMISSION_REQUEST_CODE = 1;
     FragmentToFragment mCallback;
     RecyclerView recyclerView;
     RecyclerAdapterEntregables adapter;
@@ -62,6 +68,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), RegistrarEntregable.class);
                 startActivityForResult(intent,1000);
 

@@ -71,6 +71,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
     String uri;
     String file_path;
     int id;
+
     ArrayAdapter<String> dataAdapter;
     private Validator validator;
     @Override
@@ -101,12 +102,7 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-                return;
-            }
-        }
+
         image_button();
         registar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,18 +126,6 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-            image_button();
-        }else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-            }
-        }
-    }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -151,14 +135,14 @@ public class RegistrarEntregable extends AppCompatActivity implements  Validator
                     f = new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
                      content_type = getMimeType(f.getPath());
                      file_path = f.getAbsolutePath();
-            setEditText(MainActivity.idEmpresaMain+file_path.substring(file_path.lastIndexOf("/")+1));
+            setEditText(DetalleProyecto.idProyecto+file_path.substring(file_path.lastIndexOf("/")+1));
 
         }
     }
 
     private void setEditText(String substring) {
         url.setText("servicios/archivos/"+substring);
-        uri="http://proyectos2017.esy.es/HOME-CONTENT/servicios/archivos/"+DetalleProyecto.idProyecto+substring;
+        uri="http://proyectos2017.esy.es/HOME-CONTENT/servicios/archivos/"+substring;
         url.setEnabled(false);
     }
     private String getMimeType(String path) {

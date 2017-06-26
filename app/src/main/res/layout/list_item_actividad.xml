@@ -3,49 +3,50 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_marginTop="8dp"
     android:layout_height="wrap_content">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:weightSum="6"
         android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/image_d"
-                android:layout_marginTop="16dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/creado"
-                />
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@+id/image_d"
-                android:id="@+id/descricion_actividad"
-                android:text="El proyecto ha sido creado"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:fontFamily="sans-serif"
-                />
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fecha_proyecto_d"
-                android:layout_marginRight="16dp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentRight="true"
-                android:text="12-05-17"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif"
-                />
-    </RelativeLayout>
-    <View style="@style/Divider" />
+        <ImageView
+            android:id="@+id/image_d"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/creado" />
+
+        <TextView
+            android:id="@+id/descricion_actividad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3.7"
+            android:fontFamily="sans-serif"
+            android:text="El proyecto ha sido creado"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/fecha_proyecto_d"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.3"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:fontFamily="sans-serif"
+            android:text="2017-05-17"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View style="@style/Divider"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

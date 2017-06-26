@@ -218,7 +218,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(APIService.class);
-        Historial historial = new Historial(DetalleProyecto.idProyecto,"El proyecto ha sido creado");
+       /* Historial historial = new Historial(DetalleProyecto.idProyecto,"El proyecto ha sido creado");
         Call<PostResponse> responseCall = service.registerHistorial(historial);
         responseCall.enqueue(new Callback<PostResponse>() {
             @Override
@@ -230,7 +230,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
             public void onFailure(Call<PostResponse> call, Throwable t) {
                 Log.i("HISTORIAL ","PROYECTO FAIL");
             }
-        });
+        });*/
 
         Call<ResponseRegistrarProyecto> callRegistrar = service.registerProyecto(proyecto);
         callRegistrar.enqueue(new Callback<ResponseRegistrarProyecto>() {

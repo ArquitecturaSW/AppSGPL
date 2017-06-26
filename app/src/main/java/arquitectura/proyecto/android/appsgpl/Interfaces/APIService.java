@@ -2,6 +2,7 @@ package arquitectura.proyecto.android.appsgpl.Interfaces;
 
 import arquitectura.proyecto.android.appsgpl.POJOS.EntregableP;
 import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
+import arquitectura.proyecto.android.appsgpl.POJOS.Jefe;
 import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
@@ -17,12 +18,15 @@ import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonalFree;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 /**
  * Created by Jair Barzola on 01-May-17.
@@ -71,6 +75,13 @@ public interface APIService {
 
     @GET("mostrarEquipoP.php")
     Call<ResponseMostrarEquipo> getEquipo(@Query("id_proyecto") int id);
+
+    @GET("{entregable}")
+    @Streaming
+    Call<ResponseBody> downloadFile(@Path("entregable")String entregable);
+
+    @POST("asignarJefe.php")
+    Call<PostResponse> asignarJefe(@Body Jefe jefe);
 
 
 }

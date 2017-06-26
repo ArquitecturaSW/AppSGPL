@@ -30,6 +30,8 @@ import arquitectura.proyecto.android.appsgpl.Interfaces.TwoFragmentPresenter;
 import arquitectura.proyecto.android.appsgpl.Interfaces.TwoFragmentView;
 import arquitectura.proyecto.android.appsgpl.POJOS.Equipo;
 import arquitectura.proyecto.android.appsgpl.POJOS.Historial;
+import arquitectura.proyecto.android.appsgpl.POJOS.Jefe;
+import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.POJOS.PersonalFree;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.RegisterEquipo;
@@ -46,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TwoFragment extends Fragment implements TwoFragmentView{
     private FragmentToFragment mCallback;
-    List<PersonalFree> perList = new ArrayList<>();
+    List<Equipo> equipoLista = new ArrayList<Equipo>();
     String data;
     int idPersonal;
     TextView empty;
@@ -211,7 +213,9 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                 if(postres.getEstado()==1){
                     progress.dismiss();
                     Toast.makeText(getContext(),"Registrado exitosamente",Toast.LENGTH_SHORT).show();
+                    presenter.loadListPersonal();
                     mCallback.communicateToFragment1();
+
                 }
                 else{
                     progress.dismiss();
@@ -236,7 +240,8 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
 
         @Override
         public void onItemLongPress(View childView, int position) {
-            preguntar().show();
+            String data = equipoLista.get(position).getNombrePersonal()+" "+equipoLista.get(position).getApellidoPersonal();
+            preguntar(data,equipoLista.get(position).getIdPersonal()).show();
 
         }
 
@@ -245,6 +250,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
     @Override
     public void initRecycler(List<Equipo> equipoList) {
         adapter.setListPersonal(equipoList);
+        equipoLista=equipoList;
         adapter.notifyDataSetChanged();
     }
 
@@ -270,7 +276,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         progressBar.setVisibility(View.GONE);
     }
 
-    private AlertDialog asignarJefe(){
+    private AlertDialog asignarJefe(final String data, final int idPersonal){
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -284,16 +290,16 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
 
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int wich) {
                 String user = usuario.getText().toString();
                 String pass =password.getText().toString();
 
                 if(user.equals("")|| pass.equals("")){
-                    usuario.setError("Llene este campo");
-                    password.setError("Llene este campo");
+                    dialog.dismiss();
+                    Toast.makeText(getContext(),"Llene los campos",Toast.LENGTH_SHORT).show();
                 }else{
                     dialog.dismiss();
-                    Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
+                    asigJefe(data,idPersonal,user,pass);
                 }
             }
         });
@@ -307,7 +313,55 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
 
         return builder.create();
     }
-    public AlertDialog preguntar() {
+
+    private void asigJefe(String data, final int idPersonal, String user, String pass) {
+        progress = new ProgressDialog(getContext());
+        progress.setTitle("Registrando");
+        progress.setMessage("Espere ...");
+        progress.show();
+        progress.setCanceledOnTouchOutside(false);
+
+        Historial historial = new Historial(DetalleProyecto.idProyecto,"Se asigno de jefe a "+data+" al equipo");
+        Call<PostResponse> responseCall = service.registerHistorial(historial);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
+                Log.i("HISTORIAL ","ENTREGABlE OK");
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Log.i("HISTORIAL ","ENTREGABlE FAIL");
+            }
+        });
+
+        Jefe jefe = new Jefe(idPersonal,user,pass,DetalleProyecto.idProyecto);
+        Call<PostResponse> responsecall = service.asignarJefe(jefe);
+        responsecall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                PostResponse postresponse= response.body();
+                if(postresponse.getEstado()==1){
+                    progress.dismiss();
+                    presenter.loadListPersonal();
+                    mCallback.communicateToFragment1();
+                    Toast.makeText(getContext(),"Registrado exitosamente ",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    progress.dismiss();
+                    Toast.makeText(getContext(),"No se logro registrar",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                progress.dismiss();
+                Toast.makeText(getContext(),"Problemas con el servidor",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public AlertDialog preguntar(final String data, final int idPersonal) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -317,7 +371,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                asignarJefe().show();
+                asignarJefe(data,idPersonal).show();
 
             }
         });

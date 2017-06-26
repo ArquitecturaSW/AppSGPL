@@ -20,8 +20,8 @@ public class Personal {
     private String direccionPersonal;
     private String ocupacionPersonal;
     private String usuarioPersonal;
-    private String passwordPersonal;
-    private boolean estadoPersonal;
+    private String usuarioPassword;
+    private int estadoPersonal;
 
 
 
@@ -131,13 +131,7 @@ public class Personal {
         this.usuarioPersonal = usuarioPersonal;
     }
 
-    public String getPasswordPersonal() {
-        return passwordPersonal;
-    }
 
-    public void setPasswordPersonal(String passwordPersonal) {
-        this.passwordPersonal = passwordPersonal;
-    }
 
     public int getTelefonoPersonal() {
         return telefonoPersonal;
@@ -147,11 +141,19 @@ public class Personal {
         this.telefonoPersonal = telefonoPersonal;
     }
 
-    public boolean isEstadoPersonal() {
+    public int getEstadoPersonal() {
         return estadoPersonal;
     }
 
-    public void setEstadoPersonal(boolean estadoPersonal) {
+    public void setEstadoPersonal(int estadoPersonal) {
         this.estadoPersonal = estadoPersonal;
+    }
+
+    public String getUsuarioPassword() {
+        return usuarioPassword;
+    }
+
+    public void setUsuarioPassword(String usuarioPassword) {
+        this.usuarioPassword = usuarioPassword;
     }
 }

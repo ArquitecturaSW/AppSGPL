@@ -8,10 +8,10 @@ public class Equipo {
     private int idPersonal;
     private String nombrePersonal;
     private String apellidoPersonal;
-    private int idTipoPersonal;
-    private String ocupacionPersonal;
-    private int telefonoPersonal;
-    private String correoPersonal;
+    private int idTipo;
+   // private String ocupacionPersonal;
+    //private int telefonoPersonal;
+    //private String correoPersonal;
 
     public int getIdPersonal() {
         return idPersonal;
@@ -29,12 +29,12 @@ public class Equipo {
         this.nombrePersonal = nombrePersonal;
     }
 
-    public int getIdTipoPersonal() {
-        return idTipoPersonal;
+    public int getIdTipo() {
+        return idTipo;
     }
 
-    public void setIdTipoPersonal(int idTipoPersonal) {
-        this.idTipoPersonal = idTipoPersonal;
+    public void setIdTipo(int idTipoPersonal) {
+        this.idTipo = idTipoPersonal;
     }
 
     public String getApellidoPersonal() {
@@ -45,7 +45,7 @@ public class Equipo {
         this.apellidoPersonal = apellidoPersonal;
     }
 
-    public String getOcupacionPersonal() {
+    /*public String getOcupacionPersonal() {
         return ocupacionPersonal;
     }
 
@@ -67,5 +67,5 @@ public class Equipo {
 
     public void setCorreoPersonal(String correoPersonal) {
         this.correoPersonal = correoPersonal;
-    }
+    }*/
 }

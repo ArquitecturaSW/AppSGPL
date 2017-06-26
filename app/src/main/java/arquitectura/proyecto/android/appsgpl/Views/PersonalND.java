@@ -137,7 +137,7 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
             final TextView password = (TextView) v.findViewById(R.id.password_personal);
 
             datos.setText(personals.get(position).getNombrePersonal() + " " + personals.get(position).getApellidoPersonal());
-            if (personals.get(position).isEstadoPersonal()== false) {
+            if (personals.get(position).getEstadoPersonal()== 0) {
                 idproyecto.setText("Sin ningún proyecto");
             } else {
                 idproyecto.setText("Esta asignado a un proyecto");
@@ -153,10 +153,10 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
             } else{
                 usuario.setText(personals.get(position).getUsuarioPersonal());
             }
-            if (personals.get(position).getPasswordPersonal()==null) {
-                password.setText("Aún no tiene un contraseña");
+            if (personals.get(position).getUsuarioPassword()==null) {
+                password.setText("Aún no tiene una contraseña");
             } else{
-                password.setText(personals.get(position).getPasswordPersonal());
+                password.setText(personals.get(position).getUsuarioPassword());
             }
             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                 @Override
