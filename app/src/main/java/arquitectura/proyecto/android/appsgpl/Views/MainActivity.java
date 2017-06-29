@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,8 +29,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
 import arquitectura.proyecto.android.appsgpl.Activities.Login;
 import arquitectura.proyecto.android.appsgpl.Activities.Reporte;
 import arquitectura.proyecto.android.appsgpl.Adapters.RecyclerAdapterProyectos;
@@ -37,6 +41,7 @@ import arquitectura.proyecto.android.appsgpl.Interfaces.MainActivityView;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.Presenters.MainActivityPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
+import arquitectura.proyecto.android.appsgpl.RecyclerItemClickListener;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
@@ -57,8 +62,9 @@ public class MainActivity extends AppCompatActivity
     TextView ruc_empresa;
     public static String idEmpresaMain;
     TextView correo_empresa;
+    int color;
     private MainActivityPresenter presenter;
-
+    List<Proyecto> proyectoLista= new ArrayList<Proyecto>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterProyectos(getApplicationContext(),R.layout.cardview_proyectos);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
         recyclerView.setAdapter(adapter);
         presenter.loadListProyecto();
          /*Implementacion de RecyclerView con MVP*/
@@ -183,10 +190,48 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private class OnItemClickListener extends RecyclerItemClickListener.SimpleOnItemClickListener {
+
+
+        @Override
+        public void onItemClick(View childView, int position) {
+           Intent intent = new Intent(getApplicationContext(),DetalleProyecto.class);
+            Proyecto proyecto = proyectoLista.get(position);
+            intent.putExtra("proyecto", (Parcelable) proyecto);
+            if(proyectoLista.get(position).getIdEstado()==1){
+                color = ContextCompat.getColor(getApplicationContext(),R.color.colorEnEspera);
+            }else{
+                if(proyectoLista.get(position).getIdEstado()==2){
+                    color = ContextCompat.getColor(getApplicationContext(),R.color.colorGanado);
+                }else{
+                    if(proyectoLista.get(position).getIdEstado()==3){
+                        color = ContextCompat.getColor(getApplicationContext(),R.color.colorPerdido);
+                    }else{
+                        if(proyectoLista.get(position).getIdEstado()==4){
+                            color = ContextCompat.getColor(getApplicationContext(),R.color.colorInconcluso);
+                        }else{
+                            color = ContextCompat.getColor(getApplicationContext(),R.color.colorFinalizado);
+                        }
+                    }
+                }
+            }
+            intent.putExtra("color",color);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivityForResult(intent,3000);
+
+        }
+
+        @Override
+        public void onItemLongPress(View childView, int position) {
+
+
+        }
+        }
 
     @Override
     public void initRecycler(List<Proyecto> proyectoList) {
         adapter.setListProyecto(proyectoList);
+        proyectoLista=proyectoList;
         adapter.notifyDataSetChanged();
     }
 
@@ -216,12 +261,13 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==2000){
-            if(resultCode== Activity.RESULT_OK){
-                Toast.makeText(this, "Proyecto registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+        if (requestCode == 2000 || requestCode == 3000 ) {
+            if (resultCode == Activity.RESULT_OK) {
+                //Toast.makeText(this, "Proyecto registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
                 presenter.loadListProyecto();
             }
         }
     }
+
 
 }

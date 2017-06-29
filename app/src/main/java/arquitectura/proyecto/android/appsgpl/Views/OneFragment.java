@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto;
 import arquitectura.proyecto.android.appsgpl.Interfaces.FragmentToFragment;
 import arquitectura.proyecto.android.appsgpl.POJOS.Entregable;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarEntregable;
@@ -33,7 +34,6 @@ import arquitectura.proyecto.android.appsgpl.Presenters.OneFragmentPresenterImpl
 import arquitectura.proyecto.android.appsgpl.R;
 
 public class OneFragment extends Fragment implements OneFragmentView {
-    private static final int PERMISSION_REQUEST_CODE = 1;
     FragmentToFragment mCallback;
     RecyclerView recyclerView;
     RecyclerAdapterEntregables adapter;
@@ -79,6 +79,9 @@ public class OneFragment extends Fragment implements OneFragmentView {
         adapter = new RecyclerAdapterEntregables(getContext(), R.layout.item_documento);
         recyclerView.setAdapter(adapter);
         presenter.loadListDocumento();
+        if(DetalleProyecto.state==true){
+            fab1();
+        }
         return  rootView;
     }
 
@@ -116,7 +119,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
             mCallback = (FragmentToFragment) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement IFragmentToActivity");
+                    + " must implement FragmentToFragment");
         }
     }
 
@@ -137,6 +140,10 @@ public class OneFragment extends Fragment implements OneFragmentView {
                 mCallback.communicateToFragment1();
             }
         }
+    }
+
+    public void fab1(){
+        floatingActionButton.setVisibility(View.GONE);
     }
 
 

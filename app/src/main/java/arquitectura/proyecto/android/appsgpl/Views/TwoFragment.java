@@ -45,6 +45,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static arquitectura.proyecto.android.appsgpl.R.id.b;
+
 
 public class TwoFragment extends Fragment implements TwoFragmentView{
     private FragmentToFragment mCallback;
@@ -58,6 +60,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
     TwoFragmentPresenter presenter;
     ProgressDialog progress;
     APIService service;
+    FloatingActionButton fab;
     public TwoFragment() {
         // Required empty public constructor
     }
@@ -89,7 +92,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),new OnItemClickListener()));
         presenter.loadListPersonal();
          /*Implementacion de RecyclerView con MVP*/
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+         fab= (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +132,9 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
 
             }
         });
+        if(DetalleProyecto.state==true){
+            fb2();
+        }
         return rootView;
     }
 
@@ -139,7 +145,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
             mCallback = (FragmentToFragment) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement IFragmentToActivity");
+                    + " must implement FragmentToFragment");
         }
     }
 
@@ -195,12 +201,12 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         responseCall.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
-                Log.i("HISTORIAL ","ENTREGABlE OK");
+                Log.i("HISTORIAL ","Personal OK");
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Log.i("HISTORIAL ","ENTREGABlE FAIL");
+                Log.i("HISTORIAL ","Personal FAIL");
             }
         });
 
@@ -241,11 +247,29 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         @Override
         public void onItemLongPress(View childView, int position) {
             String data = equipoLista.get(position).getNombrePersonal()+" "+equipoLista.get(position).getApellidoPersonal();
-            preguntar(data,equipoLista.get(position).getIdPersonal()).show();
-
+            if(verficarJefe()==false){
+                preguntar(data,equipoLista.get(position).getIdPersonal()).show();
+            }else{
+                Toast.makeText(getContext(),"Ya tiene asignado un jefe",Toast.LENGTH_SHORT).show();
+            }
         }
 
         }
+
+    private boolean verficarJefe() {
+        int cont=0;
+        for(int i=0;i<equipoLista.size();i++) {
+            if (equipoLista.get(i).getIdTipo() == 1) {
+                cont++;
+            }
+        }
+        if(cont==1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
     @Override
     public void initRecycler(List<Equipo> equipoList) {
@@ -270,7 +294,9 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
-
+    public void refresh(){
+        presenter.loadListPersonal();
+    }
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
@@ -326,12 +352,12 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         responseCall.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
-                Log.i("HISTORIAL ","ENTREGABlE OK");
+                Log.i("HISTORIAL ","jefe OK");
             }
 
             @Override
             public void onFailure(Call<PostResponse> call, Throwable t) {
-                Log.i("HISTORIAL ","ENTREGABlE FAIL");
+                Log.i("HISTORIAL ","jefe FAIL");
             }
         });
 
@@ -344,6 +370,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                 if(postresponse.getEstado()==1){
                     progress.dismiss();
                     presenter.loadListPersonal();
+                    mCallback.setColorActivityG();
                     mCallback.communicateToFragment1();
                     Toast.makeText(getContext(),"Registrado exitosamente ",Toast.LENGTH_SHORT).show();
                 }
@@ -383,6 +410,14 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         });
 
         return builder.create();
+    }
+
+    public void refreshTwo(){
+        presenter.loadListPersonal();
+    }
+
+    public void fb2(){
+        fab.setVisibility(View.GONE);
     }
 
 

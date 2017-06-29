@@ -1,6 +1,7 @@
 package arquitectura.proyecto.android.appsgpl.Activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,7 +47,6 @@ import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 public class DetalleProyecto extends AppCompatActivity implements FragmentToFragment{
     DetalleProyecto.ViewPagerAdapter adapter;
-    private static final int PERMISSION_REQUEST_CODE = 1;
     Proyecto proyecto;
     Fragment fr3;
     Bundle args3;
@@ -59,7 +59,10 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     TextView monto;
     TextView descripcion;
     TextView tipoProyecto;
+    TabLayout tabLayout;
+    Toolbar toolbar;
     public static  int idProyecto;
+    public static boolean state;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
         setTitle(proyecto.getNombreProyecto());
         idProyecto=proyecto.getIdProyecto();
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
@@ -78,18 +82,26 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
             }
         }
 
+
         setContentView(R.layout.activity_detalle_proyecto);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         toolbar.setBackgroundColor(bundle.getInt("color"));
         tabLayout.setBackgroundColor(bundle.getInt("color"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(proyecto.getIdEstado()>=4){
+            state=true;
+        }else{
+            state=false;
+        }
 
     }
     @Override
@@ -131,6 +143,12 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(Activity.RESULT_OK);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -151,9 +169,11 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                showInformation().show();
                 return true;
             }
+            if(id == android.R.id.home){
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
         }
-
-
         return super.onOptionsItemSelected(item);
     }
     public AlertDialog showInformation() {
@@ -268,13 +288,35 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
             Log.i(LOG_TAG, "Fragment 1 is not initialized");
         }
     }
-    private void requestPermission(){
 
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
-
+    @Override
+    public void communicateToFragment2() {
+        TwoFragment fragment = (TwoFragment) adapter.getItem(1);
+        if (fragment != null) {
+            fragment.refreshTwo();
+            fragment.fb2();
+        } else {
+            Log.i(LOG_TAG, "Fragment 2 is not initialized");
+        }
     }
 
+    @Override
+    public void setColorActivityI() {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorInconcluso));
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorInconcluso));
+    }
 
+    @Override
+    public void setColorActivityG() {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorGanado));
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorGanado));
+    }
+
+    @Override
+    public void serColorActivityF() {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+    }
 
 }
 

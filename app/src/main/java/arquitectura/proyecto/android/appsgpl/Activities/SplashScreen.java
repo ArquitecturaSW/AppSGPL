@@ -8,6 +8,8 @@ import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
+import static arquitectura.proyecto.android.appsgpl.R.drawable.tipo;
+
 public class SplashScreen extends AppCompatActivity {
     private  PreferencesManager prefManager;
     @Override
@@ -27,9 +29,15 @@ public class SplashScreen extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             startActivity(intent);
                             finish();
+
                         } else {
+
+                            //if(tipoUser=="empresa"){}
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
+                            //else{}
+                            //startActivity(new Intent(getApplicationContext(),DetalleProyecto.class));
+                            //finish();
                         }
 
                     } catch (InterruptedException e) {

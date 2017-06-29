@@ -83,5 +83,7 @@ public interface APIService {
     @POST("asignarJefe.php")
     Call<PostResponse> asignarJefe(@Body Jefe jefe);
 
+    @POST("proyectoEndFake.php")
+    Call<PostResponse> finishProyecto(@Body Proyecto proyecto);
 
 }

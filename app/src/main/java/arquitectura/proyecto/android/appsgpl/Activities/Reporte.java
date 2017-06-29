@@ -17,8 +17,8 @@ import arquitectura.proyecto.android.appsgpl.R;
 
 public class Reporte extends AppCompatActivity {
 
-    int cantidad [] = {5,6,8};
-    String estado [] = {"Ganados","Perdidos","Inconclusos"};
+    int cantidad [] = {1,2,5,6,8};
+    String estado [] = {"En Espera","Ganados","Perdidos","Inconclusos","Finalizados"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

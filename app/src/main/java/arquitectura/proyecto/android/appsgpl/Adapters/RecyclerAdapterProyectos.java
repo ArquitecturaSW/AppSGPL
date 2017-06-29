@@ -80,7 +80,7 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
             }
         }
         holder.status_proyecto.setBackgroundColor(color);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+       /* holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,DetalleProyecto.class);
@@ -107,7 +107,7 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
