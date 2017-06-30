@@ -84,7 +84,6 @@ public class Reporte extends AppCompatActivity {
         PieDataSet dataSet = new PieDataSet(pieEntries,"Reporte de  Proyectos");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setSliceSpace(4f);
-        dataSet.
         PieData data = new PieData(dataSet);
 
 
