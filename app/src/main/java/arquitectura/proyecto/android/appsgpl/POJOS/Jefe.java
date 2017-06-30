@@ -16,6 +16,11 @@ public class Jefe {
         this.passwordPersonal=passwordPersonal;
         this.idProyecto=idProyecto;
     }
+    public Jefe(int idPersonal,int idProyecto){
+        this.idPersonal=idPersonal;
+        this.idProyecto=idProyecto;
+
+    }
 
     public int getIdPersonal() {
         return idPersonal;

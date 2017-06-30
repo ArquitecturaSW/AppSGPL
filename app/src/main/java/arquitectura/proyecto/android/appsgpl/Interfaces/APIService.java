@@ -7,6 +7,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.RegisterEquipo;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseReportes;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEmpresa;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseEntregable;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseHistorial;
@@ -21,7 +22,6 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -85,5 +85,11 @@ public interface APIService {
 
     @POST("proyectoEndFake.php")
     Call<PostResponse> finishProyecto(@Body Proyecto proyecto);
+
+    @POST("ModidTipo.php")
+    Call<PostResponse> updateTipo(@Body Jefe jefe);
+
+    @GET("reporteJson.php")
+    Call<ResponseReportes> getReportes(@Query("idEmpresa") String id);
 
 }

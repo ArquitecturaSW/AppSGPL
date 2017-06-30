@@ -35,6 +35,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.Personal;
 import arquitectura.proyecto.android.appsgpl.POJOS.PersonalFree;
 import arquitectura.proyecto.android.appsgpl.POJOS.PostResponse;
 import arquitectura.proyecto.android.appsgpl.POJOS.RegisterEquipo;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonal;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonalFree;
 import arquitectura.proyecto.android.appsgpl.Presenters.TwoFragmentPresenterImpl;
 import arquitectura.proyecto.android.appsgpl.R;
@@ -45,15 +46,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.R.attr.data;
+import static arquitectura.proyecto.android.appsgpl.R.id.a;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
+import static arquitectura.proyecto.android.appsgpl.R.id.d;
 
 
 public class TwoFragment extends Fragment implements TwoFragmentView{
     private FragmentToFragment mCallback;
     List<Equipo> equipoLista = new ArrayList<Equipo>();
-    String data;
+    List<Personal> personalList = new ArrayList<Personal>();
     int idPersonal;
     TextView empty;
+    String data;
     ProgressBar progressBar;
     RecyclerAdapterEquipo adapter;
     RecyclerView recyclerView;
@@ -78,6 +83,24 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
          service = retrofit.create(APIService.class);
+
+        final Call<ResponsePersonal> personalCall = service.getPersonal(MainActivity.idEmpresaMain);
+
+        personalCall.enqueue(new Callback<ResponsePersonal>() {
+            @Override
+            public void onResponse(Call<ResponsePersonal> call, Response<ResponsePersonal> response) {
+                ResponsePersonal responsePersonal = response.body();
+                if(responsePersonal.getEstado()==1){
+                    personalList= responsePersonal.getPersonalList();
+                }else{
+                    Toast.makeText(getContext(),"PersonalList Vacio",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePersonal> call, Throwable t) {
+                Toast.makeText(getContext(),"Problemas con el Servidor",Toast.LENGTH_SHORT).show();
+            }
+        });
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_two, container, false);
             /*Implementacion de RecyclerView con MVP*/
@@ -171,7 +194,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
             @Override
             public void onClick(DialogInterface dialog, int position) {
                 data =arrayAdapter.getItem(position).getNombrePersonal()+" "+arrayAdapter.getItem(position).getApellidoPersonal();
-               idPersonal=arrayAdapter.getItem(position).getIdPersonal();
+                idPersonal=arrayAdapter.getItem(position).getIdPersonal();
                 //String strName = arrayAdapter.getItem(which);
                 AlertDialog.Builder builderInner = new AlertDialog.Builder(getContext());
                 builderInner.setMessage(data);
@@ -248,13 +271,32 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         public void onItemLongPress(View childView, int position) {
             String data = equipoLista.get(position).getNombrePersonal()+" "+equipoLista.get(position).getApellidoPersonal();
             if(verficarJefe()==false){
-                preguntar(data,equipoLista.get(position).getIdPersonal()).show();
+                if (notUserNotPassword(equipoLista.get(position).getIdPersonal())==true) {
+                    preguntar(data,equipoLista.get(position).getIdPersonal()).show();
+                }
+                else{
+                    preguntar2(data,equipoLista.get(position).getIdPersonal()).show();
+                }
             }else{
                 Toast.makeText(getContext(),"Ya tiene asignado un jefe",Toast.LENGTH_SHORT).show();
             }
         }
 
         }
+
+    private boolean notUserNotPassword(int idPersonal) {
+        int position = 0;
+        for(int i=0;i<personalList.size();i++) {
+            if (personalList.get(i).getIdPersonal()==idPersonal) {
+                position=i;
+            }
+        }
+        if(personalList.get(position).getUsuarioPersonal()==null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     private boolean verficarJefe() {
         int cont=0;
@@ -411,6 +453,81 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
 
         return builder.create();
     }
+    public AlertDialog preguntar2(final String data, final int idPersonal) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("¿Deseas asignarlo jefe?");
+        builder.setMessage("a "+data);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                actulizarJefe(data,idPersonal);
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
+    }
+
+    private void actulizarJefe(String data, int idPersonal) {
+        progress = new ProgressDialog(getContext());
+        progress.setTitle("Registrando");
+        progress.setMessage("Espere ...");
+        progress.show();
+        progress.setCanceledOnTouchOutside(false);
+        Historial historial = new Historial(DetalleProyecto.idProyecto,"Se asigno de jefe a "+data+" al equipo");
+        Call<PostResponse> responseCall = service.registerHistorial(historial);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, retrofit2.Response<PostResponse> response) {
+                Log.i("HISTORIAL ","jefe OK");
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                Log.i("HISTORIAL ","jefe FAIL");
+            }
+        });
+
+        Jefe jefe = new Jefe(idPersonal,DetalleProyecto.idProyecto);
+        Call<PostResponse> responsecall = service.updateTipo(jefe);
+        responsecall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                PostResponse postresponse= response.body();
+                if(postresponse.getEstado()==1){
+                    progress.dismiss();
+                    presenter.loadListPersonal();
+                    mCallback.setColorActivityG();
+                    mCallback.communicateToFragment1();
+                    Toast.makeText(getContext(),"Registrado exitosamente ",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    progress.dismiss();
+                    Toast.makeText(getContext(),"No se logro registrar",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                progress.dismiss();
+                Toast.makeText(getContext(),"Problemas con el servidor",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
 
     public void refreshTwo(){
         presenter.loadListPersonal();

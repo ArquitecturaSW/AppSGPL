@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/emptyTwo"
-        android:text="Este proyecto aún no posee un equipo"
+        android:text="Este proyecto no posee un equipo"
         android:gravity="center"
         />
     <ProgressBar
