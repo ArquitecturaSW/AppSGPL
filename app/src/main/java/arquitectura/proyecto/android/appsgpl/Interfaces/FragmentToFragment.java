@@ -9,7 +9,8 @@ public interface FragmentToFragment {
     void communicateToFragment2();
     void setColorActivityI();
     void setColorActivityG();
-    void serColorActivityF();
+    void setColorActivityF();
+    void updateState(String state);
 
 
 }

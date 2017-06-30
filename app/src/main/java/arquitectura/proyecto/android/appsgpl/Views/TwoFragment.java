@@ -508,6 +508,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                     progress.dismiss();
                     presenter.loadListPersonal();
                     mCallback.setColorActivityG();
+                    mCallback.updateState("Ganado");
                     mCallback.communicateToFragment1();
                     Toast.makeText(getContext(),"Registrado exitosamente ",Toast.LENGTH_SHORT).show();
                 }

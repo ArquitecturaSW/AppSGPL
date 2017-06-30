@@ -23,7 +23,7 @@ public class Proyecto implements Parcelable, Serializable {
     private String dateStart;
     private String dateEnd;
     private String dateEndFake;
-    private int monto;
+    private float monto;
 
     public Proyecto(int idProyecto,String dateEndFake){
         this.idProyecto=idProyecto;
@@ -122,11 +122,11 @@ public class Proyecto implements Parcelable, Serializable {
         this.dateEndFake = dateEndFake;
     }
 
-    public int getMonto() {
+    public float getMonto() {
         return monto;
     }
 
-    public void setMonto(int monto) {
+    public void setMonto(float monto) {
         this.monto = monto;
     }
 
@@ -147,7 +147,7 @@ public class Proyecto implements Parcelable, Serializable {
         dest.writeString(getDateStart());
         dest.writeString(getDateEnd());
         dest.writeString(getDateEndFake());
-        dest.writeInt(getMonto());
+        dest.writeFloat(getMonto());
 
     }
 
@@ -162,7 +162,7 @@ public class Proyecto implements Parcelable, Serializable {
         setDateStart(in.readString());
         setDateEnd(in.readString());
         setDateEndFake(in.readString());
-        setMonto(in.readInt());
+        setMonto(in.readFloat());
     }
     public static final Creator<Proyecto> CREATOR = new Creator<Proyecto>() {
         @Override

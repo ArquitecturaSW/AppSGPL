@@ -216,6 +216,7 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
                     presenter.loadListActividad();
                     mCallback.communicateToFragment2();
                     mCallback.setColorActivityI();
+                    mCallback.updateState("Inconcluso");
                     getActivity().setResult(Activity.RESULT_OK);
                     Toast.makeText(getContext(),"Operación realizada correctamente",Toast.LENGTH_SHORT).show();
 

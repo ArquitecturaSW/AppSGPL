@@ -52,7 +52,6 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     Bundle args3;
     TextView nombre;
     TextView codigo;
-    TextView jefe;
     TextView estado;
     TextView fechai;
     TextView fechaf;
@@ -184,7 +183,6 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         View v = inflater.inflate(R.layout.decripcion_proyecto, null);
         nombre = (TextView) v.findViewById(R.id.nombre_proyecto_fr3);
         codigo = (TextView) v.findViewById(R.id.codigo_proyecto_fr3);
-        jefe= (TextView) v.findViewById(R.id.jefe_proyecto_fr3);
         descripcion = (TextView) v.findViewById(R.id.descripcion_proyecto_fr3);
         estado=(TextView) v.findViewById(R.id.estado_proyecto_fr3);
         fechaf=(TextView)v.findViewById(R.id.fechaf_proyecto_fr3);
@@ -210,22 +208,18 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         descripcion.setText(proyecto.getDescripcionProyecto());
         if(proyecto.getIdEstado()==1){
             st="En espera";
-            jefe.setText("Sin jefe");
         }else{
             if(proyecto.getIdEstado()==2){
                 st="Ganado";
-                jefe.setText("Jair Barzola Cuba");
+
             }else{
                 if(proyecto.getIdEstado()==3){
                     st="Perdido";
-                    jefe.setText("Jair Barzola Cuba");
                 }else{
                     if(proyecto.getIdEstado()==4){
                         st="Inconcluso";
-                        jefe.setText("Jair Barzola Cuba");
                     }else{
                         st="Finalizado";
-                        jefe.setText("Jair Barzola Cuba");
                     }
                 }
             }
@@ -313,10 +307,16 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     }
 
     @Override
-    public void serColorActivityF() {
+    public void setColorActivityF() {
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
     }
+
+    @Override
+    public void updateState(String state) {
+        estado.setText(state);
+    }
+
 
 }
 
