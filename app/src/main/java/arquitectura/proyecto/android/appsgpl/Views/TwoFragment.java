@@ -93,12 +93,12 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                 if(responsePersonal.getEstado()==1){
                     personalList= responsePersonal.getPersonalList();
                 }else{
-                    Toast.makeText(getContext(),"PersonalList Vacio",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext(),"PersonalList Vacio",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<ResponsePersonal> call, Throwable t) {
-                Toast.makeText(getContext(),"Problemas con el Servidor",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Problemas con el Servidor",Toast.LENGTH_SHORT).show();
             }
         });
         // Inflate the layout for this fragment
@@ -508,7 +508,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                     progress.dismiss();
                     presenter.loadListPersonal();
                     mCallback.setColorActivityG();
-                    mCallback.updateState("Ganado");
+                    mCallback.updateState(2);
                     mCallback.communicateToFragment1();
                     Toast.makeText(getContext(),"Registrado exitosamente ",Toast.LENGTH_SHORT).show();
                 }

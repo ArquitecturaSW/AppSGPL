@@ -24,11 +24,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +51,7 @@ import arquitectura.proyecto.android.appsgpl.Presenters.MainActivityPresenterImp
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.RecyclerItemClickListener;
 import arquitectura.proyecto.android.appsgpl.Registros.RegistrarProyecto;
+import arquitectura.proyecto.android.appsgpl.ViewTargets;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
 
 import static android.R.attr.id;
@@ -52,7 +61,7 @@ import static arquitectura.proyecto.android.appsgpl.R.id.usuario_empresa;
 import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MainActivityView {
+        implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener,MainActivityView {
     RecyclerView recyclerView;
     RecyclerAdapterProyectos adapter;
     TextView empty;
@@ -65,6 +74,9 @@ public class MainActivity extends AppCompatActivity
     int color;
     private MainActivityPresenter presenter;
     List<Proyecto> proyectoLista= new ArrayList<Proyecto>();
+    ShowcaseView showcaseView;
+    private Target t1;
+    int contador=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +120,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
         /*setear los valor del nav_header*/
         View hView =  navigationView.getHeaderView(0);
         nombre_empresa = (TextView) hView.findViewById(R.id.nombre_empresa_menu);
@@ -119,7 +133,24 @@ public class MainActivity extends AppCompatActivity
         correo_empresa.setText("Correo: "+prefs.getString("correo","XD"));
         ruc_empresa.setText("RUC: "+prefs.getString("ruc","XD"));
 
+
+/*
+        try {
+            ViewTarget navigationButtonViewTarget = ViewTargets.navigationButtonViewTarget(toolbar);
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setTarget(navigationButtonViewTarget)
+                    .setContentTitle("Here's how to highlight items on a toolbar")
+                    .singleShot(4000)
+
+                    .build()
+                    .show();
+        } catch (ViewTargets.MissingViewException e) {
+            e.printStackTrace();
+        }
+*/
     }
+
 
 
     @Override
@@ -190,6 +221,26 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (contador){
+            case 0:
+                showcaseView.setShowcase(t1,true);
+                showcaseView.setContentTitle("Menu");
+                showcaseView.setAlpha(1.0f);
+                showcaseView.setContentText("Pulse es boton");
+            break;
+            case 1:
+                showcaseView.hide();
+                break;
+
+        }
+        contador++;
+    }
+
+
     private class OnItemClickListener extends RecyclerItemClickListener.SimpleOnItemClickListener {
 
 

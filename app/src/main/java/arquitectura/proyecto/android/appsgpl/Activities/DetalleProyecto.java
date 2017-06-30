@@ -60,6 +60,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     TextView tipoProyecto;
     TabLayout tabLayout;
     Toolbar toolbar;
+    String st;
     public static  int idProyecto;
     public static boolean state;
     @Override
@@ -179,7 +180,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
-        String st;
+
         View v = inflater.inflate(R.layout.decripcion_proyecto, null);
         nombre = (TextView) v.findViewById(R.id.nombre_proyecto_fr3);
         codigo = (TextView) v.findViewById(R.id.codigo_proyecto_fr3);
@@ -313,8 +314,9 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     }
 
     @Override
-    public void updateState(String state) {
-        estado.setText(state);
+    public void updateState(int state) {
+        proyecto.setIdEstado(state);
+
     }
 
 

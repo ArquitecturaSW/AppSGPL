@@ -10,7 +10,7 @@ public interface FragmentToFragment {
     void setColorActivityI();
     void setColorActivityG();
     void setColorActivityF();
-    void updateState(String state);
+    void updateState(int state);
 
 
 }
