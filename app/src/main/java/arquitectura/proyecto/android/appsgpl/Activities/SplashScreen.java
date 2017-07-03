@@ -31,18 +31,39 @@ public class SplashScreen extends AppCompatActivity {
     private  PreferencesManager prefManager;
     Proyecto proyecto;
     String id;
+     SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         prefManager = new PreferencesManager(this);
-        final SharedPreferences prefs = getSharedPreferences("estado_intro", Context.MODE_PRIVATE);
+        prefs= getSharedPreferences("estado_intro", Context.MODE_PRIVATE);
         Thread mythread = new Thread(){
             @Override
             public void run() {
 
                 try {
                     sleep(3000);
+                    Log.i("ID","inicio");
+                    if (prefManager.isPrimeraEjecucion()) {
+                        prefManager.setPrimeraEjecucion(false);
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        id = prefs.getString("idProyecto","-1");
+                        Log.i("ID",id);
+                        if (id.equals("0")) {
+                            Log.i("ID","b");
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        } else {
+                            Log.i("ID","a");
+                            getProyectos();
+                        }
+
+                    }
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -51,26 +72,7 @@ public class SplashScreen extends AppCompatActivity {
         };
         mythread.start();
 
-        Log.i("ID","inicio");
-        if (prefManager.isPrimeraEjecucion()) {
-            prefManager.setPrimeraEjecucion(false);
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
 
-        } else {
-            id = prefs.getString("idProyecto","-1");
-            Log.i("ID",id);
-            if (id.equals("0")) {
-                Log.i("ID","b");
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            } else {
-                Log.i("ID","a");
-                getProyectos();
-            }
-
-        }
     }
 
     private void getProyectos() {
@@ -80,38 +82,49 @@ public class SplashScreen extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIService service = retrofit.create(APIService.class);
-        Call<ResponseProyecto> proyectoCall = service.getProject(id);
-        Log.i("ID","primero");
-        proyectoCall.enqueue(new Callback<ResponseProyecto>() {
-            @Override
-            public void onResponse(Call<ResponseProyecto> call, Response<ResponseProyecto> response) {
-                ResponseProyecto responseProyecto = response.body();
-                if(responseProyecto.getEstado()==1){
-                    List<Proyecto> proyectoList = new ArrayList<Proyecto>();
-                    proyectoList=responseProyecto.getProyectoList();
-                    proyecto = proyectoList.get(0);
+        String idd = prefs.getString("idProyecto","-1");
+        Log.i("ID",idd);
+        if(idd=="-1"){
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }else {
+            Call<ResponseProyecto> proyectoCall = service.getProject(idd);
+            Log.i("ID", "primero");
+            proyectoCall.enqueue(new Callback<ResponseProyecto>() {
+                @Override
+                public void onResponse(Call<ResponseProyecto> call, Response<ResponseProyecto> response) {
+                    ResponseProyecto responseProyecto = response.body();
+                    if (responseProyecto.getEstado() == 1) {
+                        List<Proyecto> proyectoList = new ArrayList<Proyecto>();
+                        proyectoList = responseProyecto.getProyectoList();
+                        proyecto = proyectoList.get(0);
+                        Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
+                        intent.putExtra("proyecto", (Parcelable) proyecto);
+                        intent.putExtra("OOO", 0);
+                        startActivity(intent);
+                        Log.i("ID", "2");
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
+                        intent.putExtra("OOO", 3);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseProyecto> call, Throwable t) {
+                    Log.i("ID", "4");
                     Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
-                    intent.putExtra("proyecto", (Parcelable) proyecto);
-                    intent.putExtra("OOO",0);
-                    startActivity(intent);
-                    Log.i("ID","2");
-                    finish();
-                }else{
-                    Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
-                    intent.putExtra("OOO",3);
+                    intent.putExtra("OOO", 4);
+
                     startActivity(intent);
                     finish();
                 }
-            }
-            @Override
-            public void onFailure(Call<ResponseProyecto> call, Throwable t) {
-                Log.i("ID","4");
-                Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
-                intent.putExtra("OOO",4);
-                startActivity(intent);
-                finish();
-            }
-        });
+            });
+        }
 
 
     }

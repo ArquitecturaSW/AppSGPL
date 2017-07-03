@@ -76,6 +76,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     int color;
     SharedPreferences prefs;
     public static  int idProyecto;
+    public int idlll;
     public static boolean state;
     public static boolean jf;
     int idEstado;
@@ -133,10 +134,12 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                     tabLayout.setBackgroundColor(bundle.getInt("color"));
                     idEstado=proyecto.getIdEstado();
                     nn=false;
+                    jf=false;
                 }else{
                     if(code==3){
                         setTitle("Nombre del proyecto");
-                        idProyecto =39999;
+                        idProyecto=39999;
+                        idlll=39999;
                         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         getSupportActionBar().setDisplayShowHomeEnabled(true);
                         toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
@@ -145,7 +148,8 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                         nn=true;
                     }else{
                         setTitle("Problemas con el servidor");
-                        idProyecto =39999;
+                        idProyecto=39999;
+                        idlll=39999;
                         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         getSupportActionBar().setDisplayShowHomeEnabled(true);
                         toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
@@ -236,7 +240,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
             return true;
         }else {
             if (id == R.id.action_show) {
-                if(idProyecto==39999){
+                if(idlll==39999){
                     Toast.makeText(getApplication(),"Problemas para mostrar informacion",Toast.LENGTH_SHORT).show();
                 }else{
                 showInformation().show();

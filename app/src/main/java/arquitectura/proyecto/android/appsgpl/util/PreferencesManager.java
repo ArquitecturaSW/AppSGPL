@@ -49,6 +49,10 @@ public class PreferencesManager {
         editor.putString("idProyecto",id);
         editor.commit();
     }
+    public void saveIdProyecto2(String id){
+        editor.putString("idProyecto2",id);
+        editor.commit();
+    }
     public void setIdEmpresaSP(){
 
         pref.edit().remove("idEmpresa").commit();
