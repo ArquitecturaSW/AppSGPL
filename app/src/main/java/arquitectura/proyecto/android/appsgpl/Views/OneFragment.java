@@ -82,6 +82,9 @@ public class OneFragment extends Fragment implements OneFragmentView {
         if(DetalleProyecto.state==true){
             fab1();
         }
+        if(DetalleProyecto.nn==true){
+            fab1();
+        }
         return  rootView;
     }
 

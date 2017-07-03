@@ -78,6 +78,8 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     public static  int idProyecto;
     public static boolean state;
     public static boolean jf;
+    int idEstado;
+    public static boolean nn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +93,9 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         prefs= getSharedPreferences("estado_intro", Context.MODE_PRIVATE);
 
 
-        proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
+
         if(code==0){
+            proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
             setTitle(proyecto.getNombreProyecto());
@@ -114,18 +117,46 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                     }
                 }
             }
+            idEstado=proyecto.getIdEstado();
             toolbar.setBackgroundColor(color);
             tabLayout.setBackgroundColor(color);
             jf=true;
+            nn=false;
         }else{
-                setTitle(proyecto.getNombreProyecto());
-                idProyecto = proyecto.getIdProyecto();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setDisplayShowHomeEnabled(true);
-                toolbar.setBackgroundColor(bundle.getInt("color"));
-                tabLayout.setBackgroundColor(bundle.getInt("color"));
+                if(code==2){
+                    proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
+                    setTitle(proyecto.getNombreProyecto());
+                    idProyecto = proyecto.getIdProyecto();
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setDisplayShowHomeEnabled(true);
+                    toolbar.setBackgroundColor(bundle.getInt("color"));
+                    tabLayout.setBackgroundColor(bundle.getInt("color"));
+                    idEstado=proyecto.getIdEstado();
+                    nn=false;
+                }else{
+                    if(code==3){
+                        setTitle("Nombre del proyecto");
+                        idProyecto =39999;
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                        getSupportActionBar().setDisplayShowHomeEnabled(true);
+                        toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+                        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+                        jf=false;
+                        nn=true;
+                    }else{
+                        setTitle("Problemas con el servidor");
+                        idProyecto =39999;
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                        getSupportActionBar().setDisplayShowHomeEnabled(true);
+                        toolbar.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+                        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorFinalizado));
+                        nn=true;
+                    }
+
+                }
+
         }
-        if(proyecto.getIdEstado()>=4){
+        if(idEstado>=4){
             state=true;
         }else{
             state=false;
@@ -205,14 +236,18 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
             return true;
         }else {
             if (id == R.id.action_show) {
-               showInformation().show();
-                return true;
+                if(idProyecto==39999){
+                    Toast.makeText(getApplication(),"Problemas para mostrar informacion",Toast.LENGTH_SHORT).show();
+                }else{
+                showInformation().show();
+                    }
             }
             if(id == android.R.id.home){
                 setResult(Activity.RESULT_OK);
                 finish();
             }
             if(id == R.id.action_info){
+
                 Toast.makeText(getApplication(),"Usuario: "+prefs.getString("usuario","xxx")+"\n"+"Nombre: "+prefs.getString("nombre","xxx"),Toast.LENGTH_SHORT).show();
                 return true;
             }

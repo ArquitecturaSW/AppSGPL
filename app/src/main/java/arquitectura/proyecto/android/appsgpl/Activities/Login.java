@@ -108,6 +108,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
             @Override
             public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
                 ResponseUser userResponse = response.body();
+
                 Log.i("INF",userResponse.getEstado().toString());
                if (userResponse.getEstado()==1) {
                    if(userResponse.getDatoJson().getIdProyecto() == 0){
@@ -148,8 +149,13 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                         Toast.makeText(getApplicationContext(),"Cuenta y/o Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
 
                     }else{
-                        progress.dismiss();
-                        Toast.makeText(getApplicationContext(),"Ingrese datos correctos", Toast.LENGTH_SHORT).show();
+                        if(userResponse.getEstado()==3) {
+                            progress.dismiss();
+                            Toast.makeText(getApplicationContext(), "Ingrese datos correctos", Toast.LENGTH_SHORT).show();
+                        }else{
+                            progress.dismiss();
+                            Toast.makeText(getApplicationContext(), "No puede entrar al sistema comuniquese con la empresa", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

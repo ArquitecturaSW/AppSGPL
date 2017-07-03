@@ -163,6 +163,9 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         if(DetalleProyecto.jf==true){
             fb2();
         }
+        if(DetalleProyecto.nn==true){
+            fb2();
+        }
         return rootView;
     }
 

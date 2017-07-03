@@ -97,6 +97,9 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
         if(DetalleProyecto.state==true){
             fb3();
         }
+        if(DetalleProyecto.nn==true){
+            fb3();
+        }
         return rootView;
     }
 

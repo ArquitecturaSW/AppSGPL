@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             intent.putExtra("color",color);
-            intent.putExtra("OOO",1);
+            intent.putExtra("OOO",2);
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityForResult(intent,3000);
 

@@ -97,22 +97,17 @@ public class SplashScreen extends AppCompatActivity {
                     Log.i("ID","2");
                     finish();
                 }else{
-                    proyecto= new Proyecto(0,4,"PRUEBA","A005","prueba de proyecto","10-05-16","10-05-17",152000);
                     Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
-                    intent.putExtra("proyecto", (Parcelable) proyecto);
-                    intent.putExtra("OOO",0);
+                    intent.putExtra("OOO",3);
                     startActivity(intent);
-                    Log.i("ID","3");
                     finish();
                 }
             }
             @Override
             public void onFailure(Call<ResponseProyecto> call, Throwable t) {
                 Log.i("ID","4");
-                proyecto= new Proyecto(0,4,"PRUEBA","A005","prueba de proyecto","10-05-16","10-05-17",152000);
                 Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
-                intent.putExtra("proyecto", (Parcelable) proyecto);
-                intent.putExtra("OOO",0);
+                intent.putExtra("OOO",4);
                 startActivity(intent);
                 finish();
             }
