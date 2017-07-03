@@ -6,11 +6,12 @@ package arquitectura.proyecto.android.appsgpl.POJOS;
 
 public class User {
     private int idUser;
+    private int idEmpresa;
     private String nombreUser;
-    private String identificadorUser;
+    private int idProyecto;
+    private String identificadorUSer;
     private String correoUser;
     private String usuario;
-
 
     public int getIdUser() {
         return idUser;
@@ -18,6 +19,14 @@ public class User {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 
     public String getNombreUser() {
@@ -28,12 +37,20 @@ public class User {
         this.nombreUser = nombreUser;
     }
 
-    public String getIdentificadorUser() {
-        return identificadorUser;
+    public int getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setIdentificadorUser(String identificadorUser) {
-        this.identificadorUser = identificadorUser;
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
+    public String getIdentificadorUSer() {
+        return identificadorUSer;
+    }
+
+    public void setIdentificadorUSer(String identificadorUSer) {
+        this.identificadorUSer = identificadorUSer;
     }
 
     public String getCorreoUser() {
@@ -51,4 +68,5 @@ public class User {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+
 }

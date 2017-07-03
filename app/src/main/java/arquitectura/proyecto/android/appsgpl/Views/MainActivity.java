@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         nombre_empresa.setText(prefs.getString("nombre","XD"));
         usuario_empresa.setText("Cuenta: "+prefs.getString("usuario","XD"));
         correo_empresa.setText("Correo: "+prefs.getString("correo","XD"));
-        ruc_empresa.setText("RUC: "+prefs.getString("ruc","XD"));
+        ruc_empresa.setText("Identificador: "+prefs.getString("identificador","XD"));
 
 
 /*
@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             intent.putExtra("color",color);
+            intent.putExtra("OOO",1);
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityForResult(intent,3000);
 

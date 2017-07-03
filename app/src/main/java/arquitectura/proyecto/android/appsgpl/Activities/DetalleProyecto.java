@@ -2,8 +2,10 @@ package arquitectura.proyecto.android.appsgpl.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,21 +27,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.Interfaces.FragmentToFragment;
 import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.Views.OneFragment;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Views.ThreeFragment;
 import arquitectura.proyecto.android.appsgpl.Views.TwoFragment;
 import arquitectura.proyecto.android.appsgpl.util.PreferencesManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.attr.button;
+import static android.R.attr.fragment;
 import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
@@ -60,19 +71,65 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
     TextView tipoProyecto;
     TabLayout tabLayout;
     Toolbar toolbar;
+    APIService service;
     String st;
+    int color;
+    SharedPreferences prefs;
     public static  int idProyecto;
     public static boolean state;
+    public static boolean jf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_detalle_proyecto);
+        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         Bundle bundle = getIntent().getExtras();
+        int code = bundle.getInt("OOO");
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        prefs= getSharedPreferences("estado_intro", Context.MODE_PRIVATE);
+
 
         proyecto = (Proyecto) getIntent().getSerializableExtra("proyecto");
-        setTitle(proyecto.getNombreProyecto());
-        idProyecto=proyecto.getIdProyecto();
-
+        if(code==0){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            setTitle(proyecto.getNombreProyecto());
+            idProyecto=proyecto.getIdProyecto();
+            if(proyecto.getIdEstado()==1){
+                color = ContextCompat.getColor(getApplicationContext(),R.color.colorEnEspera);
+            }else{
+                if(proyecto.getIdEstado()==2){
+                    color = ContextCompat.getColor(getApplicationContext(),R.color.colorGanado);
+                }else{
+                    if(proyecto.getIdEstado()==3){
+                        color = ContextCompat.getColor(getApplicationContext(),R.color.colorPerdido);
+                    }else{
+                        if(proyecto.getIdEstado()==4){
+                            color = ContextCompat.getColor(getApplicationContext(),R.color.colorInconcluso);
+                        }else{
+                            color = ContextCompat.getColor(getApplicationContext(),R.color.colorFinalizado);
+                        }
+                    }
+                }
+            }
+            toolbar.setBackgroundColor(color);
+            tabLayout.setBackgroundColor(color);
+            jf=true;
+        }else{
+                setTitle(proyecto.getNombreProyecto());
+                idProyecto = proyecto.getIdProyecto();
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                toolbar.setBackgroundColor(bundle.getInt("color"));
+                tabLayout.setBackgroundColor(bundle.getInt("color"));
+        }
+        if(proyecto.getIdEstado()>=4){
+            state=true;
+        }else{
+            state=false;
+        }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
@@ -81,29 +138,11 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
             }
         }
-
-
-        setContentView(R.layout.activity_detalle_proyecto);
-        toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar);
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        toolbar.setBackgroundColor(bundle.getInt("color"));
-        tabLayout.setBackgroundColor(bundle.getInt("color"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        if(proyecto.getIdEstado()>=4){
-            state=true;
-        }else{
-            state=false;
-        }
-
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)){
@@ -173,6 +212,10 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                 setResult(Activity.RESULT_OK);
                 finish();
             }
+            if(id == R.id.action_info){
+                Toast.makeText(getApplication(),"Usuario: "+prefs.getString("usuario","xxx")+"\n"+"Nombre: "+prefs.getString("nombre","xxx"),Toast.LENGTH_SHORT).show();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,8 +247,6 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                 tipoProyecto.setText("OBRAS");
             }
         }
-
-
         descripcion.setText(proyecto.getDescripcionProyecto());
         if(proyecto.getIdEstado()==1){
             st="En espera";
@@ -236,14 +277,8 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                 dialog.dismiss();
             }
         });
-
-
-
         return builder.create();
     }
-
-
-
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -318,6 +353,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
         proyecto.setIdEstado(state);
 
     }
+
 
 
 }

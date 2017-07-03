@@ -3,6 +3,7 @@ package arquitectura.proyecto.android.appsgpl.Views;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -47,6 +48,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.attr.data;
+import static arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto.jf;
 import static arquitectura.proyecto.android.appsgpl.R.id.a;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
@@ -83,8 +85,8 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
          service = retrofit.create(APIService.class);
-
-        final Call<ResponsePersonal> personalCall = service.getPersonal(MainActivity.idEmpresaMain);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("estado_intro", Context.MODE_PRIVATE);
+        final Call<ResponsePersonal> personalCall = service.getPersonal(prefs.getString("idEmpresa","-1"));
 
         personalCall.enqueue(new Callback<ResponsePersonal>() {
             @Override
@@ -156,6 +158,9 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
             }
         });
         if(DetalleProyecto.state==true){
+            fb2();
+        }
+        if(DetalleProyecto.jf==true){
             fb2();
         }
         return rootView;

@@ -19,6 +19,7 @@ import arquitectura.proyecto.android.appsgpl.POJOS.ResponsePersonalFree;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseRegistrarProyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseUser;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -91,5 +92,12 @@ public interface APIService {
 
     @GET("reporteJson.php")
     Call<ResponseReportes> getReportes(@Query("idEmpresa") String id);
+
+    @POST("LoginEmJefe.php")
+    Call<ResponseUser> signIn(@Body Cuenta cuenta);
+
+    @GET("ProyectoMostrarID.php")
+    Call<ResponseProyecto> getProject(@Query("idProyecto") String id);
+
 
 }

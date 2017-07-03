@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -30,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Reporte extends AppCompatActivity {
     ProgressBar progressBar;
     public int cantidad []={1,1,1,1,1};
+    TextView empty;
     List<Cantidad> cantidadList = new ArrayList<Cantidad>();
     String estado [] = {"En Espera","Ganados","Perdidos","Inconclusos","Finalizados"};
     @Override
@@ -37,6 +39,7 @@ public class Reporte extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporte);
         progressBar = (ProgressBar) findViewById(R.id.progressReporte);
+        empty = (TextView) findViewById(R.id.emptyR);
         progressBar.setVisibility(View.VISIBLE);
         loadData();
 
@@ -60,7 +63,8 @@ public class Reporte extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ResponseReportes> call, Throwable t) {
-                Toast.makeText(getApplication(),"Problemas con el servidor",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplication(),"Problemas con el servidor",Toast.LENGTH_SHORT).show();
+                empty.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -91,6 +95,7 @@ public class Reporte extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         PieChart chart = (PieChart) findViewById(R.id.pieChart);
         chart.setVisibility(View.VISIBLE);
+        empty.setVisibility(View.GONE);
         chart.setData(data);
         chart.setContentDescription("PieChart");
         chart.invalidate();

@@ -32,23 +32,31 @@ public class PreferencesManager {
 
         return pref.getBoolean(PRIMERA_EJECUCION,true);
     }
-    public void saveDataEmpresa(String nombre,String usuario,String correo,String ruc){
+
+    public void saveDataUser(int idUser,String nombre,String usuario,String correo,String identificador){
+        editor.putInt("idUser",idUser);
         editor.putString("nombre",nombre);
         editor.putString("usuario",usuario);
         editor.putString("correo",correo);
-        editor.putString("ruc",ruc);
+        editor.putString("identificador",identificador);
         editor.commit();
     }
     public void saveIdEmpresa(String id){
         editor.putString("idEmpresa",id);
         editor.commit();
     }
+    public void saveIdProyecto(String id){
+        editor.putString("idProyecto",id);
+        editor.commit();
+    }
     public void setIdEmpresaSP(){
 
         pref.edit().remove("idEmpresa").commit();
+        pref.edit().remove("idUser").commit();
+        pref.edit().remove("idProyecto").commit();
         pref.edit().remove("nombre").commit();
         pref.edit().remove("correo").commit();
-        pref.edit().remove("ruc").commit();
+        pref.edit().remove("identificador").commit();
         pref.edit().remove("usuario").commit();
     }
 

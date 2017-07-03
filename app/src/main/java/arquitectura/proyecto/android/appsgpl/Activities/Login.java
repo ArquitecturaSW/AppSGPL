@@ -2,9 +2,11 @@ package arquitectura.proyecto.android.appsgpl.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,11 +16,16 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import arquitectura.proyecto.android.appsgpl.Interfaces.APIService;
 import arquitectura.proyecto.android.appsgpl.POJOS.Cuenta;
+import arquitectura.proyecto.android.appsgpl.POJOS.Proyecto;
 import arquitectura.proyecto.android.appsgpl.POJOS.ResponseLogin;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseProyecto;
+import arquitectura.proyecto.android.appsgpl.POJOS.ResponseUser;
+import arquitectura.proyecto.android.appsgpl.POJOS.User;
 import arquitectura.proyecto.android.appsgpl.R;
 import arquitectura.proyecto.android.appsgpl.Registros.CrearCuenta;
 import arquitectura.proyecto.android.appsgpl.Views.MainActivity;
@@ -28,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.R.attr.id;
 
 
 public class Login extends AppCompatActivity implements  Validator.ValidationListener{
@@ -47,6 +56,7 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
     int s;
     String m;
     ProgressDialog progress;
+    Proyecto proyecto;
     private PreferencesManager prefManager;
 
     @Override
@@ -92,25 +102,48 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
         progress.show();
         progress.setCanceledOnTouchOutside(false);
         Cuenta cuenta = new Cuenta(u, p);
-        Call<ResponseLogin> usuarioCall = service.iniciosesion(cuenta);
+        Call<ResponseUser> usuarioCall = service.signIn(cuenta);
 
-        usuarioCall.enqueue(new Callback<ResponseLogin>() {
+        usuarioCall.enqueue(new Callback<ResponseUser>() {
             @Override
-            public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
-                ResponseLogin responseLogin = response.body();
-                if (responseLogin.getEstado() == 1) {
-                    prefManager.saveIdEmpresa(Integer.toString(responseLogin.getEmpresa().getIdEmpresa()));
-                    prefManager.saveDataEmpresa(responseLogin.getEmpresa().getNombreEmpresa(),
-                            responseLogin.getEmpresa().getUsuario(),
-                            responseLogin.getEmpresa().getCorreoEmpresa()
-                            ,responseLogin.getEmpresa().getRucEmpresa());
-
+            public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
+                ResponseUser userResponse = response.body();
+                Log.i("INF",userResponse.getEstado().toString());
+               if (userResponse.getEstado()==1) {
+                   if(userResponse.getDatoJson().getIdProyecto() == 0){
+                    int id =userResponse.getDatoJson().getIdUser();
+                    prefManager.saveIdEmpresa(Integer.toString(id));
+                    prefManager.saveIdProyecto(Integer.toString(userResponse.getDatoJson().getIdProyecto()));
+                    prefManager.saveDataUser(userResponse.getDatoJson().getIdUser(),userResponse.getDatoJson().getNombreUser(),
+                            userResponse.getDatoJson().getUsuario(),
+                            userResponse.getDatoJson().getCorreoUser(),
+                            userResponse.getDatoJson().getIdentificadorUSer());
                     progress.dismiss();
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+                    }else {
+
+
+                        //if(userResponse.getDatoJson().get)
+                       prefManager.saveIdEmpresa(Integer.toString(userResponse.getDatoJson().getIdEmpresa()));
+                       prefManager.saveIdProyecto(Integer.toString(userResponse.getDatoJson().getIdProyecto()));
+                       prefManager.saveDataUser(
+                               userResponse.getDatoJson().getIdUser(),
+                               userResponse.getDatoJson().getNombreUser(),
+                               userResponse.getDatoJson().getUsuario(),
+                               userResponse.getDatoJson().getCorreoUser(),
+                               userResponse.getDatoJson().getIdentificadorUSer());
+                       progress.dismiss();
+                       //call.cancel();
+                       consulta2(userResponse.getDatoJson().getIdProyecto());
+                       /*Intent intent = new Intent(Login.this, DetalleProyecto.class);
+                       intent.putExtra("OOO",3);
+                       startActivity(intent);
+                       finish();**/
+                    }
                 } else {
-                    if(responseLogin.getEstado() == 2) {
+                    if(userResponse.getEstado()== 2) {
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(),"Cuenta y/o Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
 
@@ -121,9 +154,49 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                 }
             }
             @Override
-            public void onFailure(Call<ResponseLogin> call, Throwable t) {
+            public void onFailure(Call<ResponseUser> call, Throwable t) {
                 progress.dismiss();
                 Toast.makeText(getApplicationContext(),"Tenemos problemas con el servidor\n Intentelo mas tarde", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void consulta2(int idProyecto) {
+        Call<ResponseProyecto> proyectoCall = service.getProject(String.valueOf(idProyecto));
+        Log.i("ID","primero");
+        proyectoCall.enqueue(new Callback<ResponseProyecto>() {
+            @Override
+            public void onResponse(Call<ResponseProyecto> call, Response<ResponseProyecto> response) {
+                ResponseProyecto responseProyecto = response.body();
+                if(responseProyecto.getEstado()==1){
+                    List<Proyecto> proyectoList = new ArrayList<Proyecto>();
+                    proyectoList=responseProyecto.getProyectoList();
+                    proyecto = proyectoList.get(0);
+                    Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
+                    intent.putExtra("proyecto", (Parcelable) proyecto);
+                    intent.putExtra("OOO",0);
+                    startActivity(intent);
+                    Log.i("ID","2");
+                    finish();
+                }else{
+                    proyecto= new Proyecto(0,4,"PRUEBA","A005","prueba de proyecto","10-05-16","10-05-17",152000);
+                    Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
+                    intent.putExtra("proyecto", (Parcelable) proyecto);
+                    intent.putExtra("OOO",0);
+                    startActivity(intent);
+                    Log.i("ID","3");
+                    finish();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseProyecto> call, Throwable t) {
+                Log.i("ID","4");
+                proyecto= new Proyecto(0,4,"PRUEBA","A005","prueba de proyecto","10-05-16","10-05-17",152000);
+                Intent intent = new Intent(getApplicationContext(), DetalleProyecto.class);
+                intent.putExtra("proyecto", (Parcelable) proyecto);
+                intent.putExtra("OOO",0);
+                startActivity(intent);
+                finish();
             }
         });
     }

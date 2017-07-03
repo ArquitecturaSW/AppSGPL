@@ -181,7 +181,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
                     if (mesf > mesi) {
                         registrarProyecto(Integer.parseInt(MainActivity.idEmpresaMain),id,nombre.getText().toString(),
                                 code.getText().toString(),descripcion.getText().toString(),dateStart.getText().toString()
-                                ,dateEnd.getText().toString(),Integer.parseInt(monto.getText().toString()));
+                                ,dateEnd.getText().toString(),Float.parseFloat(monto.getText().toString()));
                     } else {
                         if(mesf==mesi) {
                             Toast.makeText(this, "Los meses son iguales.", Toast.LENGTH_LONG).show();
@@ -206,7 +206,7 @@ public class RegistrarProyecto extends AppCompatActivity implements Validator.Va
 
     }
 
-    private void registrarProyecto(int idEmpresaMain, int id, String s, String s1, String s2, String s3, String s4,int monto) {
+    private void registrarProyecto(int idEmpresaMain, int id, String s, String s1, String s2, String s3, String s4,float monto) {
         progress = new ProgressDialog(RegistrarProyecto.this);
         progress.setTitle("Registrando");
         progress.setMessage("Espere ...");
