@@ -124,8 +124,6 @@ public class Login extends AppCompatActivity implements  Validator.ValidationLis
                     startActivity(intent);
                     finish();
                     }else {
-
-
                         //if(userResponse.getDatoJson().get)
                        prefManager.saveIdEmpresa(Integer.toString(userResponse.getDatoJson().getIdEmpresa()));
                        prefManager.saveIdProyecto(Integer.toString(userResponse.getDatoJson().getIdProyecto()));
