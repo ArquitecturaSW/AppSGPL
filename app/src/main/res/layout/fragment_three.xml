@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="arquitectura.proyecto.android.appsgpl.Views.OneFragment">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/emptyThree"
-        android:text="No hay historial para mostrar."
-        android:gravity="center"
-        />
+
     <ProgressBar
         android:id="@+id/progressThree"
         android:layout_width="match_parent"
@@ -22,23 +16,36 @@
         />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:scrollbars="vertical"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutThree"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/list_item_actividad"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/emptyThree"
-        android:layout_alignParentStart="true" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabThreeFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:elevation="6dp"
-        app:backgroundTint="@color/colorFAB"
-        app:srcCompat="@mipmap/ic_opctions" />
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:id="@+id/emptyThree"
+                android:text="No hay historial para mostrar."
+                android:gravity="center"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/list_item_actividad"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_below="@+id/emptyThree"
+                android:layout_alignParentStart="true" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <include layout="@layout/fab"/>
 </RelativeLayout>

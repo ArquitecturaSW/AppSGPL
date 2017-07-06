@@ -160,7 +160,7 @@ public class DetalleProyecto extends AppCompatActivity implements FragmentToFrag
                 }
 
         }
-        if(idEstado>=4){
+        if(idEstado>=3){
             state=true;
         }else{
             state=false;

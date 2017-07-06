@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +41,7 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
     List<Personal> personals= new ArrayList<>();
     PersonalNDPresenter presenter;
     RecyclerAdapterPersonal adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +55,19 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterPersonal(context,R.layout.item_personal);
         recyclerView.setAdapter(adapter);
+        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutND);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),new OnItemClickListener()));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab3);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(PersonalND.this, RegistrarPersonal.class),1000);
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadListPersonal();
             }
         });
 
@@ -81,6 +90,7 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
     public void initRecycler(List<Personal> personalList1) {
         adapter.setListPersonal(personalList1);
         personals=personalList1;
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }
 
@@ -97,15 +107,13 @@ public class PersonalND extends AppCompatActivity  implements PersonalNDView {
     }
 
     @Override
-    public void showProgress()
-    {
-        progressBar.setVisibility(View.VISIBLE);
+    public void showProgress() {
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private class OnItemClickListener extends RecyclerItemClickListener.SimpleOnItemClickListener {

@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
     TextView emptyO;
     ProgressBar progressBarO;
     private OneFragmentPresenter presenter;
-
+    SwipeRefreshLayout swipeRefreshLayout;
     FloatingActionButton floatingActionButton;
 
     public OneFragment() {
@@ -61,6 +62,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
         presenter = new OneFragmentPresenterImpl(this);
         emptyO = (TextView) rootView.findViewById(R.id.emptyOne);
         progressBarO = (ProgressBar) rootView.findViewById(R.id.progressOne);
+        swipeRefreshLayout =(SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayoutOne);
         presenter = new OneFragmentPresenterImpl(this);
         // Inflate the layout for this fragment
 
@@ -79,6 +81,12 @@ public class OneFragment extends Fragment implements OneFragmentView {
         adapter = new RecyclerAdapterEntregables(getContext(), R.layout.item_documento);
         recyclerView.setAdapter(adapter);
         presenter.loadListDocumento();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadListDocumento();
+            }
+        });
         if(DetalleProyecto.state==true){
             fab1();
         }
@@ -91,6 +99,7 @@ public class OneFragment extends Fragment implements OneFragmentView {
     @Override
     public void initRecycler(List<Entregable> entregableList) {
         adapter.setListDocumentos(entregableList);
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }
 
@@ -108,12 +117,12 @@ public class OneFragment extends Fragment implements OneFragmentView {
 
     @Override
     public void showProgress() {
-        progressBarO.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        progressBarO.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void onAttach(Context context) {

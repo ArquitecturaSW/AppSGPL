@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity
     ShowcaseView showcaseView;
     private Target t1;
     int contador=0;
+    SwipeRefreshLayout swipeRefreshLayout;
+    CoordinatorLayout coordinatorL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +92,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         empty = (TextView) findViewById(R.id.empty);
-
+        coordinatorL= (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         /*SharedPreferences*/
         SharedPreferences prefs = getSharedPreferences("estado_intro",Context.MODE_PRIVATE);
         String idE = prefs.getString("idEmpresa","XD");
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         presenter = new MainActivityPresenterImpl(this);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterProyectos(getApplicationContext(),R.layout.cardview_proyectos);
@@ -133,7 +140,12 @@ public class MainActivity extends AppCompatActivity
         correo_empresa.setText("Correo: "+prefs.getString("correo","XD"));
         ruc_empresa.setText("Identificador: "+prefs.getString("identificador","XD"));
 
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadListProyecto();
+            }
+        });
 /*
         try {
             ViewTarget navigationButtonViewTarget = ViewTargets.navigationButtonViewTarget(toolbar);
@@ -148,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         } catch (ViewTargets.MissingViewException e) {
             e.printStackTrace();
         }
+
 */
     }
 
@@ -284,29 +297,49 @@ public class MainActivity extends AppCompatActivity
     public void initRecycler(List<Proyecto> proyectoList) {
         adapter.setListProyecto(proyectoList);
         proyectoLista=proyectoList;
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void showEmpty() {
         recyclerView.setVisibility(View.GONE);
         empty.setVisibility(View.VISIBLE);
+        /*Snackbar snackbar = Snackbar
+                .make(coordinatorL, "No hay datos para mostrar", Snackbar.LENGTH_LONG)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        presenter.loadListProyecto();
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();*/
+
     }
 
     @Override
     public void hideEmpty() {
-        empty.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
+        empty.setVisibility(View.GONE);
     }
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
+        //progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
 
     }
     @Override

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +53,7 @@ import static arquitectura.proyecto.android.appsgpl.Activities.DetalleProyecto.j
 import static arquitectura.proyecto.android.appsgpl.R.id.a;
 import static arquitectura.proyecto.android.appsgpl.R.id.b;
 import static arquitectura.proyecto.android.appsgpl.R.id.d;
+import static arquitectura.proyecto.android.appsgpl.R.id.swipeRefreshLayout;
 
 
 public class TwoFragment extends Fragment implements TwoFragmentView{
@@ -68,6 +70,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
     ProgressDialog progress;
     APIService service;
     FloatingActionButton fab;
+    SwipeRefreshLayout swipeRefreshLayout;
     public TwoFragment() {
         // Required empty public constructor
     }
@@ -114,6 +117,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterEquipo(getContext(),R.layout.item_personal);
         recyclerView.setAdapter(adapter);
+        swipeRefreshLayout =(SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayoutTwo);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),new OnItemClickListener()));
         presenter.loadListPersonal();
          /*Implementacion de RecyclerView con MVP*/
@@ -166,6 +170,13 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         if(DetalleProyecto.nn==true){
             fb2();
         }
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadListPersonal();
+            }
+        });
+
         return rootView;
     }
 
@@ -325,6 +336,7 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
     public void initRecycler(List<Equipo> equipoList) {
         adapter.setListPersonal(equipoList);
         equipoLista=equipoList;
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }
 
@@ -339,19 +351,19 @@ public class TwoFragment extends Fragment implements TwoFragmentView{
         recyclerView.setVisibility(View.VISIBLE);
         empty.setVisibility(View.GONE);
     }
-
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
+
+    @Override
+    public void hideProgress() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     public void refresh(){
         presenter.loadListPersonal();
     }
-    @Override
-    public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-    }
-
     private AlertDialog asignarJefe(final String data, final int idPersonal){
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

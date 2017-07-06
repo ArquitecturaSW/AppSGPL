@@ -1,17 +1,24 @@
 package arquitectura.proyecto.android.appsgpl.Views;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +26,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +57,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.R.attr.id;
 import static arquitectura.proyecto.android.appsgpl.R.id.a;
+import static arquitectura.proyecto.android.appsgpl.R.id.fab_1;
+import static arquitectura.proyecto.android.appsgpl.R.id.fab_container;
 
 
 public class ThreeFragment extends Fragment implements ThreeFragmentView{
@@ -59,6 +70,18 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
     ProgressBar progressBar;
     ProgressDialog progress;
     ThreeFragmentPresenter presenter;
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    ImageButton fab;
+    private boolean expanded = false;
+    /*declaramos como vistas no como imagebutton*/
+    private  View fabAction1;
+    private  View fabAction2;
+
+    private float offset1;
+    private float offset2;
+    ViewGroup fabContainer;
+
     public ThreeFragment() {
         // Required empty public constructor
     }
@@ -72,17 +95,19 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_three, container, false);
-        fb = (FloatingActionButton) rootView.findViewById(R.id.fabThreeFragment);
+        //fb = (FloatingActionButton) rootView.findViewById(R.id.fabThreeFragment);
         empty= (TextView) rootView.findViewById(R.id.emptyThree);
         progressBar= (ProgressBar) rootView.findViewById(R.id.progressThree);
-        fb.setOnClickListener(new View.OnClickListener() {
+        /*fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cambiarEstadoP().show();
+
             }
         });
+        fb.setVisibility(View.GONE);*/
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         presenter = new ThreeFragmentPresenterImpl(this);
+        swipeRefreshLayout =(SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayoutThree);
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -90,9 +115,54 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
         mLayoutManager.setStackFromEnd(true);
         adapter = new RecyclerAdapterActividad(getContext(),R.layout.list_item_actividad);
         recyclerView.setAdapter(adapter);
-
         presenter.loadListActividad();
-         /*Implementacion de RecyclerView con MVP*/
+
+        fabContainer= (ViewGroup) rootView.findViewById(R.id.fab_container);
+        fabAction1 = rootView.findViewById(R.id.fab_1);
+        fabAction2 = rootView.findViewById(R.id.fab_2);
+        fabAction1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiarEstadoP().show();
+            }
+        });
+        fabAction2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Power Off",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fab=(ImageButton)rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expanded= !expanded;
+                if(expanded){
+                    fabContainer.setBackgroundResource(R.color.background);
+                    expandedFab();
+                }else {
+                    fabContainer.setBackgroundResource(Color.TRANSPARENT);
+                    collapseFab();
+                }
+            }
+        });
+        // para se se muestren de forma cotinua en el eje y , el que hace la transicion
+        fabContainer.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                        offset1 = fab.getY()-fabAction1.getY();
+                        fabAction1.setTranslationY(offset1);
+
+                        offset2 = fab.getY()-fabAction2.getY();
+                        fabAction2.setTranslationY(offset2);
+                        return true;
+                    }
+                }
+        );
+
 
         if(DetalleProyecto.state==true){
             fb3();
@@ -100,6 +170,12 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
         if(DetalleProyecto.nn==true){
             fb3();
         }
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadListActividad();
+            }
+        });
         return rootView;
     }
 
@@ -107,6 +183,7 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
     @Override
     public void initRecycler(List<Historial> historialList) {
         adapter.setListActividad(historialList);
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }
 
@@ -124,17 +201,14 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
     public void refresh(){
         presenter.loadListActividad();
     }
-
-
-
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void onAttach(Context context) {
@@ -165,9 +239,12 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
                                 //cambiar color
                                 //perder opciones de los botones
                                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                fabContainer.setBackgroundResource(Color.TRANSPARENT);
+                                collapseFab();
                                 String date = df.format(Calendar.getInstance().getTime());
                                 terminarProyecto(DetalleProyecto.idProyecto,date);
                                 dialog.dismiss();
+
                             }
                         })
                 .setNegativeButton("CANCELAR",
@@ -175,6 +252,8 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                fabContainer.setBackgroundResource(Color.TRANSPARENT);
+                                collapseFab();
                             }
                         });
         return builder.create();
@@ -237,7 +316,45 @@ public class ThreeFragment extends Fragment implements ThreeFragmentView{
         });
     }
     public void fb3(){
-        fb.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);
+        fabAction1.setVisibility(View.GONE);
+        fabAction2.setVisibility(View.GONE);
+    }
+
+    public void expandedFab(){
+        fab.setImageResource(R.drawable.animated_minus);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createExpandAnimator(fabAction1,offset1),
+                createExpandAnimator(fabAction2,offset2));
+                //createExpandAnimator(fabAction3,offset3));
+        animatorSet.start();
+        animateFab();
+    }
+    public  void  collapseFab(){
+        fab.setImageResource(R.drawable.animated_plus);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createCollapseAnimator(fabAction1,offset1),
+                createCollapseAnimator(fabAction2,offset2));
+                //createCollapseAnimator(fabAction3,offset3));
+        animatorSet.start();
+        animateFab();
+    }
+    private static  final String TRANSLATION_Y= "translationY";
+
+
+    private Animator createCollapseAnimator(View view, float offset){
+
+        return ObjectAnimator.ofFloat(view,TRANSLATION_Y,0,offset).setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+    private Animator createExpandAnimator(View view,float offset){
+        return  ObjectAnimator.ofFloat(view,TRANSLATION_Y,offset,0).setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+    /*genera la animacion*/
+    private void animateFab(){
+        Drawable drawable = fab.getDrawable();
+        if(drawable instanceof Animatable){
+            ((Animatable)drawable).start();
+        }
     }
 
 }

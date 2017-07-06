@@ -10,9 +10,10 @@
     <color name="colorA">#ea3c6191</color>
     <color name="green_flat">#2ecc71</color>
     <color name="red_flat">#e74c3c</color>
-    <color name="colorEnEspera">#309b47</color>
-    <color name="colorGanado">#62d4cb</color>
-    <color name="colorPerdido">#ecef31</color>
+    <color name="colorEnEspera">#247435</color>
+    <color name="colorGanado">#3f8983</color>
+    <color name="colorPerdido">#fc9d0e</color>
     <color name="colorInconcluso">#c95850</color>
-    <color name="colorFinalizado">#393a9b</color>
+    <color name="colorFinalizado">#141664</color>
+    <color name="background">#abbdbdbd</color>
 </resources>

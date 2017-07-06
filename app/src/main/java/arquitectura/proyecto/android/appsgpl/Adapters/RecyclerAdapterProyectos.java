@@ -130,12 +130,12 @@ public class RecyclerAdapterProyectos extends RecyclerView.Adapter<RecyclerAdapt
 
         }
     }
-    private void setAnimation(View viewToAnimate,int position){
+   /* private void setAnimation(View viewToAnimate,int position){
         if(position > lastPosition){
             Animation animation = AnimationUtils.loadAnimation(context,R.anim.left);
             viewToAnimate.startAnimation(animation);
             lastPosition=position;
         }
 
-    }
+    }*/
 }
